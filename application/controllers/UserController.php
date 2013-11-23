@@ -41,4 +41,9 @@ class UserController extends Zend_Controller_Action {
     public function editAction(){
 
     }
+
+
+    public function deleteAction(){
+
+    }
 } 
