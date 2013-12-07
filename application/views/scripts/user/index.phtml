@@ -5,23 +5,37 @@
 
     <div class="col-md-9">
         <h3>Lista</h3>
+        <form method="post" >
+            <table class="table table-bordered table-striped table-hover table-condensed">
+                <thead>
+                <tr>
+                    <td><input id="all" type="checkbox"></td>
+                    <td>#</td>
+                    <td>UserName</td>
+                    <td>Name</td>
+                    <td>Email</td>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                    $i = 0;
+                    /**@var Model_User $user */
+                    foreach( $this->users as $user) :
 
-        <table class="table table-bordered table-striped table-hover table-condensed">
-            <thead>
-            <tr>
-                <td>#</td>
-                <td>Nume</td>
-                <td>Email</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>Sergiu Neamt</td>
-                <td>nnsese@gmail.com</td>
-            </tr>
-            </tbody>
-        </table>
+                      $i += 1;
+                    ?>
+                <tr>
+                    <td><input type="checkbox" name="cb[]" value="<?php echo $user->getId()?>"></td>
+                    <td><?php echo $i ?></td>
+                    <td><?php echo $user->getUsername()?></td>
+                    <td><?php echo $user->getFullName()?></td>
+                    <td><?php echo $user->getEmail()?></td>
+                </tr>
+                <?php endforeach ?>
+                </tbody>
+            </table>
+            <input type="submit" value="Delete" class="btn btn-danger">
+        </form>
     </div>
 
 </div>
