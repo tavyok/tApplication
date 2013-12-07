@@ -11,6 +11,9 @@ class UserController extends Zend_Controller_Action {
 
     public function init(){
         $this->_helper->_layout->setLayout('layout-page');
+
+        $this->view->assign("action",$this->getRequest()->getActionName());
+        $this->view->render('user/_menu.phtml');
     }
 
     public function indexAction(){
@@ -19,7 +22,6 @@ class UserController extends Zend_Controller_Action {
 
 
     public function addAction(){
-
 
         if( $this->getRequest()->isPost()){
 
@@ -35,6 +37,11 @@ class UserController extends Zend_Controller_Action {
 
             $this->redirect("/user");
         }
+
+
+        $utils = new My_Utils("sese");
+
+        $this->view->assign("utils",$utils);
     }
 
 
