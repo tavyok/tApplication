@@ -1,0 +1,16 @@
+
+-- 07.12.2013 - sese  adaugare tabela user
+
+CREATE TABLE user (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  username varchar(24) NOT NULL,
+  email varchar(60) NOT NULL,
+  pass char(32) NOT NULL,
+  first_name varchar(40) NOT NULL,
+  last_name varchar(40) NOT NULL,
+  phone varchar(20) DEFAULT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY ukEmail (email)
+) ENGINE=InnoDB;
+
+insert into user values( null, 'sese','nnsese@gmail.com',md5('1234'), 'Sergiu','Neamt','0774873103');
