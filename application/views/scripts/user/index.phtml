@@ -1,10 +1,11 @@
-<div>
+<div class="row min-height">
+
 
     <!-- Include menu  -->
     <?php echo $this->placeholder('sidebar') ?>
 
     <div class="col-md-9">
-        <h3>Lista</h3>
+        <h3>Lista inregistrari</h3>
         <form method="post" >
             <table class="table table-bordered table-striped table-hover table-condensed">
                 <thead>
@@ -12,14 +13,16 @@
                     <td><input id="all" type="checkbox"></td>
                     <td>#</td>
                     <td>UserName</td>
-                    <td>Name</td>
+                    <td>FullName</td>
                     <td>Email</td>
+                    <td>Phone</td>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
                     $i = 0;
                     /**@var Model_User $user */
+                  //  Zend_Debug::dump($this->users);
                     foreach( $this->users as $user) :
 
                       $i += 1;
@@ -30,6 +33,7 @@
                     <td><?php echo $user->getUsername()?></td>
                     <td><?php echo $user->getFullName()?></td>
                     <td><?php echo $user->getEmail()?></td>
+                    <td><?php echo $user->getPhone()?></td>
                 </tr>
                 <?php endforeach ?>
                 </tbody>
@@ -37,5 +41,6 @@
             <input type="submit" value="Delete" class="btn btn-danger">
         </form>
     </div>
+
 
 </div>
