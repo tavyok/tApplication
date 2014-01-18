@@ -20,7 +20,8 @@ class Table_User extends Zend_Db_Table {
      */
     public function deleteByIds(array $cb)
     {
-        $where = $this->getAdapter()->quoteInto("id in (?)", $cb);
+        $where = $this->getAdapter()->quoteInto("id in (?)",$cb);
+        Zend_Debug::dump($where);
         $this->delete($where);
     }
 
@@ -35,7 +36,7 @@ class Table_User extends Zend_Db_Table {
         $select = $this->select();
         
         if( ! is_null( $name ) ){
-            $select->where('username like ?','%' . $name . '%');
+            $select->where('username like ','%' . $name . '%');
         }
 
         return $this->fetchAll($select);

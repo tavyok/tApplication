@@ -10,10 +10,20 @@ class UserController extends Zend_Controller_Action {
 
 
     public function init(){
-        $this->_helper->_layout->setLayout('layout-page');
 
+        $this->_helper->_layout->setLayout('layout-page');
         $this->view->assign("action",$this->getRequest()->getActionName());
-        $this->view->render('user/_menu.phtml');
+        $this->view->render('user/_menu.phtml');  //include _menu.phtml in pagina
+        $this->view->render('user/_signin.phtml');
+
+
+
+        if( isset( $_COOKIE['user_signed']  ) )
+        {
+            var_dump($_COOKIE );
+        }
+
+
     }
 
     public function indexAction(){
@@ -32,13 +42,12 @@ class UserController extends Zend_Controller_Action {
                 }
             }
             */
-
-/*
+            /*
             if( ! empty( $cb ) ){
                 $where = $tableUser->getAdapter()->quoteInto("id in (?)", $cb);
                 $tableUser->delete($where);
             }
-*/
+            */
             if( ! empty( $cb ) ){
                 $tableUser->deleteByIds($cb);
             }
@@ -61,6 +70,8 @@ class UserController extends Zend_Controller_Action {
 
             $params = $this->getRequest()->getParams();
 
+            if (isset($params["adduser"]))
+            {
             $tableUser = new Table_User();
 
             /** @var Model_User $user */
@@ -77,9 +88,8 @@ class UserController extends Zend_Controller_Action {
                 return;
             }
 
+            }
 
-            $this->redirect("/user");
-        }
 
 
         $utils = new My_Utils("sese");
@@ -88,16 +98,28 @@ class UserController extends Zend_Controller_Action {
 
         Zend_Debug::dump($utils->email);
 
+
         $this->view->assign("utils",$utils);
+
+
+        if ((isset($params["signed_email"])) and (isset($params["signed_email"])))
+        {
+
+            $cookie = new Zend_Http_Header_SetCookie();
+            $cookie->setName("user_signed")
+                    ->setValue($params["signed_email"] . md5($params["signed_password"]))
+                    ->setDomain('tavy.tapp')
+                    ->setPath('/')
+                    ->setHttponly(true)
+                    ->setMaxAge(86400);
+
+
+           $this->getResponse()->setRawHeader($cookie);
+
+
+        }
+       $this->redirect("/user");
+        }
     }
 
-
-    public function editAction(){
-
-    }
-
-
-    public function deleteAction(){
-
-    }
 } 

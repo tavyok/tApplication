@@ -24,20 +24,8 @@ class IndexController extends Zend_Controller_Action
         $this->view->assign("name","menu index tavi");
     }
 
-    public function editAction()
-    {
-        // action body
 
-        $this->view->assign("name","menu index tavi");
-    }
 
-    public function deleteAction()
-    {
-        // action body
-
-        $this->view->assign("name","menu index tavi");
-
-    }
 
 }
 
