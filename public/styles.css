@@ -1,9 +1,14 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
 
-.min-height { min-height: 400px}
+body { padding-top: 50px; padding-bottom: 20px;}
 
-.m-menu { background: #faebcc; min-height: 400px}
+
+.user-page {background: url('/images/background.jpg') repeat-y;min-height: 600px; height: 600px}
+.page {min-height: 600px; height: 600px}
+
+.m-menu {  }
+.m-menu h3 {color:#fffff0; text-shadow: 2px 2px 0 #616161}
+
+label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
+.title { margin: 20px 0; border-bottom: 2px solid #ac2925; line-height: 2em !important;}
+

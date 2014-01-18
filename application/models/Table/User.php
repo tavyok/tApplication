@@ -12,6 +12,35 @@ class Table_User extends Zend_Db_Table {
 
     protected $_rowClass = "Model_User";
 
+    /**
+     * Get User BY Id
+     *
+     * @param $id
+     * @return null|Model_User
+     */
+    public function getById($id)
+    {
+        $select = $this->select()
+            ->where("id = ?", $id);
+
+        return $this->fetchRow($select);
+
+    }
+
+    /**
+     * Get User by Email
+     *
+     * @param $email
+     * @return null| Model_User
+     */
+    public function getByEmail($email)
+    {
+        $select = $this->select()
+            ->where("email = ?", $email);
+
+        return $this->fetchRow($select);
+    }
+
 
     /**
      * Delete rows using list of ids
@@ -41,5 +70,6 @@ class Table_User extends Zend_Db_Table {
 
         return $this->fetchAll($select);
     }
+
 
 } 

@@ -6,17 +6,16 @@
  * Time: 3:07 PM
  */
 
-class UserController extends Zend_Controller_Action {
+class UserController extends My_Controller_Action {
 
 
     public function init(){
 
-        $this->_helper->_layout->setLayout('layout-page');
+        parent::init();
+
         $this->view->assign("action",$this->getRequest()->getActionName());
         $this->view->render('user/_menu.phtml');  //include _menu.phtml in pagina
         $this->view->render('user/_signin.phtml');
-
-
 
         if( isset( $_COOKIE['user_signed']  ) )
         {
@@ -113,13 +112,41 @@ class UserController extends Zend_Controller_Action {
                     ->setHttponly(true)
                     ->setMaxAge(86400);
 
-
            $this->getResponse()->setRawHeader($cookie);
-
-
         }
        $this->redirect("/user");
         }
     }
 
+    public function editAction(){
+
+        if( is_null( $id = $this->getRequest()->getParam("id") ) ){
+            throw new Exception("Missing User ID !", 501);
+        }
+
+        $userTable = new Table_User();
+        if( is_null( $user = $userTable->getById( $id ) )){
+            throw new Exception("Missing User for ID !", 501);
+        }
+        Zend_Debug::dump($user->toArray());
+
+        $this->view->assign("user", $user);
+    }
+
+    public function checkEmailAction(){
+        $email = $this->getRequest()->getParam("email");
+
+        $this->disableLayout()->disableView();
+        /** @var Zend_Controller_Action_Helper_Json $jsonHelper */
+        $jsonHelper = $this->_helper->json;
+
+        $userTable = new Table_User();
+        if( ! is_null( $user = $userTable->getByEmail($email) )) {
+            $jsonHelper->sendJson("User Already Exists");
+            return;
+        }
+
+        // user do not exists with this email !
+        $jsonHelper->sendJson(true);
+    }
 } 

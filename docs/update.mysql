@@ -14,3 +14,5 @@ CREATE TABLE user (
 ) ENGINE=InnoDB;
 
 insert into user values( null, 'sese','nnsese@gmail.com',md5('1234'), 'Sergiu','Neamt','0774873103');
+
+

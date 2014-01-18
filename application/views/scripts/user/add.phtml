@@ -1,61 +1,97 @@
-<div class="row min-height">
+<?php
+    $this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js");
+?>
+<div class="row user-page">
 
     <!--Include Meniu -->
     <?php echo $this->placeholder('sidebar') ?>
 
     <div class="col-md-9">
-        <h3>Adaugare utilizator nou</h3>
+        <h3 class="title">Adaugare utilizator nou</h3>
 
-        <form class="form-horizontal" role="form" method="post" action="" autocomplete="off">
+        <form id="jsAddUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off">
 
             <div class="form-group">
-                <label for="inputUsername" class="col-sm-2 control-label">UserName</label>
+                <label for="inputUsername" class="col-sm-3 control-label">UserName*</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="inputUsername" placeholder="username" name="username" value="">
+                    <input id="inputUsername" type="text" class="form-control required"
+                           placeholder="username" name="username" value="">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                <label for="inputEmail" class="col-sm-3 control-label">Email*</label>
                 <div class="col-sm-4">
-                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
+                    <input  id="inputEmail" type="email" class="form-control required email"
+                            placeholder="Email" name="email">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                <label for="inputPassword" class="col-sm-3 control-label">Password*</label>
                 <div class="col-sm-4">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password" name="password">
+                    <input id="inputPassword" type="password" class="form-control required"
+                           placeholder="Password" name="password">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="inputFirstName" class="col-sm-2 control-label">First Name</label>
+                <label for="inputPassword2" class="col-sm-3 control-label">Retype Password*</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="inputFirstName" placeholder="firstname" name="first_name">
+                    <input id="inputPassword2" type="password" class="form-control required"
+                           placeholder="Retype Password" name="password2">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="inputFirstName" class="col-sm-3 control-label">First Name*</label>
+                <div class="col-sm-4">
+                    <input id="inputFirstName" type="text" class="form-control required"
+                           placeholder="firstname" name="first_name">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="inputLastName" class="col-sm-2 control-label">Last Name</label>
+                <label for="inputLastName" class="col-sm-3 control-label">Last Name*</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="inputLastName" placeholder="lastname" name="last_name">
+                    <input id="inputLastName" type="text" class="form-control required"
+                           placeholder="lastname" name="last_name">
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="inputPhone" class="col-sm-2 control-label">Phone</label>
+                <label for="inputPhone" class="col-sm-3 control-label">Phone</label>
                 <div class="col-sm-4">
                     <input type="text" class="form-control" id="inputPhone" placeholder="phone" name="phone">
                 </div>
             </div>
             
             <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="col-sm-offset-3 col-sm-9">
                     <button type="submit" name="adduser" value="Adaugare" class="btn btn-primary">Adaugare</button>
                 </div>
             </div>
         </form>
     </div>
-
 </div>
+<script type="text/javascript">
+$(function(){
+    $('#jsAddUser').validate({
+        rules: {
+            username: {
+                minlength: 4
+            },
+            email: {
+                remote: "/user/check-email"
+            },
+            password: {
+                minlength: 4
+            },
+            password2: {
+                equalTo: "#inputPassword"
+            }
+        }
+    });
+})
+</script>

@@ -1,11 +1,11 @@
-<div class="row min-height">
+<div class="row user-page">
 
 
     <!-- Include menu  -->
     <?php echo $this->placeholder('sidebar') ?>
 
     <div class="col-md-9">
-        <h3>Lista inregistrari</h3>
+        <h3 class="title">Lista inregistrari</h3>
         <form method="post" >
             <table class="table table-bordered table-striped table-hover table-condensed">
                 <thead>
@@ -24,14 +24,13 @@
                     /**@var Model_User $user */
                   //  Zend_Debug::dump($this->users);
                     foreach( $this->users as $user) :
-
                       $i += 1;
                     ?>
                 <tr>
                     <td><input type="checkbox" name="cb[]" value="<?php echo $user->getId()?>"></td>
                     <td><?php echo $i ?></td>
                     <td><?php echo $user->getUsername()?></td>
-                    <td><?php echo $user->getFullName()?></td>
+                    <td><a href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getFullName()?></a></td>
                     <td><?php echo $user->getEmail()?></td>
                     <td><?php echo $user->getPhone()?></td>
                 </tr>

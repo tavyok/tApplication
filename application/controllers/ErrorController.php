@@ -39,8 +39,15 @@ class ErrorController extends Zend_Controller_Action
         if ($this->getInvokeArg('displayExceptions') == true) {
             $this->view->exception = $errors->exception;
         }
-        
+
         $this->view->request   = $errors->request;
+
+        /** @var Exception $exception */
+        $exception = $errors->exception;
+        if( $exception->getCode() > 500 ){
+            $this->view->assign("message", $exception->getMessage());
+            $this->renderScript("error/user-error.phtml");
+        }
     }
 
     public function getLog()
