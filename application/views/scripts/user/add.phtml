@@ -1,5 +1,7 @@
 <?php
     $this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js");
+
+
 ?>
 <div class="row user-page">
 
@@ -80,7 +82,8 @@ $(function(){
     $('#jsAddUser').validate({
         rules: {
             username: {
-                minlength: 4
+                minlength: 4,
+                remote: "/user/check-username"
             },
             email: {
                 remote: "/user/check-email"

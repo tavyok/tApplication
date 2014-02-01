@@ -44,7 +44,6 @@ class My_Utils {
         if( array_key_exists($name, $this->_data)){
             return $this->_data[$name];
         }
-
         return null;
     }
 

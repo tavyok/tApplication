@@ -2,8 +2,12 @@
     $this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js");
 
     /** @var Model_User $user */
+
     $user = $this->user;
+
 ?>
+<!--<body onload='setusercookies("<?php /*echo $user->getUsername()*/?>","<?php /*echo $user->getEmail()*/?>")'>-->
+<body>
 <div class="row user-page">
 
     <!--Include Meniu -->
@@ -12,28 +16,30 @@
     <div class="col-md-9">
         <h3 class="title">Editare utilizator</h3>
 
-        <form id="jsAddUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off">
+        <form id="jsEditUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off" >
 
             <div class="form-group">
                 <label for="inputUsername" class="col-sm-3 control-label">UserName*</label>
                 <div class="col-sm-4">
                     <input id="inputUsername" type="text" class="form-control required"
-                           placeholder="username" name="username" value="<?php echo $user->getUsername()?>">
+                           placeholder="username" name="username" value="<?php echo $user->getUsername()?>" >
+                    <input id="username_ini" name="username_ini" type="hidden" value="<?php echo $user->getUsername() ?>">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputEmail" class="col-sm-3 control-label">Email*</label>
                 <div class="col-sm-4">
-                    <input  id="inputEmail" type="email" class="form-control required email"
+                    <input  id="inputEmail" type="email" class="form-control required"
                             placeholder="Email" name="email" value="<?php echo $user->getEmail() ?>">
+                    <input id="email_ini" name="email_ini" type="hidden" value="<?php echo $user->getEmail() ?>">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputPassword" class="col-sm-3 control-label">Password*</label>
                 <div class="col-sm-4">
-                    <input id="inputPassword" type="password" class="form-control"
+                    <input id="inputPassword" type="password" class="form-control required"
                            placeholder="Password" name="password">
                 </div>
             </div>
@@ -41,7 +47,7 @@
             <div class="form-group">
                 <label for="inputPassword2" class="col-sm-3 control-label">Retype Password*</label>
                 <div class="col-sm-4">
-                    <input id="inputPassword2" type="password" class="form-control"
+                    <input id="inputPassword2" type="password" class="form-control required"
                            placeholder="Retype Password" name="password2">
                 </div>
             </div>
@@ -73,21 +79,52 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <button type="submit" name="adduser" value="Adaugare" class="btn btn-primary">Adaugare</button>
+                    <button type="submit" name="edituser" value="Salvare" class="btn btn-primary">Salvare</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+<?php
+
+
+?>
+
 <script type="text/javascript">
+/*
+
+    function setusercookies(user,email)
+    {
+
+        $.cookie("tapp_username", user, { expires : "1 days" })
+        $.cookie("tapp_email", email, { expires : "1 days" })
+
+    }
+*/
+
     $(function(){
-        $('#jsAddUser').validate({
+        $('#jsEditUser').validate({
             rules: {
                 username: {
-                    minlength: 4
+                    minlength: 4,
+                    remote: {url:"/user/check-edtusername",
+                             type:"post",
+                             data: {
+                             username_ini: function() {
+                            return $("#username_ini").val();
+                            }
+                            }
+                         }
                 },
                 email: {
-                    remote: "/user/check-email"
+                    remote: {url:"/user/check-edtemail",
+                             type:"post",
+                             data: {
+                            email_ini: function() {
+                                return $("#email_ini").val();
+                            }
+                        }
+                    }
                 },
                 password: {
                     minlength: 4
@@ -99,3 +136,4 @@
         });
     })
 </script>
+</body>

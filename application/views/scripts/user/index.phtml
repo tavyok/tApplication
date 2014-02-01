@@ -10,7 +10,7 @@
             <table class="table table-bordered table-striped table-hover table-condensed">
                 <thead>
                 <tr>
-                    <td><input id="all" type="checkbox"></td>
+                    <td><input id="all" type="checkbox" onchange="check_crt()"></td>
                     <td>#</td>
                     <td>UserName</td>
                     <td>FullName</td>
@@ -20,19 +20,21 @@
                 </thead>
                 <tbody>
                 <?php
+
                     $i = 0;
                     /**@var Model_User $user */
                   //  Zend_Debug::dump($this->users);
                     foreach( $this->users as $user) :
                       $i += 1;
-                    ?>
+                ?>
+                <!--se va trimite variabila $user la edit.phtml,pe rand fiecare inregistrare,se creaza linkuri cu transmiterea id-->
                 <tr>
-                    <td><input type="checkbox" name="cb[]" value="<?php echo $user->getId()?>"></td>
+                    <td><input type="checkbox" name="cb[]" id="<?php echo 'crt'.$i ?>" value="<?php echo $user->getId()?>"></td>
                     <td><?php echo $i ?></td>
-                    <td><?php echo $user->getUsername()?></td>
-                    <td><a href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getFullName()?></a></td>
-                    <td><?php echo $user->getEmail()?></td>
-                    <td><?php echo $user->getPhone()?></td>
+                    <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getUsername()?></a></td>
+                    <td ><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getFullName()?></a></td>
+                    <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getEmail()?></a></td>
+                    <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getPhone()?></a></td>
                 </tr>
                 <?php endforeach ?>
                 </tbody>
@@ -43,3 +45,22 @@
 
 
 </div>
+<script type="text/javascript">
+    function check_crt()
+    {
+       i=1;
+       if ($("#all").prop('checked'))
+          while($("#crt"+i).length!=0)
+        {
+            $("#crt"+i).attr('checked', true);
+            i++;
+        }
+       else
+           while($("#crt"+i).length!=0)
+           {
+               $("#crt"+i).attr('checked', false);
+               i++;
+           }
+    }
+
+</script>

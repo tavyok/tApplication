@@ -28,6 +28,20 @@ class Table_User extends Zend_Db_Table {
     }
 
     /**
+     * Get User by Username
+     *
+     * @param $username
+     * @return null| Model_User
+     */
+    public function getByUsername($username)
+    {
+        $select = $this->select()
+            ->where("username = ?", $username);
+
+        return $this->fetchRow($select);
+    }
+
+    /**
      * Get User by Email
      *
      * @param $email
