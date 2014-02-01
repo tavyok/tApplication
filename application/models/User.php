@@ -154,13 +154,13 @@ class Model_User extends Zend_Db_Table_Row_Abstract {
         return $this->getFirstName() . ", " . $this->getLastName();
     }
 
-    public function setAll($username,$email,$password,$firstname,$lastname,$phone)
+    public function setAll($username,$email,$password,$first_name,$last_name,$phone)
     {
         $this->username=$username;
         $this->email=$email;
         $this->pass=$password;
-        $this->first_name=$firstname;
-        $this->last_name=$lastname;
+        $this->first_name=$first_name;
+        $this->last_name=$last_name;
         $this->phone=$phone;
         return $this;
     }

@@ -22,7 +22,7 @@ class UserController extends My_Controller_Action {
 
         if( isset( $_COOKIE['user_signed']  ) )
         {
-            var_dump($_COOKIE );
+            var_dump($_COOKIE['user_signed']  );
         }
 
     }
@@ -138,24 +138,28 @@ class UserController extends My_Controller_Action {
         if( $this->getRequest()->isPost()){
 
         $params = $this->getRequest()->getParams();
-        if (isset($params["edituser"]))
+
+
         {
             $password = md5($params["password"]);
+            $where=$userTable->getAdapter()->quoteInto("id=?",$id);
             $user->setAll($params["username"],$params["email"],$password,$params["first_name"],$params["last_name"],$params["phone"]);
 
-            $where=$userTable->getAdapter()->quoteInto("id=?",$id);
-
-          //  Zend_Debug::dump($user->toArray());
 
             try{
                 $userTable->update($user->toArray(),$where);
             }
             catch( Exception $e ){
-                Zend_Debug::dump($e->getMessage());
+
+                var_dump ($e->getTraceAsString());
+
                 return;
             }
 
         }
+
+
+
             $this->redirect("/user");
         }
 
