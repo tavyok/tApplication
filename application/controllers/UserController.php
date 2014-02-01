@@ -1,39 +1,40 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: NicolaeSergiu
  * Date: 11/23/13
  * Time: 3:07 PM
  */
+class UserController extends My_Controller_Action
+{
 
-class UserController extends My_Controller_Action {
 
-
-
-    public function init(){
+    public function init()
+    {
 
         parent::init();
 
-       // $this->_helper->_layout->setLayout('layout-orig');
+        // $this->_helper->_layout->setLayout('layout-orig');
 
-        $this->view->assign("action",$this->getRequest()->getActionName());
-        $this->view->render('user/_menu.phtml');  //include _menu.phtml in pagina
+        $this->view->assign("action", $this->getRequest()->getActionName());
+        $this->view->render('user/_menu.phtml'); //include _menu.phtml in pagina
         $this->view->render('user/_signin.phtml');
 
-        if( isset( $_COOKIE['user_signed']  ) )
-        {
-            var_dump($_COOKIE['user_signed']  );
+        if (isset($_COOKIE['user_signed'])) {
+            var_dump($_COOKIE['user_signed']);
         }
 
     }
 
-    public function indexAction(){
+    public function indexAction()
+    {
         $tableUser = new Table_User();
 
-        if( $this->getRequest()->isPost() ){
+        if ($this->getRequest()->isPost()) {
             Zend_Debug::dump($this->getRequest()->getParams());
 
-            $cb = $this->getRequest()->getParam("cb",array());
+            $cb = $this->getRequest()->getParam("cb", array());
 
             /*
             if( ! empty( $cb ) ){
@@ -49,193 +50,145 @@ class UserController extends My_Controller_Action {
                 $tableUser->delete($where);
             }
             */
-            if( ! empty( $cb ) ){
+            if (!empty($cb)) {
                 $tableUser->deleteByIds($cb);
             }
 
         }
-/*        $utils = new My_Utils("sese");
+        /*        $utils = new My_Utils("sese");
 
-        $utils->email = 'nnsese@gmail.com';
-        $utils->name="salajan";
-        $utils->setName("tavy");
-        Zend_Debug::dump($utils);
+                $utils->email = 'nnsese@gmail.com';
+                $utils->name="salajan";
+                $utils->setName("tavy");
+                Zend_Debug::dump($utils);
 
 
-        $this->view->assign("utils",$utils);*/
+                $this->view->assign("utils",$utils);*/
 
         $users = $tableUser->getAll();
 
 //        $this->view->assign("users",$users); or
-        $this->view->users=$users;
+        $this->view->users = $users;
     }
 
 
+    public function addAction()
+    {
 
-    public function addAction(){
-
-
-
-        if( $this->getRequest()->isPost()){
+        if ($this->getRequest()->isPost()) {
 
             $params = $this->getRequest()->getParams();
 
-            if (isset($params["adduser"]))
-            {
-            $tableUser = new Table_User();
+            if (isset($params["adduser"])) {
+                $tableUser = new Table_User();
 
-            /** @var Model_User $user */
-            $user = $tableUser->createRow($params);
+                /** @var Model_User $user */
+                $user = $tableUser->createRow($params);
 
-            $password = $params["password"];
-            $user->setPass(md5($password));
+                $password = $params["password"];
+                $user->setPass(md5($password));
 
-            try{
-                $user->save();
-            }
-            catch( Exception $e ){
-                Zend_Debug::dump($e->getMessage());
-                return;
-            }
+                try {
+                    $user->save();
+                } catch (Exception $e) {
+                    Zend_Debug::dump($e->getMessage());
+                    return;
+                }
 
             }
 
 
+            if ((isset($params["signed_email"])) and (isset($params["signed_email"]))) {
 
-
-
-        if ((isset($params["signed_email"])) and (isset($params["signed_email"])))
-        {
-
-            $cookie = new Zend_Http_Header_SetCookie();
-            $cookie->setName("user_signed")
+                $cookie = new Zend_Http_Header_SetCookie();
+                $cookie->setName("user_signed")
                     ->setValue($params["signed_email"] . md5($params["signed_password"]))
                     ->setDomain('tavy.tapp')
                     ->setPath('/')
                     ->setHttponly(true)
                     ->setMaxAge(86400);
 
-           $this->getResponse()->setRawHeader($cookie);
-        }
-       $this->redirect("/user");
+                $this->getResponse()->setRawHeader($cookie);
+            }
+            $this->redirect("/user");
         }
     }
 
-    public function editAction(){
+    public function editAction()
+    {
 
-        if( is_null( $id = $this->getRequest()->getParam("id") ) ){
+        if (is_null($id = $this->getRequest()->getParam("id"))) {
             throw new Exception("Missing User ID !", 501);
         }
 
         $userTable = new Table_User();
-        if( is_null( $user = $userTable->getById($id) )){
+        if (is_null($user = $userTable->getById($id))) {
             throw new Exception("Missing User for ID !", 501);
         }
 
 
         $this->view->assign("user", $user);
 
-        if( $this->getRequest()->isPost()){
-
-        $params = $this->getRequest()->getParams();
+        if ($this->getRequest()->isPost()) {
 
 
-        {
-            $password = md5($params["password"]);
-            $where=$userTable->getAdapter()->quoteInto("id=?",$id);
-            $user->setAll($params["username"],$params["email"],$password,$params["first_name"],$params["last_name"],$params["phone"]);
+            $params = $this->getRequest()->getParams();
 
-
-            try{
-                $userTable->update($user->toArray(),$where);
+            if( trim( $params['password'] ) ){
+                $params['password'] =  md5(trim($params["password"]));
             }
-            catch( Exception $e ){
+            else{
+                unset($params['password']);
+            }
 
-                var_dump ($e->getTraceAsString());
+            $user->setFromArray($params);
 
+            try {
+                My_Log_Me::Log($user->toArray());
+                $user->save();
+            }
+            catch (Exception $e) {
+                Zend_Debug::dump($e->getTraceAsString());
                 return;
             }
-
-        }
-
-
 
             $this->redirect("/user");
         }
 
     }
 
-    public function checkUsernameAction(){
+    public function checkUsernameAction()
+    {
+
+        $id = $this->getRequest()->getParam("id");
         $username = $this->getRequest()->getParam("username");
 
-     //   $this->disableLayout()->disableView();
-        /** @var Zend_Controller_Action_Helper_Json $jsonHelper */
-        $jsonHelper = $this->_helper->json;
-
         $userTable = new Table_User();
-        if( ! is_null( $user = $userTable->getByUsername($username) )) {
-            $jsonHelper->sendJson("User already exists");
-            return;
+
+        if ( ! is_null($user = $userTable->getByUsername($username))) {
+            if( is_null( $id ) &&  $id != $user->getId() ){
+                $this->sendJson("User already exists");
+            }
         }
 
         // user do not exists with this username !
-        $jsonHelper->sendJson(true);
+        $this->sendJson(true);
     }
 
-    public function checkEmailAction(){
+    public function checkEmailAction()
+    {
+        $id = $this->getRequest()->getParam("id");
         $email = $this->getRequest()->getParam("email");
 
-    //    $this->disableLayout()->disableView();
-        /** @var Zend_Controller_Action_Helper_Json $jsonHelper */
-        $jsonHelper = $this->_helper->json;
-
         $userTable = new Table_User();
-        if( ! is_null( $user = $userTable->getByEmail($email) )) {
-            $jsonHelper->sendJson("Email already taken");
-            return;
+        if (!is_null($user = $userTable->getByEmail($email))) {
+            if( is_null( $id ) &&  $id != $user->getId() ){
+                $this->sendJson("Email already taken");
+            }
         }
 
         // user do not exists with this email !
-        $jsonHelper->sendJson(true);
-    }
-
-    public function checkEdtusernameAction(){
-        $username = $this->getRequest()->getParam("username");
-        $username_ini = $this->getRequest()->getParam("username_ini");
-        //   $this->disableLayout()->disableView();
-        /** @var Zend_Controller_Action_Helper_Json $jsonHelper */
-        $jsonHelper = $this->_helper->json;
-
-        $userTable = new Table_User();
-
-        if ((! is_null( $user = $userTable->getByUsername($username) )) and ($username!=$username_ini))
-         {
-
-            $jsonHelper->sendJson("User already exists");
-         }
-
-        // user do not exists with this username !
-
-             $jsonHelper->sendJson(true);
-}
-
-
-    public function checkEdtemailAction(){
-        $email = $this->getRequest()->getParam("email");
-        $email_ini = $this->getRequest()->getParam("email_ini");
-      //  $this->disableLayout()->disableView();
-        /** @var Zend_Controller_Action_Helper_Json $jsonHelper */
-        $jsonHelper = $this->_helper->json;
-
-        $userTable = new Table_User();
-        if ((! is_null( $user = $userTable->getByEmail($email) )) and ($email!=$email_ini))
-        {
-            $jsonHelper->sendJson("Email already taken");
-            return;
-        }
-
-        // user do not exists with this email !
-        $jsonHelper->sendJson(true);
+        $this->sendJson(true);
     }
 
 } 

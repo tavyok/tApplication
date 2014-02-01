@@ -9,7 +9,12 @@ class IndexController extends My_Controller_Action
         // action body
 
         $this->view->assign("name","index tavi");
-        $this->redirect("../user");
+
+        $auth = Zend_Auth::getInstance();
+        if( $auth->hasIdentity() ){
+            $this->redirect("/user");
+        }
+
     }
 
     public function mainAction()

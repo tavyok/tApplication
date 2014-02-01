@@ -17,13 +17,13 @@
         <h3 class="title">Editare utilizator</h3>
 
         <form id="jsEditUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off" >
+            <input id="id" name="id" type="hidden" value="<?php echo $user->getId() ?>">
 
             <div class="form-group">
                 <label for="inputUsername" class="col-sm-3 control-label">UserName*</label>
                 <div class="col-sm-4">
                     <input id="inputUsername" type="text" class="form-control required"
                            placeholder="username" name="username" value="<?php echo $user->getUsername()?>" >
-                    <input id="username_ini" name="username_ini" type="hidden" value="<?php echo $user->getUsername() ?>">
                 </div>
             </div>
 
@@ -32,14 +32,13 @@
                 <div class="col-sm-4">
                     <input  id="inputEmail" type="email" class="form-control required"
                             placeholder="Email" name="email" value="<?php echo $user->getEmail() ?>">
-                    <input id="email_ini" name="email_ini" type="hidden" value="<?php echo $user->getEmail() ?>">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputPassword" class="col-sm-3 control-label">Password*</label>
                 <div class="col-sm-4">
-                    <input id="inputPassword" type="password" class="form-control required"
+                    <input id="inputPassword" type="password" class="form-control"
                            placeholder="Password" name="password">
                 </div>
             </div>
@@ -47,7 +46,7 @@
             <div class="form-group">
                 <label for="inputPassword2" class="col-sm-3 control-label">Retype Password*</label>
                 <div class="col-sm-4">
-                    <input id="inputPassword2" type="password" class="form-control required"
+                    <input id="inputPassword2" type="password" class="form-control"
                            placeholder="Retype Password" name="password2">
                 </div>
             </div>
@@ -79,7 +78,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <button type="submit" name="edituser" value="Salvare" class="btn btn-primary">Salvare</button>
+                    <input type="submit" name="edituser" value="Salvare" class="btn btn-primary"/>
                 </div>
             </div>
         </form>
@@ -104,21 +103,21 @@
             rules: {
                 username: {
                     minlength: 4,
-                    remote: {url:"/user/check-edtusername",
+                    remote: {url:"/user/check-username",
                              type:"post",
                              data: {
-                             username_ini: function() {
-                            return $("#username_ini").val();
-                            }
+                                id: function() {
+                                    return $("#id").val();
+                                }
                             }
                          }
                 },
                 email: {
-                    remote: {url:"/user/check-edtemail",
+                    remote: {url:"/user/check-email",
                              type:"post",
-                             data: {
-                            email_ini: function() {
-                                return $("#email_ini").val();
+                        data: {
+                            id: function() {
+                                return $("#id").val();
                             }
                         }
                     }

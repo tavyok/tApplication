@@ -24,4 +24,16 @@ class My_Controller_Action extends Zend_Controller_Action {
     }
 
 
+    /**
+     * Send params as json object
+     * @param $params
+     */
+    public function sendJson($params){
+        $this->disableLayout()->disableView();
+        /** @var Zend_Controller_Action_Helper_Json $jsonHelper */
+        $jsonHelper = $this->_helper->json;
+
+        $jsonHelper->sendJson($params);
+    }
+
 } 

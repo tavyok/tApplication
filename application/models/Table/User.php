@@ -86,4 +86,21 @@ class Table_User extends Zend_Db_Table {
     }
 
 
+    /**
+     * Folosit in autentificare cu user/password
+     *
+     * @param $email
+     * @param $password
+     * @return null|Model_User
+     */
+    public function authenticate($email, $password)
+    {
+        $select = $this->select()
+            ->where("email = ?",$email)
+            ->where("password = ?", md5($password) );
+
+        return $this->fetchRow($select);
+    }
+
+
 } 

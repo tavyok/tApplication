@@ -300,7 +300,7 @@ abstract class Zend_Controller_Action implements Zend_Controller_Action_Interfac
     /**
      * Return the Request object
      *
-     * @return Zend_Controller_Request_Abstract
+     * @return Zend_Controller_Request_Http
      */
     public function getRequest()
     {

@@ -13,7 +13,7 @@ class Model_User extends Zend_Db_Table_Row_Abstract {
             id int(11) NOT NULL AUTO_INCREMENT,
             username varchar(24) NOT NULL,
             email varchar(60) NOT NULL,
-            pass char(32) NOT NULL,
+            password char(32) NOT NULL,
             first_name varchar(40) NOT NULL,
             last_name varchar(40) NOT NULL,
             phone varchar(20) DEFAULT NULL,
@@ -95,23 +95,26 @@ class Model_User extends Zend_Db_Table_Row_Abstract {
         return $this->last_name;
     }
 
+
     /**
-     * @param mixed $pass
+     * @param mixed $password
      * @return $this
      */
-    public function setPass($pass)
+    public function setPassword($password)
     {
-        $this->pass = $pass;
+        $this->password = $password;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getPass()
+    public function getPassword()
     {
-        return $this->pass;
+        return $this->password;
     }
+
+
 
     /**
      * @param mixed $phone
@@ -152,17 +155,6 @@ class Model_User extends Zend_Db_Table_Row_Abstract {
     public function getFullName()
     {
         return $this->getFirstName() . ", " . $this->getLastName();
-    }
-
-    public function setAll($username,$email,$password,$first_name,$last_name,$phone)
-    {
-        $this->username=$username;
-        $this->email=$email;
-        $this->pass=$password;
-        $this->first_name=$first_name;
-        $this->last_name=$last_name;
-        $this->phone=$phone;
-        return $this;
     }
 
 }
