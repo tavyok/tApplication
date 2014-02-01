@@ -20,6 +20,8 @@ class AuthController extends My_Controller_Action
         $result = $auth->authenticate($myAdapter);
 
         if( $result->isValid() ){
+            $identity = Zend_Auth::getInstance()->getIdentity();
+            setcookie("_tAppCookie",$identity['email'],time()+3600*24*14);
             $this->redirect("/");
         }
 
@@ -31,7 +33,7 @@ class AuthController extends My_Controller_Action
 
     public function logoutAction(){
         Zend_Auth::getInstance()->clearIdentity();
-
+        setcookie("_tAppCookie",'',time());
         $this->redirect("/");
     }
 
