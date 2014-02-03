@@ -97,19 +97,6 @@ class UserController extends My_Controller_Action
 
             }
 
-
-            if ((isset($params["signed_email"])) and (isset($params["signed_email"]))) {
-
-                $cookie = new Zend_Http_Header_SetCookie();
-                $cookie->setName("user_signed")
-                    ->setValue($params["signed_email"] . md5($params["signed_password"]))
-                    ->setDomain('tavy.tapp')
-                    ->setPath('/')
-                    ->setHttponly(true)
-                    ->setMaxAge(86400);
-
-                $this->getResponse()->setRawHeader($cookie);
-            }
             $this->redirect("/user");
         }
     }
