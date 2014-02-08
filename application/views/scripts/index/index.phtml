@@ -1,2 +1,26 @@
-<h1><?php echo $this->name?> was here</h1>
-<h1>Sese a fost aici</h1>
+<!--<h1><?php /*echo $this->name*/?> </h1>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="/js/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function()
+        {
+            i=0;
+            while (i<=2){
+                $("#p1").css("color","cyan").slideDown(3000).slideUp(3000);
+                i++;
+            }
+        });
+
+    </script>
+</head>
+<body>
+<img src="/images/tron.jpg" width="1210px" style="z-index: -1;left:0px;top:0px;position: absolute" ">
+<p id="p1" style="z-index: 1;position:absolute;margin-top: 270px;margin-left: 600px;font-size:50px "> <?php echo $this->name?></p>
+
+
+</body>
+</html>

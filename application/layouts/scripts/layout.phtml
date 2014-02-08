@@ -30,11 +30,14 @@
             </button>
             <a class="navbar-brand" href="/">Project T-App</a>
         </div>
-
+        <?php  $identity = Zend_Auth::getInstance()->getIdentity();?>
         <div class="navbar-collapse collapse">
         <?php if( Zend_Auth::getInstance()->hasIdentity() ): ?>
             <form action="/auth/logout" method="post" class="navbar-form navbar-right"  role="form">
-                <button type="submit" class="btn btn-success">LogOut</button>
+
+                  <DIV style="float: left"> <H4 class="badge navbar-right" style="color: greenyellow;background-color: royalblue;font-size: 17px"><?php echo "Welcome ".$identity["first_name"]." ".$identity["last_name"] ?></H4></DIV>
+
+                <button type="submit" class="btn btn-success" style="position:relative;left:10px;top: 3px  " >LogOut</button>
             </form>
         <?php else: ?>
             <form action="/auth/silent" method="post" class="navbar-form navbar-right"  role="form">

@@ -21,9 +21,6 @@ class UserController extends My_Controller_Action
         $this->view->render('user/_menu.phtml'); //include _menu.phtml in pagina
         $this->view->render('user/_signin.phtml');
 
-        if (isset($_COOKIE['user_signed'])) {
-            var_dump($_COOKIE['user_signed']);
-        }
 
     }
 
@@ -131,8 +128,9 @@ class UserController extends My_Controller_Action
             $user->setFromArray($params);
 
             try {
-                My_Log_Me::Log($user->toArray());
+
                 $user->save();
+          //      My_Log_Me::Log($user->toArray());
             }
             catch (Exception $e) {
                 Zend_Debug::dump($e->getTraceAsString());

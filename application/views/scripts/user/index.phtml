@@ -10,7 +10,7 @@
             <table class="table table-bordered table-striped table-hover table-condensed">
                 <thead>
                 <tr>
-                    <td><input id="all" type="checkbox" onchange="check_crt()"></td>
+                    <td><input id="all" type="checkbox" onchange="check_ids()"></td>
                     <td>#</td>
                     <td>UserName</td>
                     <td>FullName</td>
@@ -47,7 +47,7 @@
 
 
 <script type="text/javascript">
-    function check_crt()
+    function check_ids()
     {
        i=1;
        if ($("#all").prop('checked'))
