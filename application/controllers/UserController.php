@@ -130,7 +130,7 @@ class UserController extends My_Controller_Action
             try {
 
                 $user->save();
-          //      My_Log_Me::Log($user->toArray());
+                My_Log_Me::Log( $user->toArray() );
             }
             catch (Exception $e) {
                 Zend_Debug::dump($e->getTraceAsString());
