@@ -7,11 +7,13 @@
  */
 
 
+
 class My_Controller_Plugin_Auth extends Zend_Controller_Plugin_Abstract{
 
 
     public function routeShutdown(Zend_Controller_Request_Abstract $request)
     {
+
 
         if ( isset($_COOKIE["_tAppCookie"]) ) {
 
@@ -29,6 +31,35 @@ class My_Controller_Plugin_Auth extends Zend_Controller_Plugin_Abstract{
 
             Zend_Auth::getInstance()->authenticate($myAdapter);
 
+
+        }
+
+
+    }
+
+    public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
+    {
+
+        $auth = Zend_Auth::getInstance();
+
+        if(! $auth->hasIdentity() ){
+            $request->setControllerName('index')
+                     ->setActionName('index');
+
+        }
+    }
+
+    public function preDispatch(Zend_Controller_Request_Abstract $request) {
+        $auth = Zend_Auth::getInstance();
+        if(! $auth->hasIdentity() ){
+
+
+           $front = Zend_Controller_Front::getInstance();
+
+/*            $response = new Zend_Controller_Request_Http();
+            $response->getBasePath();
+            $response->setRequestUri("/");
+        */
         }
     }
 
