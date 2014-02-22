@@ -37,31 +37,24 @@ class My_Controller_Plugin_Auth extends Zend_Controller_Plugin_Abstract{
 
     }
 
-    public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
+    public function preDispatch(Zend_Controller_Request_Abstract $request)
     {
 
         $auth = Zend_Auth::getInstance();
 
         if(! $auth->hasIdentity() ){
-            $request->setControllerName('index')
-                     ->setActionName('index');
+            $request->setModuleName('default')
+                    ->setControllerName('index')
+                    ->setActionName('index');
+
+
+
+ //           $this->getResponse()->setRedirect('/index')->sendResponse();
+
 
         }
+
+
     }
-
-    public function preDispatch(Zend_Controller_Request_Abstract $request) {
-        $auth = Zend_Auth::getInstance();
-        if(! $auth->hasIdentity() ){
-
-
-           $front = Zend_Controller_Front::getInstance();
-
-/*            $response = new Zend_Controller_Request_Http();
-            $response->getBasePath();
-            $response->setRequestUri("/");
-        */
-        }
-    }
-
 
 } 
