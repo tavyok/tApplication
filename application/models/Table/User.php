@@ -9,8 +9,11 @@
 class Table_User extends Zend_Db_Table {
 
     protected $_name = "user";
-
     protected $_rowClass = "Model_User";
+
+    const ROLE_GUEST = 'guest';
+    const ROLE_ADMIN = 'admin';
+    const ROLE_USER = 'user';
 
     /**
      * Get User BY Id

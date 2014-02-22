@@ -15,5 +15,8 @@ CREATE TABLE user (
 
 insert into user values( null, 'sese','nnsese@gmail.com',md5('1234'), 'Sergiu','Neamt','0774873103');
 
--- 01.02.2013
+-- 01.02.2014
 alter table user change pass password char(32) NOT NULL;
+
+-- 22.02.2014
+alter table user add role  enum('user','admin') not null default 'user';

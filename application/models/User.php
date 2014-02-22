@@ -17,6 +17,7 @@ class Model_User extends Zend_Db_Table_Row_Abstract {
             first_name varchar(40) NOT NULL,
             last_name varchar(40) NOT NULL,
             phone varchar(20) DEFAULT NULL,
+            role enum('user','admin') NOT NULL DEFAULT 'user',
         PRIMARY KEY (id),
         UNIQUE KEY ukEmail (email)
         ) ENGINE=InnoDB
@@ -152,9 +153,35 @@ class Model_User extends Zend_Db_Table_Row_Abstract {
         return $this->username;
     }
 
+    /**
+     * @param mixed $role
+     * @return $this
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+
+    /**
+     * Calculated field
+     *
+     * @return string
+     */
     public function getFullName()
     {
         return $this->getFirstName() . ", " . $this->getLastName();
     }
+
+
 
 }

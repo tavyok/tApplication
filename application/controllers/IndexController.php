@@ -33,7 +33,9 @@ class IndexController extends My_Controller_Action
     }
 
 
-
+    public function errorAction(){
+        $this->redirect("/");
+    }
 
 }
 

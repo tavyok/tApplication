@@ -4,6 +4,10 @@ class AuthController extends My_Controller_Action
 {
 
 
+    public function indexAction(){
+
+    }
+
     public function silentAction()
     {
         $this->disableLayout()->disableView();
