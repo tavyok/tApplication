@@ -143,38 +143,4 @@ class UserController extends My_Controller_Action
 
     }
 
-    public function checkUsernameAction()
-    {
-
-        $id = $this->getRequest()->getParam("id");
-        $username = $this->getRequest()->getParam("username");
-
-        $userTable = new Table_User();
-
-        if ( ! is_null($user = $userTable->getByUsername($username))) {
-            if( is_null( $id ) &&  $id != $user->getId() ){
-                $this->sendJson("User already exists");
-            }
-        }
-
-        // user do not exists with this username !
-        $this->sendJson(true);
-    }
-
-    public function checkEmailAction()
-    {
-        $id = $this->getRequest()->getParam("id");
-        $email = $this->getRequest()->getParam("email");
-
-        $userTable = new Table_User();
-        if (!is_null($user = $userTable->getByEmail($email))) {
-            if( is_null( $id ) &&  $id != $user->getId() ){
-                $this->sendJson("Email already taken");
-            }
-        }
-
-        // user do not exists with this email !
-        $this->sendJson(true);
-    }
-
 } 

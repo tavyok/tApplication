@@ -36,7 +36,7 @@
             </form>
         <?php else: ?>
             <div >
-            <form action="/index/signup" method="post" class="navbar-form navbar-right" role="form">
+            <form action="/auth/signup" method="post" class="navbar-form navbar-right" role="form">
               <span style="left: -12px; top: 4px; position: relative; color: #ffffff">OR</span>
                 <button type="submit" class="btn btn-warning" style="padding: 6px">Sign up</button>
 
@@ -74,10 +74,10 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 
-<script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery-cookie.js"></script>
-<script src="/js/yui-min.js"></script>
+
 <?php print $this->headScript() ?>
 
 </body>

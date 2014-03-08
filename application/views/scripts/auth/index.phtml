@@ -11,17 +11,15 @@
             <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
         </div>
 
-        <button type="submit" class="btn btn-success center-block">Sign in</button>
-    </form>
-    <br>
-    <form action="/index/signup" method="post" role="form" style="color:#2aabd2">
-        <div class="form-group">
-  <!--          <br><p style="text-align: center">Not registered?</p>-->
-
-            Not registered?<input type="submit" class="btn btn-warning" style="margin-left: 28px" value="Sign up">
-
+        <div class="buttonGroup">
+            <button type="submit" class="btn btn-success">Sign in</button>
         </div>
     </form>
-
+    <br>
+    <div class="buttonGroup">
+        <span>Not registered? </span>
+        <a href="<?php echo $this->baseUrl('/auth/signup')?>" class="btn btn-warning">Sign up</a>
+    </div>
+    <div class="clearfix"></div>
 </div>
 </div>

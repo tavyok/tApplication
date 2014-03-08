@@ -15,3 +15,12 @@ label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
 .backImage {position: absolute; left: 0; top: 0;  z-index: -1; width: 100%; margin-top: 51px}
 
 .nolink {text-decoration:none; color:black;}
+
+
+
+.buttonGroup {text-align: right; margin-right: 60px}
+.buttonGroup span {font-weight: bold; color:#fffff0; margin-right: 10px;}
+.buttonGroup .btn {width: 100px}
+
+#myTable tbody tr { cursor: pointer}
+#myTable .jsEdit:hover td { background: #ffa500 !important;}

@@ -10,8 +10,19 @@ class My_Controller_Action extends Zend_Controller_Action {
 
 
     public function init(){
-
     }
+
+    public function preDispatch(){
+
+        $dispatcher = $dispatcher = Zend_Controller_Front::getInstance()->getDispatcher();
+
+        $actionName = $dispatcher->formatActionName($this->getRequest()->getActionName());
+
+        if(  ! in_array($actionName, get_class_methods($this) ) ){
+            $this->redirect("auth");
+        }
+    }
+
 
     public function disableLayout(){
         $this->_helper->layout->disableLayout();

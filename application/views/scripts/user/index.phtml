@@ -8,7 +8,7 @@
     <div class="col-md-9" >
         <h3 class="title">Lista inregistrari</h3>
         <form method="post" >
-            <table class="table table-bordered table-striped table-hover table-condensed">
+            <table id="myTable" class="table table-bordered table-striped table-hover table-condensed">
                 <thead>
                 <tr>
                     <td><input id="all" type="checkbox" onchange="check_ids()"></td>
@@ -27,17 +27,18 @@
                     /**@var Model_User $user */
                   //  Zend_Debug::dump($this->users);
                     foreach( $this->users as $user) :
-                      $i += 1;
+                        $i += 1;
+                        $userId = $user->getId();
                 ?>
                 <!--se va trimite variabila $user la edit.phtml,pe rand fiecare inregistrare,se creaza linkuri cu transmiterea id-->
-                <tr>
-                    <td><input type="checkbox" name="cb[]" id="<?php echo 'crt'.$i ?>" value="<?php echo $user->getId()?>"></td>
-                    <td><?php echo $i ?></td>
-                    <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getUsername()?></a></td>
-                    <td ><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getFullName()?></a></td>
-                    <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getEmail()?></a></td>
-                    <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getPhone()?></a></td>
-                    <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getRole()?></a></td>
+                <tr class="jsEdit" data-user-id="<?php echo $userId ?>" title="Click to Edit">
+                    <td class="text-center"><input type="checkbox" name="cb[]" id="<?php echo 'crt'.$i ?>" value="<?php echo $userId?>"></td>
+                    <td class="text-center"><?php echo $i ?></td>
+                    <td><?php echo $user->getUsername()?></td>
+                    <td><?php echo $user->getFullName()?></td>
+                    <td><?php echo $user->getEmail()?></td>
+                    <td><?php echo $user->getPhone()?></td>
+                    <td><?php echo $user->getRole()?></td>
                 </tr>
                 <?php endforeach ?>
                 </tbody>
@@ -47,8 +48,6 @@
     </div>
 
 </div>
-
-
 <script type="text/javascript">
     function check_ids()
     {
@@ -66,5 +65,9 @@
                i++;
            }
     }
+
+    $('#myTable').on('click','.jsEdit',function(){
+        location.href = '/user/edit?id=' + $(this).data("userId");
+    })
 
 </script>

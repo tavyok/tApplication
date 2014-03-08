@@ -82,10 +82,10 @@ $this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/
             rules: {
                 username: {
                     minlength: 4,
-                    remote: "/user/check-username"
+                    remote: "/auth/check-username"
                 },
                 email: {
-                    remote: "/user/check-email"
+                    remote: "/auth/check-email"
                 },
                 password: {
                     minlength: 4
