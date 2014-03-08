@@ -2,13 +2,13 @@
 $this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js");
 
 ?>
-<div class="row " style="background-color: #ffffff">
+<div class="row signup">
 
     <!--Include Meniu -->
     <?php //echo $this->placeholder('sidebar') ?>
 
     <div class=" col-lg-offset-3">
-        <h3 class="title" style="width: 500px; margin-left: 50px">Inregistrare utilizator</h3>
+        <h3 class="title">Inregistrare utilizator</h3>
 
         <form id="jsAddUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off">
             <input type="hidden" name="role" value="<?php Table_User::ROLE_GUEST ?>">
