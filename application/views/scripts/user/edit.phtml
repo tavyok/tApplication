@@ -7,8 +7,8 @@
 
 ?>
 <!--<body onload='setusercookies("<?php /*echo $user->getUsername()*/?>","<?php /*echo $user->getEmail()*/?>")'>-->
-<body>
-<div class="row user-page">
+<body onload="setRole()">
+<div class="row user-page" style="background-color: #ffffff">
 
     <!--Include Meniu -->
     <?php echo $this->placeholder('sidebar') ?>
@@ -17,6 +17,7 @@
         <h3 class="title">Editare utilizator</h3>
 
         <form id="jsEditUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off" >
+            <input type="hidden" id="getRole" value="<?php echo $user->getRole() ?>">
             <input id="id" name="id" type="hidden" value="<?php echo $user->getId() ?>">
 
             <div class="form-group">
@@ -77,6 +78,17 @@
             </div>
 
             <div class="form-group">
+                <label for="inputRole" class="col-sm-3 control-label">Role</label>
+                <div class="col-sm-4">
+                    <select id="inputRole" name="role">
+                        <option value="<?php echo  Table_User::ROLE_ADMIN ?>"><?php echo  Table_User::ROLE_ADMIN ?></option>
+                        <option value="<?php echo  Table_User::ROLE_USER ?>"><?php echo  Table_User::ROLE_USER ?></option>
+
+                    </select>
+
+                </div>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <input type="submit" name="edituser" value="Salvare" class="btn btn-primary"/>
                 </div>
@@ -98,7 +110,15 @@
     }
 */
 
+function setRole()
+{
+    role=$("#getRole").val();
+    $("#inputRole").val(role);
+}
+
+
     $(function(){
+
         $('#jsEditUser').validate({
             rules: {
                 username: {

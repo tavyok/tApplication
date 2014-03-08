@@ -1,18 +1,27 @@
-<div id="idLogin">
-    <form role="form">
+<div>
+    <img src="/images/tron.jpg" class="backImage" >
+<div id="idLogin" style="width: 350px; position: static; margin: 200px 400px; border: 2px solid; padding: 10px; border-radius: 5px; border-color: cyan ">
+    <form action="/auth/silent" method="post" role="form" style="color:#2aabd2">
         <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+            <label for="InputEmail">Email address</label>
+            <input type="email" class="form-control" id="InputEmail" name="username" placeholder="Email">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <label for="InputPassword">Password</label>
+            <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
         </div>
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"> Remember Me
-            </label>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+
+        <button type="submit" class="btn btn-success center-block">Sign in</button>
     </form>
+    <br>
+    <form action="/index/signup" method="post" role="form" style="color:#2aabd2">
+        <div class="form-group">
+  <!--          <br><p style="text-align: center">Not registered?</p>-->
+
+            Not registered?<input type="submit" class="btn btn-warning" style="margin-left: 28px" value="Sign up">
+
+        </div>
+    </form>
+
+</div>
 </div>

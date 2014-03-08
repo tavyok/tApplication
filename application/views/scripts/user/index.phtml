@@ -1,10 +1,11 @@
-<div class="row user-page">
+
+<div class="row user-page" style="background-color: #ffffff">
 
 
     <!-- Include menu  -->
     <?php echo $this->placeholder('sidebar') ?>
 
-    <div class="col-md-9">
+    <div class="col-md-9" >
         <h3 class="title">Lista inregistrari</h3>
         <form method="post" >
             <table class="table table-bordered table-striped table-hover table-condensed">
@@ -16,6 +17,7 @@
                     <td>FullName</td>
                     <td>Email</td>
                     <td>Phone</td>
+                    <td>Role</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,11 +37,12 @@
                     <td ><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getFullName()?></a></td>
                     <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getEmail()?></a></td>
                     <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getPhone()?></a></td>
+                    <td><a style="text-decoration:none;color:black" title="Edit" href="/user/edit?id=<?php echo $user->getId()?>"><?php echo $user->getRole()?></a></td>
                 </tr>
                 <?php endforeach ?>
                 </tbody>
             </table>
-            <input type="submit" value="Delete" class="btn btn-danger">
+            <input type="submit" value="Sterge" class="btn btn-danger">
         </form>
     </div>
 

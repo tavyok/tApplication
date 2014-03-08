@@ -83,7 +83,7 @@ class UserController extends My_Controller_Action
                 $user = $tableUser->createRow($params);
 
                 $password = $params["password"];
-                $user->setPass(md5($password));
+                $user->setPassword(md5($password));
 
                 try {
                     $user->save();
@@ -110,8 +110,9 @@ class UserController extends My_Controller_Action
             throw new Exception("Missing User for ID !", 501);
         }
 
-
         $this->view->assign("user", $user);
+
+
 
         if ($this->getRequest()->isPost()) {
 

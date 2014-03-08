@@ -1,5 +1,99 @@
-<h1>Main</h1>
-<h1><?php echo $this->name?> </h1>
+<?php
+$this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js");
+
+?>
+<div class="row " style="background-color: #ffffff">
+
+    <!--Include Meniu -->
+    <?php //echo $this->placeholder('sidebar') ?>
+
+    <div class=" col-lg-offset-3">
+        <h3 class="title" style="width: 500px; margin-left: 50px">Inregistrare utilizator</h3>
+
+        <form id="jsAddUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off">
+            <input type="hidden" name="role" value="<?php Table_User::ROLE_GUEST ?>">
+            <div class="form-group">
+                <label for="inputUsername" class="col-sm-3 control-label">UserName*</label>
+                <div class="col-sm-4">
+                    <input id="inputUsername" type="text" class="form-control required"
+                           placeholder="username" name="username" value="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail" class="col-sm-3 control-label">Email*</label>
+                <div class="col-sm-4">
+                    <input  id="inputEmail" type="email" class="form-control required email"
+                            placeholder="Email" name="email">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword" class="col-sm-3 control-label">Password*</label>
+                <div class="col-sm-4">
+                    <input id="inputPassword" type="password" class="form-control required"
+                           placeholder="Password" name="password">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword2" class="col-sm-3 control-label">Retype Password*</label>
+                <div class="col-sm-4">
+                    <input id="inputPassword2" type="password" class="form-control required"
+                           placeholder="Retype Password" name="password2">
+                </div>
+            </div>
 
 
+            <div class="form-group">
+                <label for="inputFirstName" class="col-sm-3 control-label">First Name*</label>
+                <div class="col-sm-4">
+                    <input id="inputFirstName" type="text" class="form-control required"
+                           placeholder="firstname" name="first_name">
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label for="inputLastName" class="col-sm-3 control-label">Last Name*</label>
+                <div class="col-sm-4">
+                    <input id="inputLastName" type="text" class="form-control required"
+                           placeholder="lastname" name="last_name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPhone" class="col-sm-3 control-label">Phone</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="inputPhone" placeholder="phone" name="phone">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" name="adduser" value="Adaugare" class="btn btn-primary">Adaugare</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('#jsAddUser').validate({
+            rules: {
+                username: {
+                    minlength: 4,
+                    remote: "/user/check-username"
+                },
+                email: {
+                    remote: "/user/check-email"
+                },
+                password: {
+                    minlength: 4
+                },
+                password2: {
+                    equalTo: "#inputPassword"
+                }
+            }
+        });
+    })
+</script>

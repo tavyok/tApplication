@@ -3,7 +3,7 @@
 
 
 ?>
-<div class="row user-page">
+<div class="row user-page" style="background-color: #ffffff">
 
     <!--Include Meniu -->
     <?php echo $this->placeholder('sidebar') ?>
@@ -68,7 +68,19 @@
                     <input type="text" class="form-control" id="inputPhone" placeholder="phone" name="phone">
                 </div>
             </div>
-            
+
+            <div class="form-group">
+                <label for="inputRole" class="col-sm-3 control-label">Role</label>
+                <div class="col-sm-4">
+                    <select id="inputRole" name="role">
+                        <option value="<?php echo  Table_User::ROLE_ADMIN ?>"><?php echo  Table_User::ROLE_ADMIN ?></option>
+                        <option value="<?php echo  Table_User::ROLE_USER ?>"><?php echo  Table_User::ROLE_USER ?></option>
+
+                    </select>
+
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <button type="submit" name="adduser" value="Adaugare" class="btn btn-primary">Adaugare</button>

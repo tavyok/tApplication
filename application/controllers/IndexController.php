@@ -18,11 +18,35 @@ class IndexController extends My_Controller_Action
 
     }
 
-    public function mainAction()
+    public function signupAction()
     {
-        // action body
+       // Zend_Debug::dump(Zend_Auth::getInstance()->getIdentity()["role"]);
+        if ($this->getRequest()->isPost()) {
 
-        $this->view->assign("name","tavi");
+            $params = $this->getRequest()->getParams();
+
+            if (isset($params["adduser"])) {
+                $tableUser = new Table_User();
+
+                /** @var Model_User $user */
+                $user = $tableUser->createRow($params);
+
+                $password = $params["password"];
+                $user->setPassword(md5($password));
+
+                try {
+                    $user->save();
+                } catch (Exception $e) {
+                    Zend_Debug::dump($e->getMessage());
+                    return;
+                }
+
+            }
+
+      //      $this->redirect("/user");
+        }
+
+
     }
 
     public function menuAction()
@@ -34,7 +58,8 @@ class IndexController extends My_Controller_Action
 
 
     public function errorAction(){
-        $this->redirect("/");
+
+
     }
 
 }

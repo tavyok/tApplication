@@ -12,7 +12,7 @@ class AuthController extends My_Controller_Action
     {
         $this->disableLayout()->disableView();
 
-        Zend_Debug::dump($this->getRequest()->getParams());
+   //     Zend_Debug::dump($this->getRequest()->getParams());
 
         $username = $this->getRequest()->getParam("username");
         $password = $this->getRequest()->getParam("password");

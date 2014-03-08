@@ -67,7 +67,7 @@ class Table_User extends Zend_Db_Table {
     public function deleteByIds(array $cb)
     {
         $where = $this->getAdapter()->quoteInto("id in (?)",$cb);
-        Zend_Debug::dump($where);
+
         $this->delete($where);
     }
 

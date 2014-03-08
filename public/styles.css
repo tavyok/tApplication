@@ -12,5 +12,6 @@ body { padding-top: 50px; padding-bottom: 20px;}
 label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
 .title { margin: 20px 0; border-bottom: 2px solid #ac2925; line-height: 2em !important;}
 
-.backImage {position: absolute; left: 0; top: 0;  z-index: -1; width: 100%;}
+.backImage {position: absolute; left: 0; top: 0;  z-index: -1; width: 100%; margin-top: 51px}
 
+.nolink {text-decoration:none; color:black;}
