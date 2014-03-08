@@ -143,4 +143,8 @@ class UserController extends My_Controller_Action
 
     }
 
+
+    public function testAction(){
+        die("Test Action");
+    }
 } 
