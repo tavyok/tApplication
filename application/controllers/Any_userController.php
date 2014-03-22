@@ -6,7 +6,7 @@
  * Time: 03:35
  */
 
-class AnyuserController extends My_Controller_Action
+class AnyUserController extends My_Controller_Action
 {
 
     public function init()
