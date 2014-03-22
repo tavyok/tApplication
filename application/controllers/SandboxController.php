@@ -8,17 +8,12 @@ class SandboxController extends My_Controller_Action
         $this->disableLayout()->disableView();
 
 
-        $acl = My_Acl::getInstance();
+//        Zend_Debug::dump( date_default_timezone_get() );
 
-        $module = 'default';
-        $controller = 'index';
-        $action = 'main';
 
-        $resource = $module . ':' . $controller;
+        $htmlMailer = new My_HtmlMailer();
 
-        if( $acl->has($resource) ){
-            Zend_Debug::dump($acl->isAllowed( Table_User::ROLE_ADMIN, $resource, $action ));
-        }
+        $htmlMailer->sendNotification("nnsese@gmail.com") ;
 
 
     }

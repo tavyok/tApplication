@@ -15,13 +15,12 @@ class AnyUserController extends My_Controller_Action
         parent::init();
 
         // $this->_helper->_layout->setLayout('layout-orig');
+        $auth = Zend_Auth::getInstance();
+        $name = $auth->getIdentity()["first_name"]." ".$auth->getIdentity()["last_name"];
 
         $this->view->assign("action", $this->getRequest()->getActionName());
-        $this->view->render('anyuser/_menu.phtml');
-        $auth = Zend_Auth::getInstance();
-        $name=$auth->getIdentity()["first_name"]." ".$auth->getIdentity()["last_name"];
-  //      $this->view->assign("name",$name);
-        $this->view->name=$name;
+        $this->view->assign("name", $name);
+//        $this->view->render('any-user/_menu.phtml');
 
     }
 

@@ -120,5 +120,9 @@ class AuthController extends My_Controller_Action
         $this->sendJson(true);
     }
 
+
+    public function activateAction(){
+        die();
+    }
 }
 

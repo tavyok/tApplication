@@ -15,7 +15,7 @@ class IndexController extends My_Controller_Action
         if( $auth->hasIdentity() ){
             My_Log_Me::Log($auth->getIdentity());
             if ($auth->getIdentity()["role"]==Table_User::ROLE_USER)
-                $this->redirect("/anyuser");
+                $this->redirect("/any-user");
             if ($auth->getIdentity()["role"]==Table_User::ROLE_ADMIN)
                 $this->redirect("/user");
         }

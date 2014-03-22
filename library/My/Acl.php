@@ -16,7 +16,7 @@ class My_Acl extends Zend_Acl {
         $resDefaultAuth    = new Zend_Acl_Resource( 'default:auth' );
         $resDefaultError   = new Zend_Acl_Resource( 'default:error' );
         $resDefaultIndex   = new Zend_Acl_Resource( 'default:index' );
-        $resDefaultAnyuser = new Zend_Acl_Resource( 'default:anyuser' );
+        $resDefaultAnyUser = new Zend_Acl_Resource( 'default:any-user' );
         $resDefaultUser    = new Zend_Acl_Resource( 'default:user' );
         $resDefaultSandbox = new Zend_Acl_Resource( 'default:sandbox' );
 
@@ -27,7 +27,7 @@ class My_Acl extends Zend_Acl {
         $this->addResource( $resDefaultAuth );
         $this->addResource( $resDefaultError );
         $this->addResource( $resDefaultIndex );
-        $this->addResource( $resDefaultAnyuser );
+        $this->addResource( $resDefaultAnyUser );
         $this->addResource( $resDefaultUser );
         $this->addResource( $resDefaultSandbox );
 
@@ -53,7 +53,7 @@ class My_Acl extends Zend_Acl {
     //    $this->allow( $roleGuest, $resDefaultUser , array('test') );
 
         // allow User
-        $this->allow( $roleUser, $resDefaultAnyuser );
+        $this->allow( $roleUser, $resDefaultAnyUser );
         $this->allow( $roleUser, $resDefaultSandbox );
 
         $this->allow( $roleAdmin );

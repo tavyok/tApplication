@@ -1,0 +1,10 @@
+<?php
+    $action = $this->action ;
+    $name= $this->name;
+?>
+<div class="col-md-3 m-menu">
+    <h3><?php echo $name ?></h3>
+    <ul class="nav nav-pills nav-stacked">
+        <li <?php echo $action == 'index' ? 'class="active"':''?>><a href="/any-user/profil">Profil</a></li>
+    </ul>
+</div>
