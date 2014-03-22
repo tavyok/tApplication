@@ -5,13 +5,15 @@ $this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/
 <div class="row signup">
 
     <!--Include Meniu -->
-    <?php //echo $this->placeholder('sidebar') ?>
+    <?php //echo $this->placeholder('sidebar')
+
+    ?>
 
     <div class=" col-lg-offset-3">
         <h3 class="title">Inregistrare utilizator</h3>
 
         <form id="jsAddUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off">
-            <input type="hidden" name="role" value="<?php Table_User::ROLE_GUEST ?>">
+            <input type="hidden" name="role" value="<?php echo Table_User::ROLE_USER ?>">
             <div class="form-group">
                 <label for="inputUsername" class="col-sm-3 control-label">UserName*</label>
                 <div class="col-sm-4">
@@ -76,6 +78,7 @@ $this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/
         </form>
     </div>
 </div>
+
 <script type="text/javascript">
     $(function(){
         $('#jsAddUser').validate({

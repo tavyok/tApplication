@@ -8,21 +8,18 @@ class IndexController extends My_Controller_Action
     {
         // action body
 
-        $this->view->assign("name","Login please!");
+        $this->view->assign("logo","Login please!");
 
         $auth = Zend_Auth::getInstance();
 
         if( $auth->hasIdentity() ){
-            $this->redirect("/user");
+            My_Log_Me::Log($auth->getIdentity());
+            if ($auth->getIdentity()["role"]==Table_User::ROLE_USER)
+                $this->redirect("/anyuser");
+            if ($auth->getIdentity()["role"]==Table_User::ROLE_ADMIN)
+                $this->redirect("/user");
         }
 
-    }
-
-    public function menuAction()
-    {
-        // action body
-
-        $this->view->assign("name","menu index tavi");
     }
 
 

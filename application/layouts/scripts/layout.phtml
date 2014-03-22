@@ -1,3 +1,7 @@
+<?php
+$this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,17 +40,17 @@
             </form>
         <?php else: ?>
             <div >
-            <form action="/auth/signup" method="post" class="navbar-form navbar-right" role="form">
+            <form class="navbar-form navbar-right" role="form">
               <span style="left: -12px; top: 4px; position: relative; color: #ffffff">OR</span>
-                <button type="submit" class="btn btn-warning" style="padding: 6px">Sign up</button>
+               <a href = "<?php echo $this->baseurl("/auth/signup") ?>"> <button type="button" class="btn btn-warning" style="padding: 6px">Sign up</button></a>
 
             </form>
-            <form action="/auth/silent" method="post" class="navbar-form navbar-right"   role="form">
+            <form action="/auth/silent" method="post" id="jsAuthUser" class="navbar-form navbar-right"   role="form">
                 <div class="form-group">
-                    <input type="text" name="username" placeholder="Email" class="form-control">
+                    <input type="text" name="username" placeholder="Email" class="form-control required">
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" placeholder="Password" class="form-control">
+                    <input type="password" name="password" placeholder="Password" class="form-control ">
                 </div>
 
                 <button type="submit" class="btn btn-success">Sign in</button>
@@ -78,7 +82,21 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery-cookie.js"></script>
 
-<?php print $this->headScript() ?>
+<?php  print $this->headScript() ?>
+<script type="text/javascript">
+
+    $(function(){
+        $('#jsAuthUser').validate({
+
+            messages: {
+                username:{
+                    required: ""
+                }
+
+            }
+        });
+    })
+</script>
 
 </body>
 </html>

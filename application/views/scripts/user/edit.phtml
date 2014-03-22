@@ -6,7 +6,7 @@
     $user = $this->user;
 
 ?>
-<!--<body onload='setusercookies("<?php /*echo $user->getUsername()*/?>","<?php /*echo $user->getEmail()*/?>")'>-->
+
 <body onload="setRole()">
 <div class="row user-page" style="background-color: #ffffff">
 
@@ -90,7 +90,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <input type="submit" name="edituser" value="Salvare" class="btn btn-primary"/>
+                    <input type="submit" name="edituser" value="Salvare" class="btn btn-primary" >
                 </div>
             </div>
         </form>
@@ -99,23 +99,6 @@
 
 
 <script type="text/javascript">
-/*
-
-    function setusercookies(user,email)
-    {
-
-        $.cookie("tapp_username", user, { expires : "1 days" })
-        $.cookie("tapp_email", email, { expires : "1 days" })
-
-    }
-*/
-
-function setRole()
-{
-    role=$("#getRole").val();
-    $("#inputRole").val(role);
-}
-
 
     $(function(){
 
@@ -123,7 +106,7 @@ function setRole()
             rules: {
                 username: {
                     minlength: 4,
-                    remote: {url:"/user/check-username",
+                    remote: {url:"/auth/check-username",
                              type:"post",
                              data: {
                                 id: function() {
@@ -133,7 +116,7 @@ function setRole()
                          }
                 },
                 email: {
-                    remote: {url:"/user/check-email",
+                    remote: {url:"/auth/check-email",
                              type:"post",
                         data: {
                             id: function() {
@@ -151,5 +134,12 @@ function setRole()
             }
         });
     })
+
+    function setRole()
+    {
+        role=$("#getRole").val();
+        $("#inputRole").val(role);
+    }
+
 </script>
 </body>

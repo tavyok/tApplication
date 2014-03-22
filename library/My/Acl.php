@@ -16,6 +16,7 @@ class My_Acl extends Zend_Acl {
         $resDefaultAuth    = new Zend_Acl_Resource( 'default:auth' );
         $resDefaultError   = new Zend_Acl_Resource( 'default:error' );
         $resDefaultIndex   = new Zend_Acl_Resource( 'default:index' );
+        $resDefaultAnyuser = new Zend_Acl_Resource( 'default:anyuser' );
         $resDefaultUser    = new Zend_Acl_Resource( 'default:user' );
         $resDefaultSandbox = new Zend_Acl_Resource( 'default:sandbox' );
 
@@ -26,6 +27,7 @@ class My_Acl extends Zend_Acl {
         $this->addResource( $resDefaultAuth );
         $this->addResource( $resDefaultError );
         $this->addResource( $resDefaultIndex );
+        $this->addResource( $resDefaultAnyuser );
         $this->addResource( $resDefaultUser );
         $this->addResource( $resDefaultSandbox );
 
@@ -47,11 +49,11 @@ class My_Acl extends Zend_Acl {
         $this->allow( $roleGuest, $resDefaultError );
         $this->allow( $roleGuest, $resDefaultIndex );
         $this->allow( $roleGuest, $resDefaultAuth );
-        $this->allow( $roleGuest, $resDefaultUser , array('check-username','check-email') );
+    //    $this->allow( $roleGuest, $resDefaultUser , array('check-username','check-email') );
     //    $this->allow( $roleGuest, $resDefaultUser , array('test') );
 
         // allow User
-        $this->allow( $roleUser, $resDefaultUser );
+        $this->allow( $roleUser, $resDefaultAnyuser );
         $this->allow( $roleUser, $resDefaultSandbox );
 
         $this->allow( $roleAdmin );

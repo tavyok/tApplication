@@ -29,7 +29,7 @@ class UserController extends My_Controller_Action
         $tableUser = new Table_User();
 
         if ($this->getRequest()->isPost()) {
-            Zend_Debug::dump($this->getRequest()->getParams());
+        //    Zend_Debug::dump($this->getRequest()->getParams());
 
             $cb = $this->getRequest()->getParam("cb", array());
 
@@ -100,6 +100,7 @@ class UserController extends My_Controller_Action
 
     public function editAction()
     {
+
 
         if (is_null($id = $this->getRequest()->getParam("id"))) {
             throw new Exception("Missing User ID !", 501);

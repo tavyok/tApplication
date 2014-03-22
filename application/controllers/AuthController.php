@@ -13,7 +13,7 @@ class AuthController extends My_Controller_Action
     {
         $this->disableLayout()->disableView();
 
-        //     Zend_Debug::dump($this->getRequest()->getParams());
+
 
         $username = $this->getRequest()->getParam("username");
         $password = $this->getRequest()->getParam("password");
@@ -52,9 +52,9 @@ class AuthController extends My_Controller_Action
 
     public function signupAction()
     {
-        // Zend_Debug::dump(Zend_Auth::getInstance()->getIdentity()["role"]);
-        if ($this->getRequest()->isPost()) {
 
+        if ($this->getRequest()->isPost()) {
+       //     My_Log_Me::Log($this->getRequest()->getParams());
             $params = $this->getRequest()->getParams();
 
             if (isset($params["adduser"])) {
@@ -75,7 +75,7 @@ class AuthController extends My_Controller_Action
 
             }
 
-            //      $this->redirect("/user");
+                  $this->redirect("/");
         }
     }
 
@@ -88,10 +88,13 @@ class AuthController extends My_Controller_Action
         $userTable = new Table_User();
 
         if ( ! is_null($user = $userTable->getByUsername($username))) {
-            if( is_null( $id ) &&  $id != $user->getId() ){
-                $this->sendJson("User already exists");
-            }
+            if(! is_null( $id ) &&  $id != $user->getId() ){
+                $this->sendJson("User already exists");}
+             if( is_null( $id ) &&  $username == $user->getUsername() ){
+                    $this->sendJson("User already exists");
+             }
         }
+
 
         // user do not exists with this username !
         $this->sendJson(true);
@@ -99,12 +102,16 @@ class AuthController extends My_Controller_Action
 
     public function checkEmailAction()
     {
+
         $id = $this->getRequest()->getParam("id");
         $email = $this->getRequest()->getParam("email");
 
         $userTable = new Table_User();
         if (!is_null($user = $userTable->getByEmail($email))) {
-            if( is_null( $id ) &&  $id != $user->getId() ){
+            if(! is_null( $id ) &&  $id != $user->getId() ){
+                $this->sendJson("Email already taken");
+            }
+            if( is_null( $id ) &&  $email == $user->getEmail() ){
                 $this->sendJson("Email already taken");
             }
         }
