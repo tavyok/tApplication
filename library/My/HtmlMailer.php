@@ -11,7 +11,7 @@ class My_HtmlMailer extends Zend_Mail {
 
     const VIEW_SCRIPT_PATH = "/views/";
 
-    const TPL_NOTIFICATION = "_emails/notification.phtml";
+    const TPL_ACTIVATEUSER_PATH = "_emails/activate-user.phtml";
 
 
     protected $_sendMail = 1;
@@ -57,16 +57,26 @@ class My_HtmlMailer extends Zend_Mail {
 
 
     /**
-     * Zend Mail & render tamplate & log mail
+     * Zend Mail & render template & log mail
      *
-     * @param $template
+     * @param $template_path
      * @return bool|Zend_Mail
      */
-    public function sendMail( $template ){
+
+
+    public function sendMail( $template_path,$emailto,$subject ){
 
         $this->assign("domain",$this->_domain);
+        $this->addTo($emailto);
+        $this->setSubject($subject);
 
-        $htmlContent = $this->_zendView->render($template);
+        $user=new Table_User();
+
+        $this->assign("fullname",$user->getByEmail($emailto)->getFullName());
+        $this->assign("username",$user->getByEmail($emailto)->getUsername());
+        $this->assign("activation_code",$user->getByEmail($emailto)->getActivationCode());
+        $htmlContent = $this->_zendView->render($template_path);
+
 
         $this->setBodyHtml( $htmlContent );
 
@@ -87,15 +97,22 @@ class My_HtmlMailer extends Zend_Mail {
      * @param $email
      * @return bool|Zend_Mail
      */
-    public function sendNotification( $email ){
-
-        $this->addTo($email);
-
-        $this->setSubject("Notification");
-
-        $this->assign("name","Sergiu");
 
 
-        return $this->sendMail( self::TPL_NOTIFICATION );
+    public function sendActivationCode($username){
+
+
+        $subject = "Activate your account on tApp";
+        $user = new Table_User();
+        try
+        {
+        $emailto = $user->getByUsername($username)->getEmail();
+        return $this->sendMail( self::TPL_ACTIVATEUSER_PATH,$emailto,$subject );
+        }
+        catch (Exception $e) {
+            My_Log_Me::Log($e->getMessage());
+
+        }
+
     }
 } 

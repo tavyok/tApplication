@@ -20,7 +20,7 @@ class AnyUserController extends My_Controller_Action
 
         $this->view->assign("action", $this->getRequest()->getActionName());
         $this->view->assign("name", $name);
-//        $this->view->render('any-user/_menu.phtml');
+
 
     }
 

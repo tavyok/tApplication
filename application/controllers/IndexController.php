@@ -13,7 +13,7 @@ class IndexController extends My_Controller_Action
         $auth = Zend_Auth::getInstance();
 
         if( $auth->hasIdentity() ){
-            My_Log_Me::Log($auth->getIdentity());
+         //   My_Log_Me::Log($auth->getIdentity());
             if ($auth->getIdentity()["role"]==Table_User::ROLE_USER)
                 $this->redirect("/any-user");
             if ($auth->getIdentity()["role"]==Table_User::ROLE_ADMIN)

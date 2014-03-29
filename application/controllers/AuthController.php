@@ -65,12 +65,20 @@ class AuthController extends My_Controller_Action
 
                 $password = $params["password"];
                 $user->setPassword(md5($password));
-
+                $code=My_Utils::randomstr(10);
+                $user->setActivationCode($code);
+                $this->view->assign('fullname',$user->getFullName());
+                $this->view->assign('code',$code);
+                $this->view->assign('email',$user->getEmail());
                 try {
                     $user->save();
-                } catch (Exception $e) {
-                    Zend_Debug::dump($e->getMessage());
-                    return;
+                    $mail=new My_HtmlMailer();
+                    $mail->sendActivationCode($user->getUsername());
+
+                }
+                catch (Exception $e) {
+                        Zend_Debug::dump($e->getMessage());
+                        return;
                 }
 
             }
@@ -122,7 +130,20 @@ class AuthController extends My_Controller_Action
 
 
     public function activateAction(){
-        die();
+
+    $activation_code = $this->getRequest()->getParam("activation_code");
+    $username = $this->getRequest()->getParam("username");
+    $this->view->assign("activation_code",$activation_code );
+    $this->view->assign("username",$username );
+    $user=new Table_User();
+    if ($user->getByUsername($username)->getActivationCode()==$activation_code)
+    {
+        $user_del_code=$user->getByUsername($username);
+        $user_del_code->setActivationCode("");
+        $user_del_code->save();
+
+
     }
+}
 }
 

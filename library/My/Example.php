@@ -7,65 +7,44 @@
  */
 class My_Example {
 
-    static protected $_instance;
-    static protected $selection=1;
 
-    public function __construct(){
+    protected $name;
 
+    protected $_data = array();
+
+    public function __construct($name){
+        $this->name = $name;
     }
-    public function setSelection($selection)
+
+    /**
+     * @param mixed $name
+     * @return $this
+     */
+    public function setName($name)
     {
-        self::$selection = $selection;
-        return self::$selection;
+        $this->name = $name;
+        return $this;
     }
 
-    public function getSelection()
+    /**
+     * @return mixed
+     */
+    public function getName()
     {
-        return self::$selection;
+        return $this->name;
     }
 
-    static public function getInstance(){
-        if( is_null( self::$_instance) ){
-            //      print "Instanta Noua !\n";
-            self::$_instance = new My_Example();
+
+    public function __set($name, $value){
+        $this->_data[$name] = $value;
+    }
+
+    public function __get($name){
+        if( array_key_exists($name, $this->_data)){
+            return $this->_data[$name];
         }
-        return self::$_instance;
-
+        return null;
     }
 
-    public function ShowMenu($selection){
-        My_Example::setSelection($selection);
-        echo '
-        <div class="col-md-3 m-menu">
-        <h3>Utilizatori</h3>
-        <ul class="nav nav-pills nav-stacked">';
 
-        $sel1="";
-        $sel2="";
-        $sel3="";
-        switch (self::$selection){
-            case self::$selection=1:
-                $sel1="active";
-                break;
-            case self::$selection=2:
-                $sel2="active";
-                break;
-            case self::$selection=3:
-                $sel3="active";
-                break;
-
-        }
-
-        echo'
-            <li class="'.$sel1.'"><a href="#">Lista</a></li>
-            <li class="'.$sel2.'"><a href="/user/add">Adaugare</a></li>
-            <li class="'.$sel3.'"><a href="">Stergere</a></li>
-        </ul>
-    </div>
-
-    ';
-
-
-
-    }
 }

@@ -52,15 +52,6 @@ class UserController extends My_Controller_Action
             }
 
         }
-        /*        $utils = new My_Utils("sese");
-
-                $utils->email = 'nnsese@gmail.com';
-                $utils->name="salajan";
-                $utils->setName("tavy");
-                Zend_Debug::dump($utils);
-
-
-                $this->view->assign("utils",$utils);*/
 
         $users = $tableUser->getAll();
 
@@ -132,7 +123,7 @@ class UserController extends My_Controller_Action
             try {
 
                 $user->save();
-                My_Log_Me::Log( $user->toArray() );
+             //   My_Log_Me::Log( $user->toArray() );
             }
             catch (Exception $e) {
                 Zend_Debug::dump($e->getTraceAsString());

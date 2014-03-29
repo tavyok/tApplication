@@ -20,3 +20,5 @@ alter table user change pass password char(32) NOT NULL;
 
 -- 22.02.2014
 alter table user add role  enum('user','admin') not null default 'user';
+-- 26.03.2014
+alter table user add activation_code varchar(10);

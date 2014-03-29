@@ -9,42 +9,32 @@
 class My_Utils {
 
 
-    protected $name;
+    static protected $_instance;
 
-    protected $_data = array();
+    public function __construct(){
 
-    public function __construct($name){
-        $this->name = $name;
+        //self::getInstance();
     }
 
-    /**
-     * @param mixed $name
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-
-    public function __set($name, $value){
-        $this->_data[$name] = $value;
-    }
-
-    public function __get($name){
-        if( array_key_exists($name, $this->_data)){
-            return $this->_data[$name];
+    static public function getInstance(){
+        if( is_null( self::$_instance) ){
+            //      print "Instanta Noua !\n";
+            self::$_instance = new My_Utils();
         }
-        return null;
+        return self::$_instance;
+
     }
 
+    public static function randomstr($n)
+    {
+
+        $s="";
+        for ($i=1;$i<=$n;$i++)
+        {
+            $s=$s.chr(rand(65,90));
+
+        }
+        return $s;
+
+    }
 }

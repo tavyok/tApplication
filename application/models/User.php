@@ -171,6 +171,19 @@ class Model_User extends Zend_Db_Table_Row_Abstract {
         return $this->role;
     }
 
+    public function setActivationCode($activation_code)
+    {
+        $this->activation_code = $activation_code;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActivationCode()
+    {
+        return $this->activation_code;
+    }
 
     /**
      * Calculated field
@@ -179,7 +192,7 @@ class Model_User extends Zend_Db_Table_Row_Abstract {
      */
     public function getFullName()
     {
-        return $this->getFirstName() . ", " . $this->getLastName();
+        return $this->getFirstName() . " " . $this->getLastName();
     }
 
 
