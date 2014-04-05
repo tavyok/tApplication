@@ -10,7 +10,7 @@ $this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/
     ?>
 
     <div class=" col-lg-offset-3">
-        <h3 class="title">Inregistrare utilizator</h3>
+        <h3 class="title">User registration</h3>
 
         <form id="jsAddUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off">
             <input type="hidden" name="role" value="<?php echo Table_User::ROLE_USER ?>">
@@ -72,7 +72,7 @@ $this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/
 
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                    <button type="submit" name="adduser" value="Adaugare" class="btn btn-primary">Adaugare</button>
+                    <button type="submit" name="adduser" class="btn btn-primary">Add user</button>
                 </div>
             </div>
         </form>

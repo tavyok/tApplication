@@ -99,8 +99,16 @@ class Table_User extends Zend_Db_Table {
     public function authenticate($email, $password)
     {
         $select = $this->select()
+            ->where("username = ?",$email)
+            ->where("password = ?", md5($password) );
+
+        if (is_null($this->fetchRow($select)))
+        {
+        $select = $this->select()
             ->where("email = ?",$email)
             ->where("password = ?", md5($password) );
+        }
+
 
         return $this->fetchRow($select);
     }

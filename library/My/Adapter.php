@@ -45,5 +45,7 @@ class My_Adapter implements Zend_Auth_Adapter_Interface {
         }
 
         return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS,$user->toArray());
+
+
     }
 }

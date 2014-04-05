@@ -13,8 +13,6 @@ class AuthController extends My_Controller_Action
     {
         $this->disableLayout()->disableView();
 
-
-
         $username = $this->getRequest()->getParam("username");
         $password = $this->getRequest()->getParam("password");
 
@@ -54,7 +52,7 @@ class AuthController extends My_Controller_Action
     {
 
         if ($this->getRequest()->isPost()) {
-       //     My_Log_Me::Log($this->getRequest()->getParams());
+
             $params = $this->getRequest()->getParams();
 
             if (isset($params["adduser"])) {
@@ -65,26 +63,32 @@ class AuthController extends My_Controller_Action
 
                 $password = $params["password"];
                 $user->setPassword(md5($password));
-                $code=My_Utils::randomstr(10);
-                $user->setActivationCode($code);
-                $this->view->assign('fullname',$user->getFullName());
-                $this->view->assign('code',$code);
-                $this->view->assign('email',$user->getEmail());
+/*                $code=My_Utils::randomstr(10);
+                $user->setActivationCode($code);*/
+
                 try {
                     $user->save();
                     $mail=new My_HtmlMailer();
                     $mail->sendActivationCode($user->getUsername());
-
+                    $this->redirect("/auth/signup-notify");
                 }
                 catch (Exception $e) {
                         Zend_Debug::dump($e->getMessage());
                         return;
                 }
 
+
             }
 
-                  $this->redirect("/");
+
         }
+    }
+
+    public function signupNotifyAction(){
+
+    $this->view->assign("emailto",$this->getParam("emailto"));
+
+
     }
 
     public function checkUsernameAction()
@@ -138,12 +142,20 @@ class AuthController extends My_Controller_Action
     $user=new Table_User();
     if ($user->getByUsername($username)->getActivationCode()==$activation_code)
     {
+
         $user_del_code=$user->getByUsername($username);
         $user_del_code->setActivationCode("");
         $user_del_code->save();
+        Zend_Auth::getInstance()->clearIdentity();
+        setcookie("_tAppCookie", '', time(), '/');
+        $this->view->assign("activated",true);
+    }
+        else
+            $this->view->assign("activated",false);
+    }
+    public function sendnotifyRegistration(){
 
 
     }
-}
 }
 

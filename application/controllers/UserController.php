@@ -15,7 +15,7 @@ class UserController extends My_Controller_Action
 
         parent::init();
 
-        // $this->_helper->_layout->setLayout('layout-orig');
+       //  $this->_helper->_layout->setLayout('layout-orig');
 
         $this->view->assign("action", $this->getRequest()->getActionName());
         $this->view->render('user/_menu.phtml'); //include _menu.phtml in pagina
@@ -75,9 +75,14 @@ class UserController extends My_Controller_Action
 
                 $password = $params["password"];
                 $user->setPassword(md5($password));
-
+/*                $code=My_Utils::randomstr(10);
+                $user->setActivationCode($code);*/
                 try {
                     $user->save();
+                    $mail=new My_HtmlMailer();
+                    $mail->sendActivationCode($user->getUsername());
+                    $this->view->assign("emailto",$user->getEmail());
+                    $this->redirect("/auth/signup-notify?emailto=".$user->getEmail());
                 } catch (Exception $e) {
                     Zend_Debug::dump($e->getMessage());
                     return;

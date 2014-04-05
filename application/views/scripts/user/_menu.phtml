@@ -1,10 +1,10 @@
 <?php $act = $this->action ?>
 <?php $this->placeholder('sidebar')->captureStart() ?>
 <div class="col-md-3 m-menu">
-    <h3>Utilizatori</h3>
+    <h3>Users</h3>
     <ul class="nav nav-pills nav-stacked">
-        <li <?php echo $act == 'index' ? 'class="active"':''?>><a href="/user">Lista</a></li>
-        <li <?php echo $act == 'add' ? 'class="active"':''?>><a href="/user/add">Adaugare</a></li>
+        <li <?php echo $act == 'index' ? 'class="active"':''?>><a href="/user">Users list</a></li>
+        <li <?php echo $act == 'add' ? 'class="active"':''?>><a href="/user/add">Registrate user</a></li>
     </ul>
 </div>
 <?php $this->placeholder('sidebar')->captureEnd()  ?>

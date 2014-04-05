@@ -6,12 +6,12 @@
     <?php echo $this->placeholder('sidebar') ?>
 
     <div class="col-md-9" >
-        <h3 class="title">Lista inregistrari</h3>
+        <h3 class="title">Records list</h3>
         <form method="post" >
             <table id="myTable" class="table table-bordered table-striped table-hover table-condensed">
                 <thead>
                 <tr>
-                    <td class="text-center"><input id="all" type="checkbox" onchange="check_ids()"></td>
+                    <td class="text-center"><input type="checkbox" id="all" onchange="check_ids()"></td>
                     <td>#</td>
                     <td>UserName</td>
                     <td>FullName</td>
@@ -22,17 +22,18 @@
                 </thead>
                 <tbody>
                 <?php
-
+                    $curent_id=Zend_Auth::getInstance()->getIdentity()["id"];
                     $i = 0;
                     /**@var Model_User $user */
                   //  Zend_Debug::dump($this->users);
                     foreach( $this->users as $user) :
                         $i += 1;
                         $userId = $user->getId();
+                        //$username=$user->getUsername();
                 ?>
                 <!--se va trimite variabila $user la edit.phtml,pe rand fiecare inregistrare,se creaza linkuri cu transmiterea id-->
                 <tr class="jsEdit" data-user-id="<?php echo $userId ?>" title="Click to Edit">
-                    <td class="text-center"><input type="checkbox" name="cb[]" id="<?php echo 'crt'.$i ?>" value="<?php echo $userId?>" ></td>
+                    <td class="text-center"><input type="checkbox" name="cb[]" id="<?php echo 'crt'.$i ?>" value="<?php echo $userId?>" <?php echo ($curent_id==$userId)?"disabled":""  ?> ></td>
                     <td class="text-center"><?php echo $i ?></td>
                     <td><?php echo $user->getUsername()?></td>
                     <td><?php echo $user->getFullName()?></td>
@@ -43,7 +44,7 @@
                 <?php endforeach ?>
                 </tbody>
             </table>
-            <input type="submit" value="Sterge" class="btn btn-danger">
+            <input type="submit" value="Remove" class="btn btn-danger">
         </form>
     </div>
 
@@ -55,7 +56,8 @@
        if ($("#all").prop('checked'))
           while($("#crt"+i).length!=0)
         {
-            $("#crt"+i).attr('checked', true);
+            if  (! $("#crt"+i).attr('disabled'))
+                 $("#crt"+i).attr('checked', true);
             i++;
         }
        else

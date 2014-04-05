@@ -13,7 +13,7 @@ class SandboxController extends My_Controller_Action
 
         $htmlMailer = new My_HtmlMailer();
 
-        $htmlMailer->sendActivationCode("tavyok");
+        $htmlMailer->sendActivationCode("tavy");
 
 
     }
