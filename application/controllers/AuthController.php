@@ -63,30 +63,37 @@ class AuthController extends My_Controller_Action
 
                 $password = $params["password"];
                 $user->setPassword(md5($password));
-/*                $code=My_Utils::randomstr(10);
-                $user->setActivationCode($code);*/
 
                 try {
                     $user->save();
-                    $mail=new My_HtmlMailer();
-                    $mail->sendActivationCode($user->getUsername());
-                    $this->redirect("/auth/signup-notify");
                 }
+
+
                 catch (Exception $e) {
                         Zend_Debug::dump($e->getMessage());
                         return;
                 }
-
-
+                $this->redirect("/auth/signup-notify?username=".$user->getUsername());
             }
-
 
         }
     }
 
     public function signupNotifyAction(){
 
-    $this->view->assign("emailto",$this->getParam("emailto"));
+        $username=$this->getRequest()->getParam("username");
+        $emailto=$this->getRequest()->getParam("emailto");
+        if (! is_null($username))
+        {
+            $usertable=new Table_User();
+            $user=$usertable->getByUsername($username);
+            $emailto=$user->getEmail();
+            $this->view->assign("emailto",$emailto);
+        }
+        $this->view->assign("emailto",$emailto);
+
+        $mail=new My_HtmlMailer();
+        $mail->sendActivationCode($username);
 
 
     }
@@ -150,10 +157,15 @@ class AuthController extends My_Controller_Action
         setcookie("_tAppCookie", '', time(), '/');
         $this->view->assign("activated",true);
     }
-        else
-            $this->view->assign("activated",false);
+      else
+         $this->view->assign("activated",false);
+
+
     }
-    public function sendnotifyRegistration(){
+
+    public function sendnotifyRegistrationAction(){
+
+        $this->view->assign("username",$this->getRequest()->getParam("username"));
 
 
     }

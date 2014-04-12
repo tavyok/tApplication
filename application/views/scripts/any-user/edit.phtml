@@ -1,0 +1,134 @@
+
+<?php
+$this->headScript()->appendFile("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js");
+
+/** @var Model_User $user */
+
+$user = $this->user;
+My_Log_Me::Log($user);
+?>
+
+<body>
+<div class="row user-page" style="background-color: #ffffff">
+
+    <!-- Include menu  -->
+    <?php echo $this->partial('_partials/user-menu.phtml', array(
+        'name' => $this->name,
+        'action' => $this->action,
+        'id'     => $this->id)) ?>
+
+    <div class="col-md-9">
+        <h3 class="title">Edit your profile</h3>
+
+        <form id="jsEditUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off" >
+            <input type="hidden" id="getRole" value="<?php echo $user->getRole() ?>">
+            <input id="id" name="id" type="hidden" value="<?php echo $user->getId() ?>">
+
+            <div class="form-group">
+                <label for="inputUsername" class="col-sm-3 control-label">UserName*</label>
+                <div class="col-sm-4">
+                    <input id="inputUsername" type="text" class="form-control required"
+                           placeholder="Username" name="username" value="<?php echo $user->getUsername()?>" >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail" class="col-sm-3 control-label">Email*</label>
+                <div class="col-sm-4">
+                    <input  id="inputEmail" type="email" class="form-control required"
+                            placeholder="Email" name="email" value="<?php echo $user->getEmail() ?>">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword" class="col-sm-3 control-label">Password</label>
+                <div class="col-sm-4">
+                    <input id="inputPassword" type="password" class="form-control"
+                           placeholder="Password" name="password">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword2" class="col-sm-3 control-label">Retype Password</label>
+                <div class="col-sm-4">
+                    <input id="inputPassword2" type="password" class="form-control"
+                           placeholder="Retype Password" name="password2">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="inputFirstName" class="col-sm-3 control-label">First Name*</label>
+                <div class="col-sm-4">
+                    <input id="inputFirstName" type="text" class="form-control required"
+                           placeholder="Firstname" name="first_name" value="<?php echo $user->getFirstName()?>">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputLastName" class="col-sm-3 control-label">Last Name*</label>
+                <div class="col-sm-4">
+                    <input id="inputLastName" type="text" class="form-control required"
+                           placeholder="Lastname" name="last_name" value="<?php echo $user->getLastName()?>">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputPhone" class="col-sm-3 control-label">Phone</label>
+                <div class="col-sm-4">
+                    <input id="inputPhone" type="text" class="form-control"
+                           placeholder="Phone" name="phone" value="<?php echo $user->getPhone()?>">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <input type="submit" name="edituser" value="Save profile" class="btn btn-primary" >
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(function(){
+
+        $('#jsEditUser').validate({
+            rules: {
+                username: {
+                    minlength: 4,
+                    remote: {url:"/auth/check-username",
+                        type:"post",
+                        data: {
+                            id: function() {
+                                return $("#id").val();
+                            }
+                        }
+                    }
+                },
+                email: {
+                    remote: {url:"/auth/check-email",
+                        type:"post",
+                        data: {
+                            id: function() {
+                                return $("#id").val();
+                            }
+                        }
+                    }
+                },
+                password: {
+                    minlength: 4
+                },
+                password2: {
+                    equalTo: "#inputPassword"
+                }
+            }
+        });
+    })
+
+
+
+</script>
+</body>

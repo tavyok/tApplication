@@ -9,7 +9,7 @@
     <?php echo $this->placeholder('sidebar') ?>
 
     <div class="col-md-9">
-        <h3 class="title">Registrate new user</h3>
+        <h3 class="title">New user registration</h3>
 
         <form id="jsAddUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off">
 
@@ -82,6 +82,12 @@
             </div>
 
             <div class="form-group">
+
+
+                <img src="/images/pictures-icon.png" class="col-lg-offset-3 btn-link" width="60px">
+                <textarea id="elm1"  rows="4" cols="6" readonly>Upload a photo</textarea>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <button type="submit" name="adduser" class="btn btn-primary">Add user</button>
                 </div>
@@ -89,8 +95,11 @@
         </form>
     </div>
 </div>
+
 <script type="text/javascript">
-$(function(){
+
+
+    $(function(){
     $('#jsAddUser').validate({
         rules: {
             username: {
@@ -109,4 +118,27 @@ $(function(){
         }
     });
 })
+
+    tinymce.init({
+        selector: "textarea#elm1",
+        theme: "modern",
+        width: 300,
+        height: 300,
+        plugins: [
+            "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+            "save table contextmenu directionality emoticons template paste textcolor"
+        ],
+        content_css: "css/content.css",
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
+        style_formats: [
+            {title: 'Bold text', inline: 'b'},
+            {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+            {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+            {title: 'Example 1', inline: 'span', classes: 'example1'},
+            {title: 'Example 2', inline: 'span', classes: 'example2'},
+            {title: 'Table styles'},
+            {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+        ]
+    });
 </script>
