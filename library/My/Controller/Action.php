@@ -8,8 +8,10 @@
 
 class My_Controller_Action extends Zend_Controller_Action {
 
+    protected $config;
 
     public function init(){
+        $this->config = Zend_Registry::get('__CONFIG__');
     }
 
     public function preDispatch(){

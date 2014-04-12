@@ -1,0 +1,11 @@
+<?php
+    $this->headScript()
+        ->appendFile($this->baseUrl('/js/dropzone.js'))
+        ->appendFile($this->baseUrl('/js/upload-photo.js'));
+?>
+<div class="myDropzone">
+
+    <form action="<?php echo $this->baseUrl('/upload')?>" class="dropzone" id="my-dropzone"></form>
+
+</div>
+

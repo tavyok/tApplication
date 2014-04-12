@@ -15,6 +15,7 @@ class My_Acl extends Zend_Acl {
 
         $resDefaultAuth    = new Zend_Acl_Resource( 'default:auth' );
         $resDefaultError   = new Zend_Acl_Resource( 'default:error' );
+        $resDefaultUpload  = new Zend_Acl_Resource( 'default:upload' );
         $resDefaultIndex   = new Zend_Acl_Resource( 'default:index' );
         $resDefaultAnyUser = new Zend_Acl_Resource( 'default:any-user' );
         $resDefaultUser    = new Zend_Acl_Resource( 'default:user' );
@@ -30,11 +31,11 @@ class My_Acl extends Zend_Acl {
         $this->addResource( $resDefaultAnyUser );
         $this->addResource( $resDefaultUser );
         $this->addResource( $resDefaultSandbox );
+        $this->addResource( $resDefaultUpload );
 
 
         $this->addResource( $resAdminIndex );
         $this->addResource( $resAdminManager );
-
 
         $roleGuest = Table_User::ROLE_GUEST;
         $roleUser  = Table_User::ROLE_USER;
@@ -54,6 +55,7 @@ class My_Acl extends Zend_Acl {
 
         // allow User
         $this->allow( $roleUser, $resDefaultAnyUser );
+        $this->allow( $roleUser, $resDefaultUpload );
         $this->allow( $roleUser, $resDefaultSandbox );
 
         $this->allow( $roleAdmin );
