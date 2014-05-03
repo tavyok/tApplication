@@ -18,6 +18,7 @@
                     <td>Email</td>
                     <td>Phone</td>
                     <td>Role</td>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -25,11 +26,11 @@
                     $curent_id=Zend_Auth::getInstance()->getIdentity()["id"];
                     $i = 0;
                     /**@var Model_User $user */
-                  //  Zend_Debug::dump($this->users);
+
                     foreach( $this->users as $user) :
                         $i += 1;
                         $userId = $user->getId();
-                        //$username=$user->getUsername();
+
                 ?>
                 <!--se va trimite variabila $user la edit.phtml,pe rand fiecare inregistrare,se creaza linkuri cu transmiterea id-->
                 <tr class="jsEdit" data-user-id="<?php echo $userId ?>" title="Click to Edit">
@@ -40,6 +41,7 @@
                     <td><?php echo $user->getEmail()?></td>
                     <td><?php echo $user->getPhone()?></td>
                     <td><?php echo $user->getRole()?></td>
+                    <td style="font-size: 70%;color: darkred;text-align: center; border-radius:<?php echo ($user->getActivationCode()!="")?'70%':'0%'  ?>"><?php echo ($user->getActivationCode()!="")?"need <BR>activation":""  ?></td>
                 </tr>
                 <?php endforeach ?>
                 </tbody>

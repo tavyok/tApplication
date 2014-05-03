@@ -185,6 +185,19 @@ class Model_User extends Zend_Db_Table_Row_Abstract {
         return $this->activation_code;
     }
 
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
     /**
      * Calculated field
      *

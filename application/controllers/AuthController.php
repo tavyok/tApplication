@@ -73,7 +73,39 @@ class AuthController extends My_Controller_Action
                         Zend_Debug::dump($e->getMessage());
                         return;
                 }
-                $this->redirect("/auth/signup-notify?username=".$user->getUsername());
+
+
+                $user=$tableUser->getByUsername($params["username"]);
+
+                if( isset ($params["photoup"] ) ){
+                    $photo = $params["photoup"];
+
+                    $uploadFolder = realpath( $this->config['upload']['folder'] );
+                    if ($photo!="")
+                        if( file_exists( $uploadFolder."/".$photo)){
+                            $ext  = strtolower( pathinfo($photo,PATHINFO_EXTENSION) );
+                            $newFileName = My_Utils::buildImageFile( $user->getId() ) . "." . $ext;
+
+
+                            if(  rename($uploadFolder. "/" .$photo, $uploadFolder  . '/' .  $newFileName )){
+                                My_Log_Me::Log( "moved". $photo ."->".$newFileName);
+
+                            }
+
+
+                            $user->setPhoto($newFileName);
+                            try {
+                                $user->save();
+                            } catch (Exception $e) {
+                                Zend_Debug::dump($e->getMessage());
+                                return;
+                            }
+                        }
+                }
+                $this->view->assign("emailto",$user->getEmail());
+
+
+                $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&goto=/auth");
             }
 
         }
@@ -94,6 +126,9 @@ class AuthController extends My_Controller_Action
 
         $mail=new My_HtmlMailer();
         $mail->sendActivationCode($username);
+        $this->view->assign("goto",$this->getRequest()->getParam("goto"));
+        //$this->redirect($this->getRequest()->getParam("goto"));
+
 
 
     }

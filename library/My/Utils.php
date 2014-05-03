@@ -52,7 +52,8 @@ class My_Utils
 
     static public function buildImageFile($id)
     {
-        return sprintf("p%05d%s", $id, self::randomString(10));
+     //   return sprintf("p%05d%s", $id, self::randomString(10));
+        return sprintf("pic%05d%s", $id,"");
     }
 
 

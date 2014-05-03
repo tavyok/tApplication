@@ -15,6 +15,11 @@ class Table_User extends Zend_Db_Table {
     const ROLE_ADMIN = 'admin';
     const ROLE_USER = 'user';
 
+    public function init(){
+        $this->config = Zend_Registry::get('__CONFIG__');
+    }
+
+
     /**
      * Get User BY Id
      *
@@ -66,12 +71,27 @@ class Table_User extends Zend_Db_Table {
      */
     public function deleteByIds(array $cb)
     {
+        $tableuser=new Table_User();
+        foreach($cb as &$id)
+        {
+        $user=$tableuser->getById($id);
+        $photo=$user->getPhoto();
+
+        $uploadFolder = realpath( $this->config['upload']['folder'] );
+
+
+        if ($photo!="")
+            if( file_exists($uploadFolder."/".$photo)){
+
+                unlink($uploadFolder."/".$photo);
+                }
+        }
+
         $where = $this->getAdapter()->quoteInto("id in (?)",$cb);
-
         $this->delete($where);
-    }
 
-    /**
+    }
+                /**
      * Return all records from table
      *
      * @param null $name
