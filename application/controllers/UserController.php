@@ -121,7 +121,6 @@ class UserController extends My_Controller_Action
     public function editAction()
     {
 
-
         if (is_null($id = $this->getRequest()->getParam("id"))) {
             throw new Exception("Missing User ID !", 501);
         }
@@ -130,13 +129,8 @@ class UserController extends My_Controller_Action
         if (is_null($user = $userTable->getById($id))) {
             throw new Exception("Missing User for ID !", 501);
         }
-
         $this->view->assign("user", $user);
-
-
-
         if ($this->getRequest()->isPost()) {
-
 
             $params = $this->getRequest()->getParams();
 

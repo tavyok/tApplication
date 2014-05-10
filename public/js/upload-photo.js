@@ -10,7 +10,7 @@ Dropzone.options.myDropzone = {
     canceled: function(file) {
         return this.emit("error", file, "");
     },
- //   maxFiles:1,
+
     accept:
     function(file, done) {
         console.log( file );
@@ -20,7 +20,7 @@ Dropzone.options.myDropzone = {
 
         }
         else {
-            done("Invalid Extension ! Only jpg or png allowed ");
+            done("Invalid Extension ! Only jpg or png allowed");
         }
     },
 
@@ -53,7 +53,28 @@ Dropzone.options.myDropzone = {
 
         });
 
+        thisDropzone = this;
+        $.get('/upload/get-photo?id='+$("#idphoto").val(), function(data) {
+
+           $.each(data, function(key,value){
+              if (value.size>0)
+              {
+               var mockFile = { name: value.name, size: value.size };
+
+           /*       $("#myDropzone-previews").css("margin-left",function(i){
+                      return i + 100;
+                  });*/
+
+          //     $(".myDropzone-previews.dz-preview").css("margin-left","-110");
+               thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+
+               thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "/photos/"+value.name);
+
+              }
+            });
+        })
     }
+
 }
 
 

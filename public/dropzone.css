@@ -38,6 +38,7 @@
 .myDropzone.dz-started .dz-message {
     display: none;
 }
+/*afisare default*/
 .myDropzone .dz-preview,
 .myDropzone-previews .dz-preview {
     background: rgba(255,255,255,0.8);
