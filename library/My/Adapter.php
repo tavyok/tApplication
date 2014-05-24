@@ -8,8 +8,13 @@
 
 class My_Adapter implements Zend_Auth_Adapter_Interface {
 
+    protected $userId;
     protected $email;
     protected $password;
+
+    protected $username;
+    protected $activationCode;
+
 
     /** @var  Model_User */
     protected $user;
@@ -22,6 +27,16 @@ class My_Adapter implements Zend_Auth_Adapter_Interface {
     public function setUser( Model_User $user ){
         $this->user = $user;
     }
+
+    public function setUserId( $userId  ){
+        $this->userId = $userId;
+    }
+
+    public function setUsernameActivationCode( $username, $activationCode ){
+        $this->username = $username;
+        $this->activationCode = $activationCode;
+    }
+
 
     /**
      * Performs an authentication attempt
@@ -36,9 +51,22 @@ class My_Adapter implements Zend_Auth_Adapter_Interface {
             return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS,$this->user->toArray());
         }
 
-        // email/pass was sent from login
         $userTable = new Table_User();
-        $user = $userTable->authenticate($this->email, $this->password);
+
+        if( $this->userId ){
+            $user = $userTable->getById( $this->userId );
+        }
+        elseif( $this->username && $this->activationCode ){
+            $user = $userTable->getByUsernameActivationCode($this->username, $this->activationCode);
+        }
+        else{
+            // email/pass was sent from login
+            $user = $userTable->getByEmailPassword($this->email, $this->password);
+
+            if( is_null( $user ) ){
+                $user = $userTable->getByUsernamePassword($this->email, $this->password);
+            }
+        }
 
         if( is_null( $user ) ){
             return new Zend_Auth_Result(Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND,null,array('User not found'));

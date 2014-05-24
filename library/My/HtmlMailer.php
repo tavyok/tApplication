@@ -94,31 +94,29 @@ class My_HtmlMailer extends Zend_Mail {
     /**
      * Send Notification
      *
-     * @param $email
+     * @param $username
+     * @internal param $email
      * @return bool|Zend_Mail
      */
-
-
     public function sendActivationCode($username){
 
-
         $subject = "Activate your account on T-App";
-        $usertable = new Table_User();
-        $user=$usertable->getByUsername($username);
+        $userTable = new Table_User();
+        $user=$userTable->getByUsername($username);
         try
         {
-        $emailto = $user->getEmail();
+            $emailTo = $user->getEmail();
 
-        $code = My_Utils::randomstr(10);
-        $user->setActivationCode($code);
-        $user->save();
-        return $this->sendMail( self::TPL_ACTIVATEUSER_PATH,$emailto,$subject );
+            $code = My_Utils::randomstr(10);
+            $user->setActivationCode($code);
+            $user->save();
+
+            return $this->sendMail( self::TPL_ACTIVATEUSER_PATH,$emailTo,$subject );
 
         }
         catch (Exception $e) {
             My_Log_Me::Log($e->getMessage());
-
         }
-
+        return false;
     }
 } 

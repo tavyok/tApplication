@@ -122,15 +122,43 @@ class Table_User extends Zend_Db_Table {
             ->where("username = ?",$email)
             ->where("password = ?", md5($password) );
 
-        if (is_null($this->fetchRow($select)))
-        {
+        return $this->fetchRow($select);
+    }
+
+
+    public function getByEmailPassword( $email, $password )
+    {
         $select = $this->select()
             ->where("email = ?",$email)
             ->where("password = ?", md5($password) );
-        }
-
 
         return $this->fetchRow($select);
+    }
+
+    public function getByUsernamePassword( $username, $password )
+    {
+        $select = $this->select()
+            ->where("username = ?", $username )
+            ->where("password = ?", md5($password) );
+
+        return $this->fetchRow($select);
+    }
+
+
+
+    /**
+     * @param $username
+     * @param $activationCode
+     * @return null|Model_User
+     */
+    public function getByUsernameActivationCode($username, $activationCode)
+    {
+        $select = $this->select()
+            ->where("username = ?", $username)
+            ->where("activation_code = ?", $activationCode );
+
+        return $this->fetchRow($select);
+
     }
 
 

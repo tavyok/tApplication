@@ -177,28 +177,24 @@ class AuthController extends My_Controller_Action
 
     public function activateAction(){
 
-    $activation_code = $this->getRequest()->getParam("activation_code");
-    $username = $this->getRequest()->getParam("username");
-    $this->view->assign("activation_code",$activation_code );
+        $username = $this->getRequest()->getParam("username");
+        $activationCode = $this->getRequest()->getParam("activation_code");
 
 
-    $user=new Table_User();
-    if ($user->getByUsername($username)->getActivationCode()==$activation_code)
-    {
+        $auth = Zend_Auth::getInstance();
 
-        $user_del_code=$user->getByUsername($username);
-        $user_del_code->setActivationCode("");
-        $user_del_code->save();
-        Zend_Auth::getInstance()->clearIdentity();
-        setcookie("_tAppCookie", '', time(), '/');
-        $this->view->assign("activated",true);
-        $this->view->assign("username",$user->getByUsername($username)->getEmail() );
-        $this->view->assign("password",$user->getByUsername($username)->getPassword());
+        $myAdapter = new My_Adapter();
+        $myAdapter->setUsernameActivationCode( $username, $activationCode);
 
-    }
-      else
-         $this->view->assign("activated",false);
+        $result = $auth->authenticate($myAdapter);
 
+        if ( $result->isValid() ) {
+            $identity = Zend_Auth::getInstance()->getIdentity();
+            setcookie("_tAppCookie", $identity['email'], time() + 3600 * 24 * 14, '/');
+            $this->redirect("/");
+        }
+
+        $this->view->assign("activated",false);
 
     }
 
