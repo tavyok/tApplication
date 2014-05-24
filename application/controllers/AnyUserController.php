@@ -71,20 +71,21 @@ class AnyUserController extends My_Controller_Action
                 Zend_Debug::dump($e->getTraceAsString());
                 return;
             }
-            $user=$userTable->getByUsername($params["username"]);
+            if( isset ($params["photoup"] ) )
+            {
 
-            if( isset ($params["photoup"] ) ){
                 $photo = $params["photoup"];
-
+                My_Log_Me::Log("extract ".$photo);
                 $uploadFolder = realpath( $this->config['upload']['folder'] );
                 if ($photo!="")
+                {
                     if( file_exists( $uploadFolder."/".$photo)){
                         $ext  = strtolower( pathinfo($photo,PATHINFO_EXTENSION) );
                         $newFileName = My_Utils::buildImageFile( $user->getId() ) . "." . $ext;
 
 
                         if(  rename($uploadFolder. "/" .$photo, $uploadFolder  . '/' .  $newFileName )){
-                            My_Log_Me::Log( "moved". $photo ."->".$newFileName);
+                            My_Log_Me::Log( "moved ". $photo ."->".$newFileName);
 
                         }
 
@@ -97,7 +98,26 @@ class AnyUserController extends My_Controller_Action
                             return;
                         }
                     }
-            }
+                }
+                else
+                {
+
+                    $photo=$user->getPhoto();
+                    if( file_exists( $uploadFolder."/".$photo)){
+                        $ext  = strtolower( pathinfo($photo,PATHINFO_EXTENSION) );
+                        $filetoremove= My_Utils::buildImageFile( $user->getId() ) . "." . $ext;
+                        unlink($uploadFolder."/".$filetoremove);
+                        $user->setPhoto("");
+                        try {
+                            $user->save();
+                        }
+                        catch (Exception $e) {
+                            Zend_Debug::dump($e->getMessage());
+                            return;
+
+                        }
+                    }
+                }
             $this->redirect("/any-user");
         }
 
@@ -105,6 +125,7 @@ class AnyUserController extends My_Controller_Action
 
 
 
+}
 }
 
 ?>

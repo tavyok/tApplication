@@ -109,7 +109,7 @@ class UserController extends My_Controller_Action
                     }
                 }
                 $this->view->assign("emailto",$user->getEmail());
-                $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&emailto=".$user->getEmail()."&goto=/user");
+                $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&emailto=".$user->getEmail()."&goto=/user/index");
 
 
             }
@@ -155,18 +155,21 @@ class UserController extends My_Controller_Action
 
             $user=$userTable->getByUsername($params["username"]);
 
-            if( isset ($params["photoup"] ) ){
-                $photo = $params["photoup"];
+            if( isset ($params["photoup"] ) )
+            {
 
+                $photo = $params["photoup"];
+                My_Log_Me::Log("extract ".$photo);
                 $uploadFolder = realpath( $this->config['upload']['folder'] );
                 if ($photo!="")
+                {
                     if( file_exists( $uploadFolder."/".$photo)){
                         $ext  = strtolower( pathinfo($photo,PATHINFO_EXTENSION) );
                         $newFileName = My_Utils::buildImageFile( $user->getId() ) . "." . $ext;
 
 
                         if(  rename($uploadFolder. "/" .$photo, $uploadFolder  . '/' .  $newFileName )){
-                            My_Log_Me::Log( "moved". $photo ."->".$newFileName);
+                            My_Log_Me::Log( "moved ". $photo ."->".$newFileName);
 
                         }
 
@@ -179,11 +182,33 @@ class UserController extends My_Controller_Action
                             return;
                         }
                     }
-            }
-            $this->redirect("/user");
+                }
+
+                else
+                {
+
+                    $photo=$user->getPhoto();
+                    if( file_exists( $uploadFolder."/".$photo)){
+                        $ext  = strtolower( pathinfo($photo,PATHINFO_EXTENSION) );
+                        $filetoremove= My_Utils::buildImageFile( $user->getId() ) . "." . $ext;
+                        unlink($uploadFolder."/".$filetoremove);
+                        $user->setPhoto("");
+                        try {
+                            $user->save();
+                        }
+                        catch (Exception $e) {
+                            Zend_Debug::dump($e->getMessage());
+                            return;
+
+                        }
+                    }
+                }
+                 $this->redirect("/user");
         }
 
     }
+    }
+
 
 
     public function testAction(){

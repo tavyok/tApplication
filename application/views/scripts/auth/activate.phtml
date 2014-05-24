@@ -1,5 +1,11 @@
 
-<H3 style="color:cyan"> <?php echo ($this->activated)? "Your account has been activated!":"Wrong activation email. Account not activated!" ;?></H3>
+<H3 style="color:cyan"> <?php echo ($this->activated)? "Your account has been activated! Autologin in 5 seconds":"Wrong activation email. Account not activated!" ;?></H3>
+
+<script type="text/javascript">
 
 
+    setTimeout(function(){ location.href ="/auth/silent?username=<?php echo $this->username?>&password=<?php echo $this->password ?>"},5000)
+
+
+</script>
 

@@ -7,38 +7,19 @@ class UploadController extends My_Controller_Action
     {
         $this->disableLayout()->disableView();
 
-   //     $identity = Zend_Auth::getInstance()->getIdentity();
-
-
-        $uploadFolder = realpath( $this->config['upload']['folder'] );
-
-        if( $uploadFolder === false ) {
-            throw new Exception("Invalid Upload Folder !");
-
-        }
-
         if( array_key_exists('photo', $_FILES ) ){
-            $fileArr = $_FILES["photo"];
+         //   My_Log_Me::Log($_FILES['photo']);
+            $obj = My_Utils::uploadAvatar($_FILES['photo']);
+/*            header('Content-type: text/json');
+            header('Content-type: application/json');
 
-            if( $fileArr["error"] == 0 ) {
-                if( file_exists( $fileArr['tmp_name']) && in_array($fileArr['type'] ,array('image/jpeg','image/png') )){
-       //             $ext  = strtolower( pathinfo($fileArr['name'],PATHINFO_EXTENSION) );
-
-                    $newFileName=$fileArr['name'];
-                     if(  move_uploaded_file($fileArr['tmp_name'], $uploadFolder  . '/' .  $newFileName )){
-                         My_Log_Me::Log( "uploaded ". $fileArr["name"] );
-
-                        exit;
-                    }
-                }
-            }
+            echo json_encode($obj);*/
         }
 
-        My_Log_Me::Log( "Fail to upload" );
     }
 
     function deltempfileAction(){
-        $filetoremove=$this->getRequest()->getParams()["file"];
+        $filetoremove=basename($this->getRequest()->getParams()["file"]);
 
         $filetoremove=realpath( $this->config['upload']['folder'] )."/".$filetoremove;
 
@@ -55,14 +36,18 @@ class UploadController extends My_Controller_Action
         $user=$userTable->getById($id);
         $photo=$user->getPhoto();
         $uploadFolder = realpath( $this->config['upload']['folder'] );
-        $obj['name'] = $photo;
-        $obj['size'] = filesize($uploadFolder."/".$photo);
+        $obj=array("name" => $photo,
+                    "tmp_name" => $uploadFolder .'/'. $photo,
+                    "error" => "",
+                    "size" => filesize($uploadFolder."/".$photo));
 
-        $result[] = $obj;
+        $newobj = My_Utils::uploadAvatar($obj);
+
         header('Content-type: text/json');
         header('Content-type: application/json');
 
-        echo json_encode($result);
+        echo json_encode($newobj);
+     //   My_Log_Me::Log(json_encode($newobj));
         exit;
 
     }

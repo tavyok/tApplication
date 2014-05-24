@@ -93,11 +93,12 @@
         <div class="myDropzone" id="droparea" title="Click or drag here to add picture" >
         <form action="<?php echo $this->baseUrl('/upload') ?>" class="dropzone" id="my-dropzone">
 
-               <img src="/images/add-user.jpg" class="col-sm-offset-3" width="100px" onclick="$('#my-dropzone').submit()">
-                <img src="/images/remove1.png" id="buttonremove" class="picremove">
+               <img src="/images/add-user.jpg" id="imagebutton" class="col-sm-offset-3" width="100px" onclick="$('#my-dropzone').submit()">
+                <img src="/images/remove1.png" title="click to remove picture" id="buttonremove" class="picremove">
             </form>
 
         </div>
+
     </div>
 </div>
 

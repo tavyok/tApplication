@@ -105,7 +105,7 @@ class AuthController extends My_Controller_Action
                 $this->view->assign("emailto",$user->getEmail());
 
 
-                $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&goto=/auth");
+                $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&goto=/auth/signup");
             }
 
         }
@@ -180,7 +180,8 @@ class AuthController extends My_Controller_Action
     $activation_code = $this->getRequest()->getParam("activation_code");
     $username = $this->getRequest()->getParam("username");
     $this->view->assign("activation_code",$activation_code );
-    $this->view->assign("username",$username );
+
+
     $user=new Table_User();
     if ($user->getByUsername($username)->getActivationCode()==$activation_code)
     {
@@ -191,6 +192,9 @@ class AuthController extends My_Controller_Action
         Zend_Auth::getInstance()->clearIdentity();
         setcookie("_tAppCookie", '', time(), '/');
         $this->view->assign("activated",true);
+        $this->view->assign("username",$user->getByUsername($username)->getEmail() );
+        $this->view->assign("password",$user->getByUsername($username)->getPassword());
+
     }
       else
          $this->view->assign("activated",false);
@@ -201,6 +205,7 @@ class AuthController extends My_Controller_Action
     public function sendnotifyRegistrationAction(){
 
         $this->view->assign("username",$this->getRequest()->getParam("username"));
+       // $this->redirect("/auth/signup");
 
 
     }

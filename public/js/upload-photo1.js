@@ -64,6 +64,7 @@ Dropzone.options.myDropzone = {
               {
                var mockFile = { name: value.name, size: value.size };
 
+                alert(value.name);
 
                thisDropzone.options.addedfile.call(thisDropzone, mockFile);
 
