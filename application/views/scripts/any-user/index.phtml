@@ -2,9 +2,9 @@
 
 
     <!-- Include menu  -->
-    <?php echo $this->partial('_partials/user-menu.phtml', array(
-        'name' => $this->name,
-        'action' => $this->action,
-        'id'     => $this->id)) ?>
-
+    <?php echo $this->partial('_partials/user-menu.phtml',
+        array(
+            'identity' => $this->identity,
+            'action' => $this->action
+        ))?>
 </div>

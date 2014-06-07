@@ -1,24 +1,21 @@
-
 <?php
 $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
     ->appendFile($this->baseUrl('/js/dropzone.js'))
-    ->appendFile($this->baseUrl('/js/upload-photo.js'));
+    ->appendFile($this->baseUrl('/js/upload-avatar.js'));
 
 
 /** @var Model_User $user */
-
 $user = $this->user;
-My_Log_Me::Log($user);
 ?>
-
 <body>
 <div class="row user-page" style="background-color: #ffffff">
 
     <!-- Include menu  -->
-    <?php echo $this->partial('_partials/user-menu.phtml', array(
-        'name' => $this->name,
-        'action' => $this->action,
-        'id'     => $this->id)) ?>
+    <?php echo $this->partial('_partials/user-menu.phtml',
+        array(
+            'identity' => $this->identity,
+            'action' => $this->action
+        ))?>
 
     <div class="col-md-9">
         <h3 class="title">Edit your profile</h3>

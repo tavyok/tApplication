@@ -1,0 +1,27 @@
+<?php
+$this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
+    ->appendFile($this->baseUrl('/js/dropzone.js'))
+    ->appendFile($this->baseUrl('/js/upload-photo.js'));
+
+?>
+<div class="row user-page" style="background-color: #ffffff">
+
+    <!-- Include menu  -->
+    <?php echo $this->partial('_partials/user-menu.phtml',
+        array(
+            'identity' => $this->identity,
+            'action' => $this->action
+        ))?>
+
+    <div class="col-md-9">
+        <h3 class="title">Gallery</h3>
+
+        <div class="myDropzone" id="droparea" title="Click or drag here to add picture" >
+            <form action="<?php echo $this->baseUrl('/upload/photo') ?>" class="dropzone" id="my-dropzone">
+                <div>Drag and drop photos here !</div>
+            </form>
+
+        </div>
+
+    </div>
+</div>

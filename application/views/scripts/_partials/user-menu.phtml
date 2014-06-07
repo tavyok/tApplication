@@ -1,11 +1,11 @@
-<?php
-    $action = $this->action ;
-    $name= $this->name;
-?>
 <div class="col-md-3 m-menu">
-    <h3><?php echo $name ?></h3>
+    <h3><?php echo $this->identity['full_name'] ?></h3>
     <ul class="nav nav-pills nav-stacked">
-        <li <?php echo $action == 'edit' ? 'class="active"':''?>><a href="/any-user/edit?id=<?php echo $this->id  ?>">Profile</a></li>
-        <li <?php echo $action == 'photos' ? 'class="active"':''?>><a href="/any-user/photos">Photos</a></li>
+        <li <?php echo $this->action == 'edit' ? 'class="active"':''?>>
+            <a href="/any-user/edit?id=<?php echo $this->identity['id'] ?>">Profile</a>
+        </li>
+        <li <?php echo $this->action == 'photos' ? 'class="active"':''?>>
+            <a href="/any-user/photos">Photos</a>
+        </li>
     </ul>
 </div>

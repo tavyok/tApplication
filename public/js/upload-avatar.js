@@ -40,8 +40,27 @@ Dropzone.options.myDropzone = {
 
         this.on("success", function(file,result) {
             newfile=file;
+        //    this.disable();
 
+            $("#buttonremove").css("display", "inline");
+            lastfile=$("#imagebutton").attr("src");
+
+            $("#imagebutton").attr("src","/photos/"+newfile.name);
+            $.ajax({url:"/upload/deltempfile?file="+lastfile,success:function(result){
+                $("#photoup").val(null);
+            }});
+
+
+            var _this = this;
             $("#photoup").val(newfile.name);
+            removebutton.click(function(){
+
+                _this.removeFile(newfile);
+                $("#buttonremove").css("display", "none");
+                $.ajax({url:"/upload/deltempfile?file="+newfile.name,success:function(result){
+                    $("#photoup").val("");
+                }});
+            })
 
         });
         this.on("error",function(file,error){

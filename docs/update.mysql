@@ -23,3 +23,16 @@ alter table user add role  enum('user','admin') not null default 'user';
 -- 26.03.2014
 alter table user add activation_code varchar(10);
 alter table user add photo varchar(256);
+
+alter table user add full_name varchar(64) after last_name;
+
+CREATE TRIGGER user_update BEFORE UPDATE ON user
+  FOR EACH ROW SET NEW.full_name = CONCAT_WS(' ',NEW.first_name, NEW.last_name);
+
+CREATE TABLE photo (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11) NOT NULL,
+  name varchar(32) NOT NULL,
+  orig_name varchar(128) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;

@@ -9,10 +9,19 @@
 class My_Controller_Action extends Zend_Controller_Action {
 
     protected $config;
+    protected $identity;
 
     public function init(){
         $this->config = Zend_Registry::get('__CONFIG__');
+
+        if( Zend_Auth::getInstance()->hasIdentity() ){
+            $this->identity = Zend_Auth::getInstance()->getIdentity();
+        }
+
+        $this->view->assign("identity",$this->identity);
+        $this->view->assign("action", $this->getRequest()->getActionName());
     }
+
 
     public function preDispatch(){
 
