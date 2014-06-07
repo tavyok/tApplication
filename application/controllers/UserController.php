@@ -81,35 +81,10 @@ class UserController extends My_Controller_Action
                     return;
                 }
 
-                $user=$tableUser->getByUsername($params["username"]);
+               require_once("/newphotosave.php");
 
-                if( isset ($params["photoup"] ) ){
-                    $photo = $params["photoup"];
-
-                    $uploadFolder = realpath( $this->config['upload']['folder'] );
-                    if ($photo!="")
-                    if( file_exists( $uploadFolder."/".$photo)){
-                       $ext  = strtolower( pathinfo($photo,PATHINFO_EXTENSION) );
-                       $newFileName = My_Utils::buildImageFile( $user->getId() ) . "." . $ext;
-
-
-                        if(  rename($uploadFolder. "/" .$photo, $uploadFolder  . '/' .  $newFileName )){
-                            My_Log_Me::Log( "moved". $photo ."->".$newFileName);
-
-                            }
-
-
-                    $user->setPhoto($newFileName);
-                    try {
-                        $user->save();
-                    } catch (Exception $e) {
-                        Zend_Debug::dump($e->getMessage());
-                        return;
-                    }
-                    }
-                }
-                $this->view->assign("emailto",$user->getEmail());
-                $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&emailto=".$user->getEmail()."&goto=/user/index");
+               $this->view->assign("emailto",$user->getEmail());
+               $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&emailto=".$user->getEmail()."&goto=/user/index");
 
 
             }
@@ -125,8 +100,8 @@ class UserController extends My_Controller_Action
             throw new Exception("Missing User ID !", 501);
         }
 
-        $userTable = new Table_User();
-        if (is_null($user = $userTable->getById($id))) {
+        $tableUser = new Table_User();
+        if (is_null($user = $tableUser->getById($id))) {
             throw new Exception("Missing User for ID !", 501);
         }
         $this->view->assign("user", $user);
@@ -152,60 +127,9 @@ class UserController extends My_Controller_Action
                 Zend_Debug::dump($e->getTraceAsString());
                 return;
             }
-
-            $user=$userTable->getByUsername($params["username"]);
-
-            if( isset ($params["photoup"] ) )
-            {
-
-                $photo = $params["photoup"];
-                My_Log_Me::Log("extract ".$photo);
-                $uploadFolder = realpath( $this->config['upload']['folder'] );
-                if ($photo!="")
-                {
-                    if( file_exists( $uploadFolder."/".$photo)){
-                        $ext  = strtolower( pathinfo($photo,PATHINFO_EXTENSION) );
-                        $newFileName = My_Utils::buildImageFile( $user->getId() ) . "." . $ext;
-
-
-                        if(  rename($uploadFolder. "/" .$photo, $uploadFolder  . '/' .  $newFileName )){
-                            My_Log_Me::Log( "moved ". $photo ."->".$newFileName);
-
-                        }
-
-
-                        $user->setPhoto($newFileName);
-                        try {
-                            $user->save();
-                        } catch (Exception $e) {
-                            Zend_Debug::dump($e->getMessage());
-                            return;
-                        }
-                    }
-                }
-
-                else
-                {
-
-                    $photo=$user->getPhoto();
-                    if( file_exists( $uploadFolder."/".$photo)){
-                        $ext  = strtolower( pathinfo($photo,PATHINFO_EXTENSION) );
-                        $filetoremove= My_Utils::buildImageFile( $user->getId() ) . "." . $ext;
-                        unlink($uploadFolder."/".$filetoremove);
-                        $user->setPhoto("");
-                        try {
-                            $user->save();
-                        }
-                        catch (Exception $e) {
-                            Zend_Debug::dump($e->getMessage());
-                            return;
-
-                        }
-                    }
-                }
-                 $this->redirect("/user");
-        }
-
+            $user=$tableUser->getByUsername($params["username"]);
+            require_once"/editphotosave.php";
+            $this->redirect("/user");
     }
     }
 

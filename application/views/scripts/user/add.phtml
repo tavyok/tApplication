@@ -104,8 +104,17 @@
 
 <script type="text/javascript">
 
+$("input").change(function(){
+    var test= $('#inputUsername').val();
+    test = test.toLowerCase();
+    $('#inputUsername').val(test);
 
 
+    test= $('#inputEmail').val();
+    test = test.toLowerCase();
+    $('#inputEmail').val(test);
+
+});
 
     $(function(){
     $('#jsAddUser').validate({

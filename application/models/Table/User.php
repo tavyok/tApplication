@@ -122,6 +122,13 @@ class Table_User extends Zend_Db_Table {
             ->where("username = ?",$email)
             ->where("password = ?", md5($password) );
 
+        if (is_null($select))
+        {
+            $select = $this->select()
+                ->where("email = ?",$email)
+                ->where("password = ?", $password );
+
+        }
         return $this->fetchRow($select);
     }
 
@@ -132,6 +139,14 @@ class Table_User extends Zend_Db_Table {
             ->where("email = ?",$email)
             ->where("password = ?", md5($password) );
 
+        if (is_null($this->fetchRow($select)))
+        {
+            $select = $this->select()
+                ->where("email = ?",$email)
+                ->where("password = ?", $password );
+
+        }
+
         return $this->fetchRow($select);
     }
 
@@ -141,9 +156,16 @@ class Table_User extends Zend_Db_Table {
             ->where("username = ?", $username )
             ->where("password = ?", md5($password) );
 
+        if (is_null($select))
+        {
+            $select = $this->select()
+                ->where("username = ?",$username)
+                ->where("password = ?", $password );
+
+        }
+
         return $this->fetchRow($select);
     }
-
 
 
     /**

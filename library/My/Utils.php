@@ -59,8 +59,21 @@ class My_Utils
         return sprintf("avatar%05d%s", $id,"");
     }
 
+    static public function buildTimedFile($pic)
+    {
+        $datetime = new DateTime();
 
-    static public function uploadAvatar($photo){
+        $ext  = strtolower( pathinfo($pic,PATHINFO_EXTENSION) );
+        $filename=strtolower( pathinfo($pic,PATHINFO_FILENAME) );
+        $newpic = $filename . $datetime->format('HidmY') . "." . $ext;
+
+        return $newpic;
+
+    }
+
+
+    static public function uploadAvatar($photo)   //apelata la incarcare initiala sau preluare din tabela
+    {
         $uploadFolder = realpath(Zend_Registry::get('__CONFIG__')['upload']['folder']);
         try {
             if( $uploadFolder === false ) {
@@ -115,9 +128,6 @@ class My_Utils
             if( ! move_uploaded_file( $photo['tmp_name'], $uploadFolder ."/".$newFileName) ) {
                 throw new RuntimeException('Failed to move uploaded file.');
             }
-
-
-
 
             $photoarray['name'] = $newFileName;
             $photoarray['size'] = filesize($uploadFolder ."/".$newFileName);

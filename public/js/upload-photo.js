@@ -44,12 +44,11 @@ Dropzone.options.myDropzone = {
         this.on("success", function(file,result) {
             newfile=file;
         //    this.disable();
+
             $("#buttonremove").css("display", "inline");
             lastfile=$("#imagebutton").attr("src");
 
             $("#imagebutton").attr("src","/photos/"+newfile.name);
-
-
             $.ajax({url:"/upload/deltempfile?file="+lastfile,success:function(result){
                 $("#photoup").val(null);
             }});
@@ -71,11 +70,11 @@ Dropzone.options.myDropzone = {
         $('#errordisplay').html(error);
         $('#errordisplay').fadeIn(2000).delay(3000).fadeOut(2000);
         });
-
+        //load photo from database
         thisDropzone = this;
         $.get('/upload/get-photo?id='+$("#idphoto").val(), function(foto) {
 
-              if (foto.size>0)
+              if (foto.size>0){
 /*
                var mockFile = { name: foto.name, size: foto.size };
 
@@ -83,10 +82,12 @@ Dropzone.options.myDropzone = {
                thisDropzone.options.addedfile.call(thisDropzone, mockFile);
 
                thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "/photos/"+foto.name);*/
-
-               $("#imagebutton").attr("src","/photos/"+foto.name);
+               var timeseed = new Date().getTime();  //forcing photo from cache to get refreshed from server
+               $("#imagebutton").attr("src","/photos/"+foto.name+"?"+timeseed);
                $("#buttonremove").css("display", "inline");
                $("#photoup").val(foto.name);
+
+              }
         });
 
          removebutton.click(function(){

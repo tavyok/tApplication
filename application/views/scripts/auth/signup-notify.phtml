@@ -13,7 +13,7 @@ else
 <script type="text/javascript">
 
 
- //  setTimeout(function(){ location.href ="<?php echo $this->goto ?>"},5000)
+ setTimeout(function(){ location.href ="<?php echo (! is_null($this->goto))?$this->goto:"/auth/logout" ?>"},5000)
 
 
 </script>

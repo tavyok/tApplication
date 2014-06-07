@@ -19,6 +19,24 @@ class SandboxController extends My_Controller_Action
 
         Zend_Debug::dump($filterChain->filter( $text ) );
 
+
+        $today = getdate();
+        $today = date("HidmY");
+        print_r($today);
+        echo '<BR>'. strtotime($today);
+        $datetime = new DateTime();
+        echo $datetime->format('HidmY');
+        echo "<BR>". $datetime->getTimestamp();
+
+        $datetime2 = new DateTime();
+
+       $datetime2->modify('+1 year 2 hour 1 minute');
+        echo "<BR>".$datetime2->format('HidmY');
+        $interval = $datetime->diff($datetime2);
+        echo $interval->format('%R%h Hours %i Minute %s Seconds');
+        echo $interval->h;
+
+
 /*        $id = array( "id" => 120 );
         $criptat = My_Crypt::Encrypt( $id );
 
