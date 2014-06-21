@@ -7,7 +7,17 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
 /** @var Model_User $user */
 $user = $this->user;
 ?>
+<head>
+
+    <style>
+        .myDropzone .dz-default.dz-message {
+
+            background-image: none ;
+    </style>
+</head>
 <body>
+
+
 <div class="row user-page" style="background-color: #ffffff">
 
     <!-- Include menu  -->
@@ -89,8 +99,8 @@ $user = $this->user;
             <input type="hidden" id="photoup" name="photoup" >
 
         </form>
-        <div class="myDropzone" id="droparea" title="Click or drag here to add picture" >
-            <form action="<?php echo $this->baseUrl('/upload') ?>" class="dropzone" id="my-dropzone">
+        <div class="myDropzone" id="drop"  title="Click or drag here to add picture" >
+            <form action="<?php echo $this->baseUrl('/upload') ?>" class="dropzone"  id="my-dropzone">
                 <input id="idphoto" name="idphoto" type="hidden" value="<?php echo $user->getId() ?>">
                 <img src="/images/add-user.jpg"  id="imagebutton" class="col-sm-offset-3" width="100px" onclick="$('#my-dropzone').submit()">
                 <img src="/images/remove1.png" title="click to remove picture" id="buttonremove" class="picremove">
@@ -102,7 +112,9 @@ $user = $this->user;
 
 
 <script type="text/javascript">
-
+    $(document).ready(function(){
+    $('#drop').css('background-image','url("/images/remove1.png")');
+    }
     $(function(){
 
         $('#jsEditUser').validate({

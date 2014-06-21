@@ -12,6 +12,8 @@ class UploadController extends My_Controller_Action
 
             //  My_Log_Me::Log($_FILES['photo']);
             $obj = My_Utils::uploadAvatar($_FILES['photo']);
+            My_Log_Me::Log($obj);
+
             /*            header('Content-type: text/json');
                         header('Content-type: application/json');
 
@@ -22,11 +24,15 @@ class UploadController extends My_Controller_Action
 
 
     public function photoAction(){
-        $this->disableLayout()->disableView();
+     //   $this->disableLayout()->disableView();
 
         if (array_key_exists('photo', $_FILES)) {
-            My_Log_Me::Log($_FILES['photo']);
+         //   My_Log_Me::Log($_FILES['photo']);
             $obj = My_Utils::uploadPhoto($this->identity["id"],$_FILES['photo']);
+            $this->view->assign("photopath",realpath($this->config['upload']['folder']) . "/gallery/original/");
+            $this->view->assign("photoarray",$obj);
+
+
         }
     }
 
@@ -41,7 +47,7 @@ class UploadController extends My_Controller_Action
 
     }
 
-    public function cleanPhotosAction()
+    public function cleanAvatarsAction()
     {
 
         $timetoclean = 0; //hours

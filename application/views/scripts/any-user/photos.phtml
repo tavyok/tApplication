@@ -1,27 +1,70 @@
+<!-- from AnyUserController-->
+
 <?php
 $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
     ->appendFile($this->baseUrl('/js/dropzone.js'))
     ->appendFile($this->baseUrl('/js/upload-photo.js'));
 
-?>
-<div class="row user-page" style="background-color: #ffffff">
+$photoPath = $this->photoPath;
 
-    <!-- Include menu  -->
-    <?php echo $this->partial('_partials/user-menu.phtml',
-        array(
-            'identity' => $this->identity,
-            'action' => $this->action
-        ))?>
+$picturesFiles = glob ( $photoPath . '/*.*' );
+
+$pictures = array();
+for( $i = 0; $i < count($picturesFiles); $i++ ){
+$pictures[] = pathinfo( $picturesFiles[$i],PATHINFO_BASENAME );
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+
+</head>
+
+<body>
+<div class="row user-page" style="background-color: #ffffff">
+<?php
+    echo $this->partial('_partials/user-menu.phtml',
+    array(
+    'identity' => $this->identity,
+    'action' => $this->action
+    ));
+
+    ?>
 
     <div class="col-md-9">
+        <img src="/images/upload-photos.jpg" style="position: relative; top: 15px; float: right; height: 60px; cursor: pointer" onclick="showDroparea()">
         <h3 class="title">Gallery</h3>
+    </div>
 
-        <div class="myDropzone" id="droparea" title="Click or drag here to add picture" >
-            <form action="<?php echo $this->baseUrl('/upload/photo') ?>" class="dropzone" id="my-dropzone">
-                <div>Drag and drop photos here !</div>
-            </form>
+    <div id="album">
+        <?php for( $i = 0; $i < count( $pictures ); $i++ ): ?>
+            <div class="photo">
+                <img src="<?php echo $photoPath . "/" . $pictures[$i]?>" alt=""/>
+            </div>
+        <?php endfor ?>
+    </div>
 
-        </div>
+    <div class="myDropzone" style="display:none; z-index: 1; overflow:scroll; height: 700px; " id="droparea" title="Click or drag here to add picture" >
+        <form action="<?php echo $this->baseUrl('/upload/photo') ?>" class="dropzone" id="my-dropzone">
+
+            <img src="/images/upload-photo0.jpg" id="imagebutton"  style="cursor: pointer; width: 60px" onclick="$('#my-dropzone').submit()">
+        </form>
 
     </div>
-</div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+function showDroparea(){
+
+    $('#droparea').slideToggle()
+
+}
+
+
+
+</script>

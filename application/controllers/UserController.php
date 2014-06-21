@@ -116,6 +116,8 @@ class UserController extends My_Controller_Action
                 unset($params['password']);
             }
 
+            $role_ini=$user->getRole();
+
             $user->setFromArray($params);
 
             try {
@@ -129,6 +131,14 @@ class UserController extends My_Controller_Action
             }
             $user=$tableUser->getByUsername($params["username"]);
             require_once"/editphotosave.php";
+
+            if ($this->identity["username"]==$user->getUsername())
+                if ($role_ini!=$params["role"])
+                {
+                    Zend_Auth::getInstance()->clearIdentity();
+                     setcookie("_tAppCookie", '', time(), '/');
+                     $this->redirect("/auth/silent?username=".$user->getEmail()."&password=".$user->getPassword());
+                }
             $this->redirect("/user");
     }
     }

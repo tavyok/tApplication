@@ -20,7 +20,8 @@ class SandboxController extends My_Controller_Action
         Zend_Debug::dump($filterChain->filter( $text ) );
 
 
-        $today = getdate();
+
+ /*       $today = getdate();
         $today = date("HidmY");
         print_r($today);
         echo '<BR>'. strtotime($today);
@@ -34,7 +35,7 @@ class SandboxController extends My_Controller_Action
         echo "<BR>".$datetime2->format('HidmY');
         $interval = $datetime->diff($datetime2);
         echo $interval->format('%R%h Hours %i Minute %s Seconds');
-        echo $interval->h;
+        echo $interval->h;*/
 
 
 /*        $id = array( "id" => 120 );

@@ -8,7 +8,14 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
     $user = $this->user;
 
 ?>
+<head>
 
+    <style>
+        .myDropzone .dz-default.dz-message {
+
+            background-image: none ;
+    </style>
+</head>
 <body onload="setRole()">
 <div class="row user-page" style="background-color: #ffffff">
 
@@ -83,9 +90,10 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
                 <label for="inputRole" class="col-sm-3 control-label">Role</label>
                 <div class="col-sm-4">
                     <select id="inputRole" name="role">
-                        <option value="<?php echo  Table_User::ROLE_ADMIN ?>"><?php echo  Table_User::ROLE_ADMIN ?></option>
-                        <option value="<?php echo  Table_User::ROLE_USER ?>"><?php echo  Table_User::ROLE_USER ?></option>
-
+                        <option value="<?php echo  Table_User::ROLE_ADMIN ?>" ><?php echo  Table_User::ROLE_ADMIN ?></option>
+                        <option value="<?php echo  Table_User::ROLE_USER ?>" ><?php echo  Table_User::ROLE_USER ?></option>
+<!--                        <option value="<?php /*echo  Table_User::ROLE_ADMIN */?>" <?php /*echo ($this->identity["username"]!=$user->getUsername())?"disabled":"" */?>><?php /*echo  Table_User::ROLE_ADMIN */?></option>
+                        <option value="<?php /*echo  Table_User::ROLE_USER */?>" <?php /*echo($this->identity["username"]!=$user->getUsername())?"disabled":"" */?>><?php /*echo  Table_User::ROLE_USER */?></option>-->
                     </select>
 
                 </div>
@@ -102,7 +110,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
             <form action="<?php echo $this->baseUrl('/upload') ?>" class="dropzone" id="my-dropzone">
                 <input id="idphoto" name="idphoto" type="hidden" value="<?php echo $user->getId() ?>">
                 <img src="/images/add-user.jpg"  id="imagebutton" class="col-sm-offset-3" width="100px" onclick="$('#my-dropzone').submit()">
-                <img src="/images/remove1.png" title="click to remove picture" id="buttonremove" class="picremove">
+                <img src="/images/remove1.png" data-dz-remove title="click to remove picture" id="buttonremove" class="picremove">
             </form>
 
         </div>

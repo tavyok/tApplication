@@ -3,6 +3,16 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
     ->appendFile($this->baseUrl('/js/dropzone.js'))
     ->appendFile($this->baseUrl('/js/upload-avatar.js'));
 ?>
+
+<head>
+
+    <style>
+        .myDropzone .dz-default.dz-message {
+
+            background-image: none ;
+    </style>
+</head>
+<body>
 <div class="row signup">
 
     <!--Include Meniu -->
@@ -89,7 +99,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
 
     </div>
 </div>
-
+</body>
 <script type="text/javascript">
     $("input").change(function(){
         var test= $('#inputUsername').val();

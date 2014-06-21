@@ -24,7 +24,7 @@ class My_Adapter implements Zend_Auth_Adapter_Interface {
         $this->password = $password;
     }
 
-    public function setUser( Model_User $user ){
+    public function setUser($user ){
         $this->user = $user;
     }
 
@@ -60,7 +60,8 @@ class My_Adapter implements Zend_Auth_Adapter_Interface {
             $user = $userTable->getByUsernameActivationCode($this->username, $this->activationCode);
         }
         else{
-            My_Log_Me::Log($this->email.$this->password);
+          //  My_Log_Me::Log("login ".$this->email.$this->password);
+
             // email/pass was sent from login
             $user = $userTable->getByEmailPassword($this->email, $this->password);
 

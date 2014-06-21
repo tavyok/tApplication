@@ -20,7 +20,6 @@ class My_Utils
 
     }
 
-
     static public function getInstance()
     {
         if (is_null(self::$_instance)) {
@@ -74,6 +73,8 @@ class My_Utils
 
     static public function uploadAvatar($photo) //apelata la incarcare initiala sau preluare din tabela
     {
+
+
         $uploadFolder = realpath(Zend_Registry::get('__CONFIG__')['upload']['folder']);
         try {
             if ($uploadFolder === false) {
@@ -81,12 +82,11 @@ class My_Utils
 
             }
 
+
             // Undefined | Multiple Files | $_FILES Corruption Attack
             // If this request falls under any of them, treat it invalid.
             if (
-                !isset($photo['error']) ||
-                is_array($photo['error'])
-            ) {
+                !isset($photo['error']) || is_array($photo['error'])) {
                 throw new RuntimeException('Invalid parameters.');
             }
 
@@ -125,6 +125,8 @@ class My_Utils
 
 
             $newFileName = $photo['name'];
+            My_Log_Me::Log($photo);
+
             if ($photo['tmp_name'] != $uploadFolder . "/" . $newFileName)
                 if (!move_uploaded_file($photo['tmp_name'], $uploadFolder . "/" . $newFileName)) {
                     throw new RuntimeException('Failed to move uploaded file.');
@@ -134,7 +136,7 @@ class My_Utils
             $photoarray['size'] = filesize($uploadFolder . "/" . $newFileName);
             $photoarray["error"] = null;
 
-            //      My_Log_Me::Log($photoarray);
+            //
             return $photoarray;
 
         } catch (RuntimeException $e) {
@@ -142,7 +144,7 @@ class My_Utils
             $photoarray['name'] = null;
             $photoarray['size'] = null;
             $photoarray["error"] = $e->getMessage();
-            //  My_Log_Me::Log($photoarray);
+              My_Log_Me::Log( $e->getMessage());
             return $photoarray;
         }
     }
@@ -151,7 +153,9 @@ class My_Utils
     static public function uploadPhoto($userId, $photo)
     {
         $uploadFolder = realpath(Zend_Registry::get('__CONFIG__')['upload']['folder']);
+
         try {
+           My_Log_Me::Log($photo);
             if ($uploadFolder === false) {
                 throw new RuntimeException("Invalid Upload Folder !");
             }
@@ -196,7 +200,7 @@ class My_Utils
             // On this example, obtain safe unique name from its binary data.
 
             $photoTable = new Table_Photo();
-            /** @var Model_Photo $photo */
+            /** @var Model_Photo $photoObj */
             $photoObj = $photoTable->createRow();
             $photoObj->setUserId($userId);
             $photoObj->setOrigName($photo['name']);
@@ -215,13 +219,13 @@ class My_Utils
                 throw new RuntimeException('Failed to move uploaded file.');
             }
 
-            $photo->save();
+            $photoObj->save();
 
             $photoarray['name'] = $newFileName;
-            $photoarray['size'] = filesize($uploadFolder . "/" . $newFileName);
+            $photoarray['size'] = filesize($uploadFolder . "/gallery/original/" . $newFileName);
             $photoarray["error"] = null;
 
-            //      My_Log_Me::Log($photoarray);
+           //       My_Log_Me::Log($photoarray);
             return $photoarray;
 
         } catch (RuntimeException $e) {
@@ -229,7 +233,7 @@ class My_Utils
             $photoarray['name'] = null;
             $photoarray['size'] = null;
             $photoarray["error"] = $e->getMessage();
-            //  My_Log_Me::Log($photoarray);
+        //      My_Log_Me::Log($photoarray);
             return $photoarray;
         }
     }

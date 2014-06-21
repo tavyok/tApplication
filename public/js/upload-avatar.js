@@ -4,12 +4,13 @@ var myDropzone = $("#my-dropzone");
 Dropzone.options.myDropzone = {
     paramName: "photo", // The name that will be used to transfer the file
     maxFilesize: 2, // MB
-   // maxFiles: 1,    dictDefaultMessage: '',
+    maxFiles: 10,
+    containerScroll:true,
     createImageThumbnails: false,
-   previewTemplate: '<div id="errordisplay" class="dz-error-message dzpreviewerror"></div>',
-    //previewTemplate: '<span></span>',
+    previewTemplate: '<div id="errordisplay" class="dz-error-message dzpreviewerror"></div>',
   //addRemoveLinks: true,
     uploadMultiple:false,
+
 /*    canceled: function(file) {
         return this.emit("error", file, "");
     },*/
@@ -27,7 +28,8 @@ Dropzone.options.myDropzone = {
 
 
     init: function() {
-
+        errors=[];
+        times=0;
         this.on('removedfile', function(file,response){
   //         this.enable();
             $("#buttonremove").css("display", "none");
@@ -37,8 +39,19 @@ Dropzone.options.myDropzone = {
 
         });
 
+        this.on("error",function(file,error){
+
+
+            errors.push(file.name+" - "+error+'<BR>');
+            $('#errordisplay').html(errors);
+            $('#errordisplay').fadeIn(2000).delay(2000).fadeOut(2000);
+
+
+        });
+
 
         this.on("success", function(file,result) {
+
             newfile=file;
         //    this.disable();
 
@@ -63,10 +76,12 @@ Dropzone.options.myDropzone = {
             })
 
         });
-        this.on("error",function(file,error){
-        $('#errordisplay').html(error);
-        $('#errordisplay').fadeIn(2000).delay(3000).fadeOut(2000);
-        });
+
+
+
+
+
+
         //load photo from database
         thisDropzone = this;
         $.get('/upload/get-photo?id='+$("#idphoto").val(), function(foto) {
@@ -97,4 +112,13 @@ Dropzone.options.myDropzone = {
              })
          }
 
+}
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+            break;
+        }
+    }
 }

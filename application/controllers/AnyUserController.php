@@ -66,6 +66,18 @@ class AnyUserController extends My_Controller_Action
 
     public function photosAction(){
 
+     //   $this->disableLayout()->disableView();
+
+        if (array_key_exists('photo', $_FILES)) {
+            //   My_Log_Me::Log($_FILES['photo']);
+            $obj = My_Utils::uploadPhoto($this->identity["id"],$_FILES['photo']);
+            $this->view->assign("photopath",realpath($this->config['upload']['folder']) . "/gallery/original/");
+            $this->view->assign("photoarray",$obj);
+
+            $this->redirect("/any-user/photos");
+        }
+
+
     }
 }
 

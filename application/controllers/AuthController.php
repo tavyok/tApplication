@@ -55,7 +55,7 @@ class AuthController extends My_Controller_Action
     {
         $this->disableLayout()->disableView();
 
-        $username = $this->getRequest()->getParam("username");
+        $username = $this->getRequest()->getParam("username");  //username=email
         $password = $this->getRequest()->getParam("password");
 
 
@@ -67,11 +67,12 @@ class AuthController extends My_Controller_Action
         {
             $myAdapter->setEmailPassword($username, $password);
         }
-        else
+/*        else
         {
             $myAdapter->setUser($username);
-        }
+        }*/
         $result = $auth->authenticate($myAdapter);
+
 
         if ($result->isValid()) {
             $identity = Zend_Auth::getInstance()->getIdentity();
@@ -189,29 +190,7 @@ class AuthController extends My_Controller_Action
 
     }
 
-/*    public function activateAction(){
 
-        $username = $this->getRequest()->getParam("username");
-        $activationCode = $this->getRequest()->getParam("activation_code");
-
-
-        $auth = Zend_Auth::getInstance();
-
-
-        $myAdapter = new My_Adapter();
-        $myAdapter->setUsernameActivationCode( $username, $activationCode);
-
-        $result = $auth->authenticate($myAdapter);
-
-        if ( $result->isValid() ) {
-            $identity = Zend_Auth::getInstance()->getIdentity();
-            setcookie("_tAppCookie", $identity['email'], time() + 3600 * 24 * 14, '/');
-            $this->redirect("/");
-        }
-
-        $this->view->assign("activated",false);
-
-    }*/
 
     public function sendnotifyRegistrationAction(){
 

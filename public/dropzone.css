@@ -1,5 +1,5 @@
 
-.myDropzone { background-color: #fffff0; margin-top: 0px}
+.myDropzone { background-color: #fffff0; margin-top: 0}
 
 .myDropzone,
 .myDropzone *,
@@ -44,11 +44,11 @@
     background: rgba(255,255,255,0.8);
     position: relative;
     display: inline-block;
-    margin-left: -130px;
-    margin-top: -20px;
+    margin-left: 10px;
+    margin-top: 0;
     vertical-align: top;
     border: 1px solid #acacac;
-    padding: 6px 6px 6px 6px;
+    padding: 2px 2px 2px 2px;
 }
 .myDropzone .dz-preview.dz-file-preview [data-dz-thumbnail],
 .myDropzone-previews .dz-preview.dz-file-preview [data-dz-thumbnail] {
@@ -56,8 +56,9 @@
 }
 .myDropzone .dz-preview .dz-details,
 .myDropzone-previews .dz-preview .dz-details {
-    width: 100px;
-    height: 100px;
+
+    width: 170px;
+    height: 170px;
     position: relative;
     background: #ebebeb;
     padding: 5px;
@@ -65,24 +66,33 @@
 }
 .myDropzone .dz-preview .dz-details .dz-filename,
 .myDropzone-previews .dz-preview .dz-details .dz-filename {
+
+    margin-top: 170px;
+    font-size: 14px;
     overflow: hidden;
-    height: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    height:100%;
+
 }
+
 .myDropzone .dz-preview .dz-details img,
 .myDropzone-previews .dz-preview .dz-details img {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100px;
-    height: 100px;
+    padding: 5px;
+    width: 170px;
+    height: 170px;
 }
 .myDropzone .dz-preview .dz-details .dz-size,
 .myDropzone-previews .dz-preview .dz-details .dz-size {
     position: absolute;
-    bottom: -28px;
+    bottom: -48px;
     left: 3px;
     height: 28px;
     line-height: 28px;
+    font-size: 12px;
 }
 .myDropzone .dz-preview.dz-error .dz-error-mark,
 .myDropzone-previews .dz-preview.dz-error .dz-error-mark {
@@ -104,7 +114,7 @@
     position: absolute;
     width: 40px;
     height: 40px;
-    font-size: 30px;
+    font-size: 10px;
     text-align: center;
     right: -10px;
     top: -10px;
@@ -133,7 +143,7 @@
     top: 0;
     bottom: 0;
     left: 0;
-    width: 0%;
+    width: 0;
     background-color: #8cc657;
 }
 .myDropzone .dz-preview.dz-processing .dz-progress,
@@ -174,7 +184,7 @@
     -o-transition: opacity 0.3s ease-in-out;
     -ms-transition: opacity 0.3s ease-in-out;
     transition: opacity 0.3s ease-in-out;
-    background-image: url("../images/spritemap.png");
+    background-image: url("../images/spritemap.png") ;
     background-repeat: no-repeat;
     background-position: 0 0;
     position: absolute;
@@ -184,7 +194,10 @@
     margin-top: -61.5px;
     top: 50%;
     left: 50%;
+
 }
+
+
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
     .myDropzone .dz-default.dz-message {
         background-image: url("../images/spritemap@2x.png");
@@ -223,9 +236,24 @@
 .myDropzone .dz-preview.dz-image-preview:hover .dz-details img,
 .myDropzone-previews .dz-preview.dz-image-preview:hover .dz-details img {
     display: block;
-    opacity: 0.1;
-    filter: alpha(opacity=10);
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+
+
+    -webkit-transition: width 2s, height 2s, -webkit-transform 2s; /* For Safari 3.1 to 6.0 */
+    transition: width 2s, height 2s, transform 2s;
+
+
+    -ms-transform: translate(-8px,-8px); /* IE 9 */
+    -webkit-transform: translate(-8px,-8px); /* Chrome, Safari, Opera */
+    transform: translate(-8px,-8px);
+
+    width: 186px;
+    height: 186px;
+
+   /*  margin-top: -8px;
+        margin-left: -8px;
+      opacity: 0.9;
+        filter: alpha(opacity=90);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";*/
 }
 .myDropzone .dz-preview.dz-success .dz-success-mark,
 .myDropzone-previews .dz-preview.dz-success .dz-success-mark {
@@ -362,9 +390,9 @@
     padding: 4px 5px;
     text-align: center;
     color: #aaa;
-    margin-top: 26px;
+    margin-top: 40px;
 }
 .myDropzone a.dz-remove:hover,
 .myDropzone-previews a.dz-remove:hover {
-    color: #666;
+    color: blueviolet;
 }

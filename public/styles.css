@@ -25,6 +25,7 @@ label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
 
 .signup {min-height: 600px; height: 800px; background-color: #ffffff; opacity: 0.8; filter:alpha(opacity=80);}
 .signup .title {width: 500px;margin-left: 50px; }
-.picremove  {display:none; left: 0px; top:-54px; position: relative; width:15px; cursor:pointer; z-index: 1}
-.dzpreviewerror{position:relative;top: 10px;text-align:center; color: red; background-color: greenyellow;border-radius: 50%;display: none;}
+.picremove  {display:none; left: -12px; top:-66px; position: relative; width:15px; cursor:pointer; z-index: 1}
+.dzpreviewerror{position:relative;top: 10px;padding-top: 15px;padding-bottom: 15px; text-align:center; color: red; background-color: greenyellow; border-radius: 50%;display: none}
+.dropic{width: 15px;position: relative;left: 150px; top: -7px; cursor: pointer}
 
