@@ -86,7 +86,7 @@ class My_Utils
             // Undefined | Multiple Files | $_FILES Corruption Attack
             // If this request falls under any of them, treat it invalid.
             if (
-                !isset($photo['error']) || is_array($photo['error'])) {
+                !isset($photo['error']) || is_array($photo['error']) ) {
                 throw new RuntimeException('Invalid parameters.');
             }
 
@@ -136,7 +136,7 @@ class My_Utils
             $photoarray['size'] = filesize($uploadFolder . "/" . $newFileName);
             $photoarray["error"] = null;
 
-            //
+
             return $photoarray;
 
         } catch (RuntimeException $e) {
@@ -162,7 +162,7 @@ class My_Utils
 
             // Undefined | Multiple Files | $_FILES Corruption Attack
             // If this request falls under any of them, treat it invalid.
-            if ( ! isset($photo['error']) ) {
+            if (!isset($photo['error']) ) {
                 throw new RuntimeException('Invalid parameters.');
             }
 
@@ -178,6 +178,7 @@ class My_Utils
                 default:
                     throw new RuntimeException('Unknown errors.');
             }
+
 
             // DO NOT TRUST $_FILES['upfile']['mime'] VALUE !!
             // Check MIME Type by yourself.
@@ -225,7 +226,7 @@ class My_Utils
             $photoarray['size'] = filesize($uploadFolder . "/gallery/original/" . $newFileName);
             $photoarray["error"] = null;
 
-           //       My_Log_Me::Log($photoarray);
+                  My_Log_Me::Log($photoarray);
             return $photoarray;
 
         } catch (RuntimeException $e) {
@@ -233,7 +234,7 @@ class My_Utils
             $photoarray['name'] = null;
             $photoarray['size'] = null;
             $photoarray["error"] = $e->getMessage();
-        //      My_Log_Me::Log($photoarray);
+              My_Log_Me::Log($photoarray);
             return $photoarray;
         }
     }

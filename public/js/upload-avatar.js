@@ -7,6 +7,7 @@ Dropzone.options.myDropzone = {
     maxFiles: 10,
     containerScroll:true,
     createImageThumbnails: false,
+    autoProcessQueue:true,
     previewTemplate: '<div id="errordisplay" class="dz-error-message dzpreviewerror"></div>',
   //addRemoveLinks: true,
     uploadMultiple:false,
@@ -29,7 +30,7 @@ Dropzone.options.myDropzone = {
 
     init: function() {
         errors=[];
-        times=0;
+
         this.on('removedfile', function(file,response){
   //         this.enable();
             $("#buttonremove").css("display", "none");
@@ -56,7 +57,7 @@ Dropzone.options.myDropzone = {
         //    this.disable();
 
             $("#buttonremove").css("display", "inline");
-            lastfile=$("#imagebutton").attr("src");
+            lastfile=$("#imagedbutton").attr("src");
 
             $("#imagebutton").attr("src","/photos/"+newfile.name);
             $.ajax({url:"/upload/deltempfile?file="+lastfile,success:function(result){
@@ -76,11 +77,6 @@ Dropzone.options.myDropzone = {
             })
 
         });
-
-
-
-
-
 
         //load photo from database
         thisDropzone = this;

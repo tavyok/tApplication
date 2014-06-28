@@ -8,7 +8,9 @@ Dropzone.options.myDropzone = {
 //    previewTemplate: '<div id="errordisplay" class="dz-error-message dzpreviewerror"></div>',
     //previewTemplate: '<span></span>',
   //  addRemoveLinks: true,
-    uploadMultiple:true,
+    uploadMultiple:false,
+    autoProcessQueue:false,
+    processingmultiple:false,
     thumbnailWidth: 190,
     thumbnailHeight: 190,
 /*    canceled: function(file) {
@@ -25,37 +27,50 @@ Dropzone.options.myDropzone = {
         else {
             done("Invalid extension for file! Only jpg, png or gif files format are allowed");
         }
-  /*      if (file.size<=2)
-        {
-            done();
-        }
-        else {
-            done("File "+file.name+" rejected (exceeds 2 MBytes)");
-        }*/
+
 
     },
 
 
     init: function() {
-        var errors=[];
-        this.on('removedfile', function(file,response){
-  //         this.enable();
-            $("#buttonremove").css("display", "none");
-            $("#imagebutton").attr("src","/images/add-user.jpg");
-//            $('#droparea').attr('title', 'Click or drag here to add picture');
-
-
-        });
-
+        var newfile;
+        var rejects=[];
+        var uploads=[];
+        var files=new Array();
+        var newupload=true;
 
         this.on("addedfile", function(file) {
+           var _this = this;
+           if (newupload)
+           {
+
+/*               files.forEach(function(value,index,arg){
+               alert(value.name);
+                     //_this.removeFile(value);
+                  });
+               while(files.length > 0) {
+                  files.pop();
+               }*/
+
+           }
+
+
 
             // Create the remove button
             var removeButton = Dropzone.createElement("<IMG class='dropic' title='click to remove picture' SRC='/images/remove1.png'> ");
 
+            newupload=false;
+            $("#uploadbutton").show();
+            $("#uploadbutton").click(function(){
+               _this.processFile(file);
 
-            // Capture the Dropzone instance as closure.
-            var _this = this;
+
+            });
+            $("#resetbutton").show();
+            $("#resetbutton").click(function(){
+               _this.removeAllFiles();
+
+            });
 
             // Listen to the click event
             removeButton.addEventListener("click", function(e) {
@@ -71,51 +86,42 @@ Dropzone.options.myDropzone = {
 
             // Add the button to the file preview element.
             file.previewElement.appendChild(removeButton);
+
+        });
+        this.on("success", function(file,result) {
+
+            newupload=true;
+            uploads.push(file.name+" - uploaded"+"<BR>");
+            files.push(file);
+
+            //alert(this.getAcceptedFiles().toSource);
+
+            $('#uploaddone').html(uploads+"<BR>"+rejects);
+
+            //    $('#uploaddone').fadeIn(2000).delay(5000).fadeOut(2000);
+
+           //     ("#droparea").slideUp()
+
+           // this.removeFile(file);
+
         });
 
-/*        this.on("success", function(file,result) {
-            newfile=file;
-
-            $("#photoup").val(newfile.name);
-
-        });*/
         this.on("error",function(file,error){
-        errors.push(file.name+" - "+error);
-
+        rejects.push(file.name+" - rejected - "+error+"<BR>");
+        files.push(file);
         });
 
- /*       this.on("queuecomplete",function(file){
 
-        for (i=0;i<errors.length;i++)
-        {
- //       alert(errors[i]);
-        $('#errordisplay').html(errors[i]);
-        $('#errordisplay').fadeIn(2000).delay(2000).fadeOut(2000);
+    }
 
+}
+function listAllProperties(o){
+    var objectToInspect;
+    var result = [];
 
+    for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)){
+        result = result.concat(Object.getOwnPropertyNames(objectToInspect));
+    }
 
-        }
-        });
-        //load photo from database
-        thisDropzone = this;
-        $.get('/upload/get-photo?id='+$("#idphoto").val(), function(foto) {
-
-              if (foto.size>0){
-*//*
-               var mockFile = { name: foto.name, size: foto.size };
-
-
-               thisDropzone.options.addedfile.call(thisDropzone, mockFile);
-
-               thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "/photos/"+foto.name);*//*
-               var timeseed = new Date().getTime();  //forcing photo from cache to get refreshed from server
-               $("#imagebutton").attr("src","/photos/"+foto.name+"?"+timeseed);
-               $("#buttonremove").css("display", "inline");
-               $("#photoup").val(foto.name);
-
-              }
-        });
-*/
-         }
-
+    return result;
 }
