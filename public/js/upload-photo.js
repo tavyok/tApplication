@@ -40,6 +40,8 @@ Dropzone.options.myDropzone = {
         var files=new Array();
         var newupload=true;
 
+//        this.params = { comm: 'New Files' };
+
         this.on("addedfile", function(file) {
            var _this = this;
 
@@ -62,17 +64,16 @@ Dropzone.options.myDropzone = {
 
             myfiles.push(file.name);
 
+            $("#realfiles").val(JSON.stringify(myfiles));
+
             // Create the remove button
             var removeButton = Dropzone.createElement("<IMG class='dropic' title='click to remove picture' SRC='/images/remove1.png'> ");
-
             var framephoto=Dropzone.createElement("<DIV class='dropzoneframe'></DIV> ");
 
             newupload=false;
             $("#uploadbutton").show();
             $("#uploadbutton").click(function(){
                _this.processFile(file);
-
-
             });
             $("#resetbutton").show();
             $("#resetbutton").click(function(){
@@ -88,11 +89,14 @@ Dropzone.options.myDropzone = {
 
                 // Remove the file preview.
 
-                file_to_remove=myfiles.indexOf(file.name);
+                var file_to_remove=myfiles.indexOf(file.name);
 
                 myfiles.splice(file_to_remove,1);
 
+
                 _this.removeFile(file);
+
+                $("#realfiles").val(JSON.stringify(myfiles));
 
                 // If you want to the delete the file on the server as well,
                 // you can do the AJAX request here.
@@ -128,7 +132,6 @@ Dropzone.options.myDropzone = {
         rejects.push(file.name+" - rejected - "+error+"<BR>");
         files.push(file);
         });
-
 
     }
 
