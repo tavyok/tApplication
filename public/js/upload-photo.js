@@ -36,15 +36,21 @@ Dropzone.options.myDropzone = {
         var newfile;
         var rejects=[];
         var uploads=[];
+        var myfiles=[];
         var files=new Array();
         var newupload=true;
 
         this.on("addedfile", function(file) {
            var _this = this;
+
            if (newupload)
            {
-
-/*               files.forEach(function(value,index,arg){
+               while(myfiles.length > 0) {
+                   myfiles.pop();
+               }
+            //    files=null;
+       //        alert(files.length);
+/*              files.forEach(function(value,index,arg){
                alert(value.name);
                      //_this.removeFile(value);
                   });
@@ -54,10 +60,12 @@ Dropzone.options.myDropzone = {
 
            }
 
-
+            myfiles.push(file.name);
 
             // Create the remove button
             var removeButton = Dropzone.createElement("<IMG class='dropic' title='click to remove picture' SRC='/images/remove1.png'> ");
+
+            var framephoto=Dropzone.createElement("<DIV class='dropzoneframe'></DIV> ");
 
             newupload=false;
             $("#uploadbutton").show();
@@ -79,13 +87,20 @@ Dropzone.options.myDropzone = {
                 e.stopPropagation();
 
                 // Remove the file preview.
+
+                file_to_remove=myfiles.indexOf(file.name);
+
+                myfiles.splice(file_to_remove,1);
+
                 _this.removeFile(file);
+
                 // If you want to the delete the file on the server as well,
                 // you can do the AJAX request here.
             });
 
             // Add the button to the file preview element.
             file.previewElement.appendChild(removeButton);
+            file.previewElement.appendChild(framephoto);
 
         });
         this.on("success", function(file,result) {
@@ -93,9 +108,12 @@ Dropzone.options.myDropzone = {
             newupload=true;
             uploads.push(file.name+" - uploaded"+"<BR>");
             files.push(file);
+            for (i=0;i<myfiles.length;i++)
+            {
 
-            //alert(this.getAcceptedFiles().toSource);
-
+                $("#realfiles").eq(i).val(myfiles[i]);
+            }
+         //   alert($("#realfiles").val);
             $('#uploaddone').html(uploads+"<BR>"+rejects);
 
             //    $('#uploaddone').fadeIn(2000).delay(5000).fadeOut(2000);

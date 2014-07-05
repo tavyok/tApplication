@@ -155,7 +155,7 @@ class My_Utils
         $uploadFolder = realpath(Zend_Registry::get('__CONFIG__')['upload']['folder']);
 
         try {
-           My_Log_Me::Log($photo);
+        //   My_Log_Me::Log($photo);
             if ($uploadFolder === false) {
                 throw new RuntimeException("Invalid Upload Folder !");
             }
@@ -226,7 +226,7 @@ class My_Utils
             $photoarray['size'] = filesize($uploadFolder . "/gallery/original/" . $newFileName);
             $photoarray["error"] = null;
 
-                  My_Log_Me::Log($photoarray);
+         //         My_Log_Me::Log($photoarray);
             return $photoarray;
 
         } catch (RuntimeException $e) {
@@ -234,7 +234,7 @@ class My_Utils
             $photoarray['name'] = null;
             $photoarray['size'] = null;
             $photoarray["error"] = $e->getMessage();
-              My_Log_Me::Log($photoarray);
+       //       My_Log_Me::Log($photoarray);
             return $photoarray;
         }
     }

@@ -11,7 +11,7 @@ class UploadController extends My_Controller_Action
 
             //  My_Log_Me::Log($_FILES['photo']);
             $obj = My_Utils::uploadAvatar($_FILES['photo']);
-            My_Log_Me::Log($obj);
+        //    My_Log_Me::Log($obj);
 
             /*            header('Content-type: text/json');
                         header('Content-type: application/json');
@@ -24,16 +24,15 @@ class UploadController extends My_Controller_Action
 
     public function photoAction(){
      //   $this->disableLayout()->disableView();
-        My_Log_Me::Log($this->getRequest()->getParams());
+  //      My_Log_Me::Log($this->getRequest()->getParams());
         if (array_key_exists('photo', $_FILES)) {
 
-
-         //   My_Log_Me::Log($_FILES['photo']);
-
+           My_Log_Me::Log("fisierele mele sunt");
+            My_Log_Me::Log($_REQUEST['realfiles']);
 
             $photopath=realpath($this->config['upload']['folder']) . "/gallery/original/";
             $this->view->assign("photopath",$photopath);
-            My_Log_Me::Log("calea ".$photopath);
+
             $obj = My_Utils::uploadPhoto($this->identity["id"],$_FILES['photo']);
             $this->view->assign("photoarray",$obj);
 

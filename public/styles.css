@@ -28,4 +28,5 @@ label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
 .picremove  {display:none; left: -12px; top:-66px; position: relative; width:15px; cursor:pointer; z-index: 1}
 .dzpreviewerror{position:relative;top: 10px;padding-top: 15px;padding-bottom: 15px; text-align:center; color: red; background-color: greenyellow; border-radius: 50%;display: none}
 .dropic{width: 15px;position: relative;left: 150px; top: -7px; cursor: pointer}
-
+.dropzoneframe{border: 8px solid antiquewhite;position: absolute;top: -0px;left: 0px;height: 174px;width: 174px;}
+.uploadzone{display:none; top: 15px;  overflow-y:scroll; width: 800px; height: 700px;position: absolute;z-index: 3000;left: 300px;background-color: #ffffff}

@@ -246,12 +246,12 @@
     -webkit-transform: translate(-8px,-8px); /* Chrome, Safari, Opera */
     transform: translate(-8px,-8px);
 
-    width: 186px;
-    height: 186px;
+    width: 184px;
+    height: 184px;
 
-   /*  margin-top: -8px;
-        margin-left: -8px;
-      opacity: 0.9;
+     margin-top: 1px;
+     margin-left: 1px;
+    /*  opacity: 0.9;
         filter: alpha(opacity=90);
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";*/
 }

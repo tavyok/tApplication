@@ -72,7 +72,8 @@ class AnyUserController extends My_Controller_Action
 
         if (array_key_exists('photo', $_FILES))
         {
-            //   My_Log_Me::Log($_FILES['photo']);
+              My_Log_Me::Log("fisierele mele:");
+               My_Log_Me::Log($_REQUEST['realfiles']);
             $obj = My_Utils::uploadPhoto($this->identity["id"],$_FILES['photo']);
 
             $this->view->assign("photoarray",$obj);
