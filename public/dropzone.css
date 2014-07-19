@@ -23,9 +23,9 @@
 .myDropzone.dz-clickable .dz-message span {
     cursor: pointer;
 }
-.myDropzone.dz-clickable * {
-    cursor: default;
-}
+/*.myDropzone.dz-clickable * {
+    cursor: pointer;
+}*/
 .myDropzone .dz-message {
     opacity: 1;
     -ms-filter: none;
@@ -186,7 +186,7 @@
     transition: opacity 0.3s ease-in-out;
     background-image: url("../images/spritemap.png") ;
     background-repeat: no-repeat;
-    background-position: 0 0;
+    background-position: 0 0px;
     position: absolute;
     width: 428px;
     height: 123px;

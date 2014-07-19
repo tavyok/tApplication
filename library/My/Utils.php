@@ -11,9 +11,11 @@ class My_Utils
 
 
     static protected $_instance;
+    static protected $_config;
 
     public function __construct()
     {
+
 
         //self::getInstance();
 
@@ -26,7 +28,14 @@ class My_Utils
             //      print "Instanta Noua !\n";
             self::$_instance = new My_Utils();
         }
+        self::getRegConfig();
         return self::$_instance;
+
+    }
+
+    static public function getRegConfig(){
+        self::$_config = Zend_Registry::get("__CONFIG__");
+        return self::$_config;
 
     }
 
@@ -125,7 +134,7 @@ class My_Utils
 
 
             $newFileName = $photo['name'];
-            My_Log_Me::Log($photo);
+       //     My_Log_Me::Log($photo);
 
             if ($photo['tmp_name'] != $uploadFolder . "/" . $newFileName)
                 if (!move_uploaded_file($photo['tmp_name'], $uploadFolder . "/" . $newFileName)) {
@@ -238,5 +247,87 @@ class My_Utils
             return $photoarray;
         }
     }
+
+
+    static public function cleanAvatars()
+    {
+
+
+        if( isset(self::$_config["cleaning"]) ){
+            if( array_key_exists("time",self::$_config["cleaning"])){
+                $timetoclean  = self::$_config["cleaning"]["time"];
+            }
+        }
+        else
+        {
+            $timetoclean = 2; //hours   - cleaning files created ($timetoclean) hours ago
+        }
+    //    My_Log_Me::Log(self::$_config);
+        echo $timetoclean;
+
+        $photopath = $_SERVER["DOCUMENT_ROOT"].('/photos');
+
+        $datetime = new DateTime();
+        $datetime2 = new DateTime();
+
+        $picturesFiles = glob(realpath($photopath . '/*.*'));
+        $pictures = array();
+        for ($i = 0; $i < count($picturesFiles); $i++) {
+            $countpic = 0;
+            $pictures[] = pathinfo($picturesFiles[$i], PATHINFO_BASENAME);
+            $filetime = date('H:i d-m-Y', filectime(realpath($photopath . "/" . $pictures[$i])));
+
+            $datetime2->setTimestamp(strtotime($filetime));
+            //  $interval = $datetime2->diff($datetime);
+            //  echo " --- ".$datetime->format('H:i d-m-Y');
+            //  echo "&nbsp;&nbsp;&nbsp;".$interval->format('%R%d Days %h Hours %i Minute %s Seconds');
+            if (substr($pictures[$i], 0, 6) != "avatar") {
+                if ($datetime2 < $datetime->modify("-$timetoclean hour")) {
+
+
+                    if (unlink(realpath($photopath . "/" . $pictures[$i]))) {
+                        $countpic++;
+                    }
+
+
+                }
+                $datetime->modify("+$timetoclean hour");
+            }
+
+        }
+
+
+    }
+
+   static public function cleanPhotos(){
+
+        $photopath = $_SERVER["DOCUMENT_ROOT"].('/photos/gallery/original');
+
+        $id=Zend_Auth::getInstance()->getIdentity()["id"];
+        $picturesFiles = glob ( $photopath."/".sprintf("p%06d%s",$id,"*.*"));
+
+        $picturesOnServer = array();
+        for( $i = 0; $i < count($picturesFiles); $i++ ){
+            $picturesOnServer[] = pathinfo( $picturesFiles[$i],PATHINFO_BASENAME );
+        }
+
+
+       $photoTable=new Table_Photo();
+       $photosNamesArray=array();
+       $photosGlobalArray=$photoTable->getAll($id)->toArray();
+       for ($i=0;$i<count($photosGlobalArray);$i++)
+       {
+           $photosNamesArray[]=$photosGlobalArray[$i]["name"];
+       }
+
+       $filestodelete=array_diff($photosNamesArray,$picturesOnServer);
+
+       foreach ($filestodelete as $filetodelete)
+       {
+           $photoTable->getByName($filetodelete)->delete();
+       }
+
+
+   }
 
 }

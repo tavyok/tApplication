@@ -29,4 +29,19 @@ label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
 .dzpreviewerror{position:relative;top: 10px;padding-top: 15px;padding-bottom: 15px; text-align:center; color: red; background-color: greenyellow; border-radius: 50%;display: none}
 .dropic{width: 15px;position: relative;left: 150px; top: -7px; cursor: pointer}
 .dropzoneframe{border: 8px solid antiquewhite;position: absolute;top: -0px;left: 0px;height: 174px;width: 174px;}
-.uploadzone{display:none; top: 15px;  overflow-y:scroll; width: 800px; height: 700px;position: absolute;z-index: 3000;left: 300px;background-color: #ffffff}
+#album img:hover{
+    position: absolute;z-index: 500;
+    -webkit-transition: width 2s, height 2s, -webkit-transform 2s; /* For Safari 3.1 to 6.0 */
+    transition: width 2s, height 2s, transform 2s;
+
+
+    -ms-transform: translate(-23px,-0px); /* IE 9 */
+    -webkit-transform: translate(-23px,-0px); /* Chrome, Safari, Opera */
+    transform: translate(-23px,-0px);
+    border: 3px solid blue;
+    width: 300px;
+
+    margin-top: 0px;
+    margin-left: 0px;
+}
+

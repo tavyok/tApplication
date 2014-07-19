@@ -8,6 +8,8 @@
 
 class Table_Photo extends Zend_Db_Table {
 
+
+
     protected $_name = "photo";
     protected $_rowClass = "Model_Photo";
 
@@ -21,45 +23,26 @@ class Table_Photo extends Zend_Db_Table {
 
 
     /**
-     * Get User BY Id
+     * Get User BY UserId
      *
      * @param $id
      * @return null|Model_Photo
      */
-    public function getById($id)
+    public function getByUserId($id)
     {
         $select = $this->select()
-            ->where("id = ?", $id);
+            ->where("user_id = ?", $id);
 
         return $this->fetchRow($select);
 
     }
 
-    /**
-     * Delete rows using list of ids
-     *
-     * @param array $cb
-     */
-    public function deleteByIds(array $cb)
+    public function getByName($name)
     {
-        $tableuser=new Table_User();
-        foreach($cb as &$id)
-        {
-        $user=$tableuser->getById($id);
-        $photo=$user->getPhoto();
+        $select = $this->select()
+            ->where("name = ?", $name);
 
-        $uploadFolder = realpath( $this->config['upload']['folder'] );
-
-
-        if ($photo!="")
-            if( file_exists($uploadFolder."/".$photo)){
-
-                unlink($uploadFolder."/".$photo);
-                }
-        }
-
-        $where = $this->getAdapter()->quoteInto("id in (?)",$cb);
-        $this->delete($where);
+        return $this->fetchRow($select);
 
     }
 
@@ -80,5 +63,32 @@ class Table_Photo extends Zend_Db_Table {
         return $this->fetchAll($select);
     }
 
+    /**
+     * Delete rows using list of ids
+     *
+     * @param array $cb
+     */
+    public function deleteByIds(array $cb)
+    {
+        $tableuser=new Table_User();
+        foreach($cb as &$id)
+        {
+            $user=$tableuser->getById($id);
+            $photo=$user->getPhoto();
+
+            $uploadFolder = realpath( $this->config['upload']['folder'] );
+
+
+            if ($photo!="")
+                if( file_exists($uploadFolder."/".$photo)){
+
+                    unlink($uploadFolder."/".$photo);
+                }
+        }
+
+        $where = $this->getAdapter()->quoteInto("id in (?)",$cb);
+        $this->delete($where);
+
+    }
 
 } 

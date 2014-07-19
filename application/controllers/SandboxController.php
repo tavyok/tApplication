@@ -20,6 +20,7 @@ class SandboxController extends My_Controller_Action
         Zend_Debug::dump($filterChain->filter( $text ) );
 
 
+        My_Utils::cleanAvatars();
 
  /*       $today = getdate();
         $today = date("HidmY");

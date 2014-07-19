@@ -8,11 +8,13 @@ Dropzone.options.myDropzone = {
 //    previewTemplate: '<div id="errordisplay" class="dz-error-message dzpreviewerror"></div>',
     //previewTemplate: '<span></span>',
   //  addRemoveLinks: true,
+
     uploadMultiple:false,
     autoProcessQueue:false,
     processingmultiple:false,
     thumbnailWidth: 190,
     thumbnailHeight: 190,
+
 /*    canceled: function(file) {
         return this.emit("error", file, "");
     },*/
@@ -37,7 +39,8 @@ Dropzone.options.myDropzone = {
         var rejects=[];
         var uploads=[];
         var myfiles=[];
-        var files=new Array();
+        dzone=true;
+
         var newupload=true;
 
 //        this.params = { comm: 'New Files' };
@@ -50,15 +53,6 @@ Dropzone.options.myDropzone = {
                while(myfiles.length > 0) {
                    myfiles.pop();
                }
-            //    files=null;
-       //        alert(files.length);
-/*              files.forEach(function(value,index,arg){
-               alert(value.name);
-                     //_this.removeFile(value);
-                  });
-               while(files.length > 0) {
-                  files.pop();
-               }*/
 
            }
 
@@ -71,13 +65,20 @@ Dropzone.options.myDropzone = {
             var framephoto=Dropzone.createElement("<DIV class='dropzoneframe'></DIV> ");
 
             newupload=false;
+            //upload button click
             $("#uploadbutton").show();
             $("#uploadbutton").click(function(){
                _this.processFile(file);
             });
+
+            //reset button click
             $("#resetbutton").show();
             $("#resetbutton").click(function(){
+                while(myfiles.length > 0) {
+                    myfiles.pop();
+                }
                _this.removeAllFiles();
+                $("#realfiles").val(JSON.stringify(myfiles));
 
             });
 
@@ -111,13 +112,13 @@ Dropzone.options.myDropzone = {
 
             newupload=true;
             uploads.push(file.name+" - uploaded"+"<BR>");
-            files.push(file);
-            for (i=0;i<myfiles.length;i++)
+
+/*            for (i=0;i<myfiles.length;i++)
             {
 
                 $("#realfiles").eq(i).val(myfiles[i]);
             }
-         //   alert($("#realfiles").val);
+      */
             $('#uploaddone').html(uploads+"<BR>"+rejects);
 
             //    $('#uploaddone').fadeIn(2000).delay(5000).fadeOut(2000);
@@ -130,12 +131,16 @@ Dropzone.options.myDropzone = {
 
         this.on("error",function(file,error){
         rejects.push(file.name+" - rejected - "+error+"<BR>");
-        files.push(file);
+
         });
 
     }
+};
 
-}
+
+
+
+
 function listAllProperties(o){
     var objectToInspect;
     var result = [];

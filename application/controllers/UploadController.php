@@ -2,6 +2,19 @@
 
 class UploadController extends My_Controller_Action
 {
+    public function init()
+    {
+
+        parent::init();
+
+        //  $this->_helper->_layout->setLayout('layout-orig');
+
+        $this->view->assign("action", $this->getRequest()->getActionName());
+        $this->view->render('user/_menu.phtml'); //include _menu.phtml in pagina
+        $this->view->render('user/_signin.phtml');
+
+
+    }
 
     public function indexAction() //preluare initiala poza prin dropzone din buton upload sau drag drop
     {
@@ -31,17 +44,13 @@ class UploadController extends My_Controller_Action
             $fileAccepted = $this->getRequest()->getParam("realfiles");
             $arrFiles = Zend_Json::decode( $fileAccepted );
 
-            My_Log_Me::Log(  "fileAccepted: " . $fileAccepted );
-            My_Log_Me::Log(  $arrFiles );
-            My_Log_Me::Log(  $_FILES['photo']['name'] );
 
             if( in_array($_FILES['photo']['name'], $arrFiles ) ){
-                My_Log_Me::Log("Uploaded !");
-                $photopath = realpath($this->config['upload']['folder']) . "/gallery/original/";
-                $this->view->assign("photopath", $photopath);
+
+
 
                 $obj = My_Utils::uploadPhoto($this->identity["id"], $_FILES['photo']);
-                $this->view->assign("photoarray", $obj);
+
             }
         }
     }
@@ -60,7 +69,7 @@ class UploadController extends My_Controller_Action
     public function cleanAvatarsAction()
     {
 
-        $timetoclean = 0; //hours
+        $timetoclean = 1; //hours   for cleaning files created 1 hour ago
         $datetime = new DateTime();
         $datetime2 = new DateTime();
 
@@ -92,12 +101,13 @@ class UploadController extends My_Controller_Action
 
         $this->view->assign("countpic", $countpic);
 
-        // $this->redirect("/user");
+
     }
 
 
     function getPhotoAction() //preluare poza din baza de date
     {
+
 
         $id = $this->getRequest()->getParams()["id"];
         $userTable = new Table_User();
@@ -115,9 +125,22 @@ class UploadController extends My_Controller_Action
         header('Content-type: application/json');
 
         echo json_encode($newobj);
-        //   My_Log_Me::Log(json_encode($newobj));
+
+
         exit;
 
+    }
+
+    function deleteFromAlbumAction(){
+        $photostodelete=json_decode($this->getRequest()->getParam("photostodelete"));
+        foreach ($photostodelete as $delphoto){
+            unlink(realpath($this->config['upload']['folder']) . "/gallery/original/" . $delphoto);
+
+        }
+        $this->redirect("/upload/photos");
+    }
+    function photosAction(){
+        My_Utils::cleanPhotos(); //clean table photo by files not found on server for curent user(id)
     }
 }
 

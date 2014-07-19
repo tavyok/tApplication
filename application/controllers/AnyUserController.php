@@ -13,7 +13,7 @@ class AnyUserController extends My_Controller_Action
     {
 
         parent::init();
-
+        $this->view->render('user/_menu.phtml');
         // $this->_helper->_layout->setLayout('layout-orig');
     }
 
@@ -26,7 +26,7 @@ class AnyUserController extends My_Controller_Action
 
     public function editAction()
     {
-
+        My_Utils::cleanAvatars();
         if (is_null($id = $this->getRequest()->getParam("id"))) {
             throw new Exception("Missing User ID !", 501);
         }
@@ -64,23 +64,10 @@ class AnyUserController extends My_Controller_Action
         }
     }
 
+
+
     public function photosAction(){
-
-     //   $this->disableLayout()->disableView();
-        $photopath=realpath($this->config['upload']['folder']) . "\\gallery\\original\\";
-        $this->view->assign("photopath",$photopath);
-
-        if (array_key_exists('photo', $_FILES))
-        {
-              My_Log_Me::Log("fisierele mele:");
-               My_Log_Me::Log($_REQUEST['realfiles']);
-            $obj = My_Utils::uploadPhoto($this->identity["id"],$_FILES['photo']);
-
-            $this->view->assign("photoarray",$obj);
-
-            $this->redirect("/any-user/photos");
-        }
-
+        $this->redirect("/upload/photos");
 
     }
 }

@@ -95,7 +95,7 @@ class UserController extends My_Controller_Action
 
     public function editAction()
     {
-
+        My_Utils::cleanAvatars();
         if (is_null($id = $this->getRequest()->getParam("id"))) {
             throw new Exception("Missing User ID !", 501);
         }
@@ -143,7 +143,13 @@ class UserController extends My_Controller_Action
     }
     }
 
+    public function photosAction(){
 
+        //   $this->disableLayout()->disableView();
+
+        $this->redirect("/upload/photos");
+
+    }
 
     public function testAction(){
         die("Test Action");
