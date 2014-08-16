@@ -69,7 +69,7 @@ class UploadController extends My_Controller_Action
     public function cleanAvatarsAction()
     {
 
-        $timetoclean = 1; //hours   for cleaning files created 1 hour ago
+        $timetoclean = Zend_Registry::get("__CONFIG__")['cleaning']['time']; //hours   for cleaning files created 1 hour ago
         $datetime = new DateTime();
         $datetime2 = new DateTime();
 
@@ -100,7 +100,7 @@ class UploadController extends My_Controller_Action
         }
 
         $this->view->assign("countpic", $countpic);
-
+        $this->view->assign("timetoclean", $timetoclean);
 
     }
 
@@ -141,6 +141,11 @@ class UploadController extends My_Controller_Action
     }
     function photosAction(){
         My_Utils::cleanPhotos(); //clean table photo by files not found on server for curent user(id)
+    }
+
+    function galleryAction(){
+
+
     }
 }
 

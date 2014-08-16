@@ -3,7 +3,7 @@
 body { padding-top: 50px; padding-bottom: 20px;}
 
 
-.user-page {background: url('/images/background.jpg') repeat-y;min-height: 600px; height: 800px; opacity: 0.9; filter:alpha(opacity=90);}
+.user-page {background: url('/images/background.jpg') repeat-y;position:relative;top:20px;min-height: 600px; height: 800px; opacity: 0.9; filter:alpha(opacity=90);}
 .page {min-height: 600px; height: 600px}
 
 .m-menu {  }
@@ -45,3 +45,6 @@ label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
     margin-left: 0px;
 }
 
+#dropareaphoto{display:none; overflow-y:scroll; width: 850px; height: 670px;position: absolute;margin-top:10px;margin-left: -130px;z-index: 3000;background-color: #ffffff; -webkit-box-shadow: -1px 5px 145px 157px #245AAB;
+    -moz-box-shadow: -1px 5px 145px 157px #245AAB;
+    box-shadow: -1px 5px 145px 157px #245AAB;}

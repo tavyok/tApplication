@@ -17,7 +17,7 @@ class My_Utils
     {
 
 
-        //self::getInstance();
+       // self::getInstance();
 
 
     }
@@ -25,16 +25,18 @@ class My_Utils
     static public function getInstance()
     {
         if (is_null(self::$_instance)) {
-            //      print "Instanta Noua !\n";
+              //    print "Instanta Noua !\n";
             self::$_instance = new My_Utils();
+            self::getRegConfig();
         }
-        self::getRegConfig();
+
         return self::$_instance;
 
     }
 
     static public function getRegConfig(){
         self::$_config = Zend_Registry::get("__CONFIG__");
+        My_Log_Me::Log(self::$_config);
         return self::$_config;
 
     }
@@ -235,7 +237,16 @@ class My_Utils
             $photoarray['size'] = filesize($uploadFolder . "/gallery/original/" . $newFileName);
             $photoarray["error"] = null;
 
-         //         My_Log_Me::Log($photoarray);
+            //set scale dimensions for thumbs
+            $scaleW=0;
+            $scaleH=260;
+            $scfile=array();
+            $scfile["name"]=pathinfo($uploadFolder . "/gallery/original/".$newFileName,PATHINFO_FILENAME);
+            $scfile["ext"]=pathinfo($uploadFolder . "/gallery/original/".$newFileName,PATHINFO_EXTENSION);
+            My_Utils::pictureScale($uploadFolder . "/gallery/original/".$newFileName,$uploadFolder ."/gallery/thumb/",$scfile["name"].$scaleW."x".$scaleH.".".$scfile["ext"],($scaleW==0)?"auto":$scaleW,($scaleH==0)?"auto":$scaleH);
+
+
+
             return $photoarray;
 
         } catch (RuntimeException $e) {
@@ -252,7 +263,7 @@ class My_Utils
     static public function cleanAvatars()
     {
 
-
+        self::getRegConfig();
         if( isset(self::$_config["cleaning"]) ){
             if( array_key_exists("time",self::$_config["cleaning"])){
                 $timetoclean  = self::$_config["cleaning"]["time"];
@@ -264,13 +275,12 @@ class My_Utils
         }
     //    My_Log_Me::Log(self::$_config);
         echo $timetoclean;
-
-        $photopath = $_SERVER["DOCUMENT_ROOT"].('/photos');
+        $photopath = $_SERVER["DOCUMENT_ROOT"].'/photos';
 
         $datetime = new DateTime();
         $datetime2 = new DateTime();
 
-        $picturesFiles = glob(realpath($photopath . '/*.*'));
+        $picturesFiles = glob($photopath . '/*.*');
         $pictures = array();
         for ($i = 0; $i < count($picturesFiles); $i++) {
             $countpic = 0;
@@ -281,6 +291,7 @@ class My_Utils
             //  $interval = $datetime2->diff($datetime);
             //  echo " --- ".$datetime->format('H:i d-m-Y');
             //  echo "&nbsp;&nbsp;&nbsp;".$interval->format('%R%d Days %h Hours %i Minute %s Seconds');
+            My_Log_Me::Log($picturesFiles);
             if (substr($pictures[$i], 0, 6) != "avatar") {
                 if ($datetime2 < $datetime->modify("-$timetoclean hour")) {
 
@@ -329,5 +340,71 @@ class My_Utils
 
 
    }
+
+    static public function getPictureDetails($file){
+        if (file_exists($file))
+        {
+            $fileDetails=array();
+            $fileDetails["name"]=pathinfo($file,PATHINFO_BASENAME);
+            $fileDetails["fullpath"]=$file;
+            $fileDetails["type"]= image_type_to_mime_type(exif_imagetype($file));
+            $fileDetails["dimensions"]=getimagesize($file);
+            $fileDetails["width"]=$fileDetails["dimensions"]["0"];
+            $fileDetails["height"]=$fileDetails["dimensions"]["1"];
+            return $fileDetails;
+        }
+        else
+            return false;
+
+    }
+
+    static public function pictureScale($file,$filescPath,$filename,$newW,$newH){
+
+
+        if (! $fileDetails=My_Utils::getPictureDetails($file)){
+            return false;
+
+        }
+        if ($newW=="auto"){
+            $newW=$fileDetails["width"] * $newH/$fileDetails["height"];
+        }
+        if ($newH=="auto"){
+            $newH=$fileDetails["height"] * $newW/$fileDetails["width"];
+        }
+        switch ($fileDetails["type"]){
+            case "image/jpeg":
+                $src=imagecreatefromjpeg($file);
+
+                $dst = imagecreatetruecolor($newW, $newH);
+                imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $fileDetails["width"], $fileDetails["height"]);
+
+                imagejpeg($dst, $filescPath.$filename,100);
+                $scale_info = getimagesize($filescPath."newimage.jpg");
+                break;
+
+            case "image/png":
+                $src=imagecreatefrompng($file);
+                $dst = imagecreatetruecolor($newW, $newH);
+                imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $fileDetails["width"], $fileDetails["height"]);
+                imagepng($dst, $filescPath.$filename,0);
+                $scale_info = getimagesize($filescPath."newimage.png");
+                break;
+
+            case "image/gif":
+                $src=imagecreatefromgif($file);
+                $dst = imagecreatetruecolor($newW, $newH);
+                imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $fileDetails["width"], $fileDetails["height"]);
+                imagegif($dst, $filescPath.$filename);
+                $scale_info = getimagesize($filescPath."newimage.gif");
+                break;
+        }
+        imagedestroy($dst);
+        if (array_keys($scale_info,3))
+            return $scale_info[3];
+        else
+            return false;
+
+
+    }
 
 }

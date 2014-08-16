@@ -95,7 +95,7 @@ class UserController extends My_Controller_Action
 
     public function editAction()
     {
-        My_Utils::cleanAvatars();
+
         if (is_null($id = $this->getRequest()->getParam("id"))) {
             throw new Exception("Missing User ID !", 501);
         }
@@ -139,6 +139,7 @@ class UserController extends My_Controller_Action
                      setcookie("_tAppCookie", '', time(), '/');
                      $this->redirect("/auth/silent?username=".$user->getEmail()."&password=".$user->getPassword());
                 }
+            My_Utils::cleanAvatars();
             $this->redirect("/user");
     }
     }

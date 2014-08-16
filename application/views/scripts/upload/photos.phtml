@@ -5,7 +5,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
     ->appendFile($this->baseUrl('/js/dropzone.js'))
     ->appendFile($this->baseUrl('/js/upload-photo.js'));
 
-$photopath = $_SERVER["DOCUMENT_ROOT"].('/photos/gallery/original');
+$photopath = $_SERVER["DOCUMENT_ROOT"].('/photos/gallery/thumb');
 
 
 $picturesFiles = glob ( $photopath."/".sprintf("p%06d%s",$this->identity["id"],"*.*"));
@@ -28,34 +28,24 @@ for( $i = 0; $i < count($picturesFiles); $i++ ){
 <body>
 <div class="row user-page" style="background-color: #ffffff">
 <?php
-
-if ($this->identity["role"]==Table_User::ROLE_USER){
-    echo $this->partial('_partials/user-menu.phtml',
-    array(
-        'identity' => $this->identity,
-        'action' => $this->action
-    ));
-    }
-if ($this->identity["role"]==Table_User::ROLE_ADMIN){
-        echo $this->placeholder('sidebar');
-}
+require_once("sidebar.php");
 ?>
 
-    <div class="col-md-9" style="position: relative;top:5px;">
+    <div class="col-md-9" style="position: relative;top:5px;" id="container">
         <div >
-        <img src="/images/upload-photos.jpg" style="position: relative; top: 15px; float: right; height: 60px; cursor: pointer;" onclick="showDroparea()">
+        <img src="/images/upload-photos.jpg" style="position: relative; top: 15px; float: right; height: 60px; cursor: pointer;" onclick="showDroparea()" title="click to extend/minimize upload area">
         </div>
         <h3 class="title">Gallery</h3>
         <form id="deletephotos" action="<?php echo $this->baseUrl('/upload/delete-from-album') ?>">
         <button class="btn btn-danger" style="margin-bottom: 20px;position: relative;top:5px" title="Mark photos first for deletion" onclick="document.getElementById('deletephotos').submit()">Delete photos</button>
         <input type="hidden" id="photostodelete" name="photostodelete">
-        <div id="album"  style="position:static;overflow-y:scroll;height:650px;width:850px;display: block">
 
+        <div id="album" style="position:static;overflow-y:scroll;height:650px;width:850px;display: block">
 
             <?php for( $i = 0; $i < count( $pictures ); $i++ ): ?>
                 <div style="float: left;margin: -4px;width:285px;height: 330px">
 
-                <img width="250px" id="<?php echo $pictures[$i] ?>"  src="<?php echo $this->baseUrl('/photos/gallery/original') . "/". $pictures[$i]?>" alt="<?php echo $photopath ."/". $pictures[$i]?>" onclick="mark(this,<?php echo $i ?>)" >
+                <img width="250px" id="<?php echo $pictures[$i] ?>"  src="<?php echo $this->baseUrl('/photos/gallery/thumb') . "/". $pictures[$i]?>" alt="<?php echo $photopath ."/". $pictures[$i]?>" onclick="mark(this,<?php echo $i ?>)" >
                 </div>
             <?php endfor ?>
 
@@ -64,13 +54,14 @@ if ($this->identity["role"]==Table_User::ROLE_ADMIN){
        </form>
     </div>
 
-    <div class="myDropzone" style="display:none; overflow-y:scroll; width: 850px; height: 670px;position: absolute;margin-top:-60px;z-index: 3000;background-color: #ffffff;"  id="droparea" title="Click or drag here to add picture" >
-    <div style="float: right;position: relative; top: -20px">
-        <button id="resetbutton" class="btn btn-danger" style="position:relative;float: right">Reset</button>
-        <button id="uploadbutton" class="btn btn-primary" style="position:relative;float: right; margin-right: 10px" >Upload photos</button>
+    <div class="myDropzone" id="dropareaphoto"  title="Click or drag here to add picture" >
+    <div style="float: right;position: relative; top: -10px">
+        <button id="resetbutton" class="btn btn-danger" style="position:relative;mfloat: right">Reset</button>
+        <button id="uploadbutton" class="btn btn-primary" style="position:relative;float: right; margin-left: 10px" >Upload photos</button>
 
     </div>
-    <div id="uploadarea" style="margin-top: 40px;height: inherit" >
+    <div id="uploadarea" style="position:relative;margin-top: 40px;height: inherit" >
+
     <form action="<?php echo $this->baseUrl('/upload/photo') ?>" class="dropzone" style="height: inherit" id="my-dropzone">
         <input type="hidden" id="realfiles" name="realfiles">
     </form>
@@ -87,13 +78,13 @@ if ($this->identity["role"]==Table_User::ROLE_ADMIN){
 
 <script type="text/javascript">
 
-var position = $("#album").offset();
-var dropArea = $("#droparea");
+var position = $("#container").offset();
+var dropArea = $("#dropareaphoto");
 
 dropArea.css(position);  //setare pozitie droparea dupa pozitia elementului #album
 
-photos=[];
-photolist=[];
+var photos=[];
+var photolist=[];
 
 function showDroparea(){
 

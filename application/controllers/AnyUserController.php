@@ -26,7 +26,7 @@ class AnyUserController extends My_Controller_Action
 
     public function editAction()
     {
-        My_Utils::cleanAvatars();
+
         if (is_null($id = $this->getRequest()->getParam("id"))) {
             throw new Exception("Missing User ID !", 501);
         }
@@ -60,6 +60,7 @@ class AnyUserController extends My_Controller_Action
                 return;
             }
             require_once("/editphotosave.php");
+            My_Utils::cleanAvatars();
             $this->redirect("/any-user");
         }
     }

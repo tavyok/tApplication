@@ -20,24 +20,34 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
     <!-- Custom styles for this template -->
     <link href="/styles.css" rel="stylesheet">
     <link href="/dropzone.css" rel="stylesheet">
-    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/jquery-1.10.2.min.js"></script>
 
 </head>
 <body>
 <img src="/images/tron.jpg" class="backImage" >
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container" style="width: 1000px">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation"  style=" background-color: #2b669a;">
+    <div class="container" style="width: 1000px;">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Project T-App</a>
+            <a class="navbar-brand" style="margin-top: 10%;color: lightskyblue" href="/">Project T-App</a>
         </div>
-        <?php  $identity = Zend_Auth::getInstance()->getIdentity();?>
+        <?php  $identity = Zend_Auth::getInstance()->getIdentity();
+        $timeseed=new DateTime();
+        $avatar=glob ($_SERVER["DOCUMENT_ROOT"].'/photos/'. My_Utils::buildImageFile($identity["id"]).".*");
+        if (!empty($avatar))
+        {
+            $isfile=file_exists($avatar[0]);
+        }
+        else
+            $isfile=false;
+
+        ?>
 
         <?php if( Zend_Auth::getInstance()->hasIdentity() ): ?>
             <form action="/auth/logout" method="post" class="navbar-form navbar-right"  role="form">
+                 <DIV style="float: left;" ><img id="topmenu_avatar" src="/photos/<?php echo $isfile?My_Utils::buildImageFile($identity["id"])."?".$timeseed->format("m:s"):"" ?>" style="border-radius: 15%;height: 55px;" ></DIV>
+                  <DIV style="float: left;margin-left:10px"> <H4 class="badge navbar-right" style="color: greenyellow;background-color: royalblue;font-size: 17px;margin-top:10%"><?php echo "Welcome ".$identity["full_name"] ?></H4></DIV>
 
-                  <DIV style="float: left"> <H4 class="badge navbar-right" style="color: greenyellow;background-color: royalblue;font-size: 17px"><?php echo "Welcome ".$identity["first_name"]." ".$identity["last_name"] ?></H4></DIV>
-
-                <button type="submit" class="btn btn-success" style="position:relative;left:10px;top: 3px  " >LogOut</button>
+                <button type="submit" class="btn btn-success" style="position:relative;left:10px;margin-top:3%" >LogOut</button>
             </form>
         <?php else: ?>
             <div >
@@ -95,7 +105,15 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
 
             }
         });
-    })
+    });
+
+    if($('#topmenu_avatar').attr('src')=="/photos/")
+    {
+
+        $('#topmenu_avatar').attr('src','/images/add-user.jpg');
+
+    }
+
 </script>
 
 </body>

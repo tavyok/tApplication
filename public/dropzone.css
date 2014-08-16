@@ -233,6 +233,8 @@
     box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
     font-size: 14px;
 }
+
+ /*magnify efect */
 .myDropzone .dz-preview.dz-image-preview:hover .dz-details img,
 .myDropzone-previews .dz-preview.dz-image-preview:hover .dz-details img {
     display: block;
@@ -242,12 +244,14 @@
     transition: width 2s, height 2s, transform 2s;
 
 
-    -ms-transform: translate(-8px,-8px); /* IE 9 */
-    -webkit-transform: translate(-8px,-8px); /* Chrome, Safari, Opera */
-    transform: translate(-8px,-8px);
+    -ms-transform: translate(0px,0px); /* IE 9 */
+    -webkit-transform: translate(0px,0px); /* Chrome, Safari, Opera */
+    transform: translate(0px,0px);
 
     width: 184px;
     height: 184px;
+
+    clip:rect(0px,165px,165px,0px);
 
      margin-top: 1px;
      margin-left: 1px;
