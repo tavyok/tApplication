@@ -31,43 +31,50 @@ for( $i = 0; $i < count($picturesFiles); $i++ ){
 require_once("sidebar.php");
 ?>
 
-    <div class="col-md-9" style="position: relative;top:5px;" id="container">
-        <div >
-        <img src="/images/upload-photos.jpg" style="position: relative; top: 15px; float: right; height: 60px; cursor: pointer;" onclick="showDroparea()" title="click to extend/minimize upload area">
+    <div id="container" class="col-md-9" style="position: relative; top:5px;">
+        <div>
+            <img src="/images/upload-photos.jpg" style="top: 15px; float: right; height: 60px; cursor: pointer;" onclick="showDroparea()" title="click to extend/minimize upload area">
         </div>
-        <h3 class="title">Gallery</h3>
-        <form id="deletephotos" action="<?php echo $this->baseUrl('/upload/delete-from-album') ?>">
-        <button class="btn btn-danger" style="margin-bottom: 20px;position: relative;top:5px" title="Mark photos first for deletion" onclick="document.getElementById('deletephotos').submit()">Delete photos</button>
-        <input type="hidden" id="photostodelete" name="photostodelete">
 
-        <div id="album" style="position:static;overflow-y:scroll;height:650px;width:850px;display: block">
+        <h3 class="title">Gallery</h3>
+
+        <form id="deletephotos" action="<?php echo $this->baseUrl('/upload/delete-from-album') ?>">
+            <button class="btn btn-danger" style="margin-bottom: 20px;position: relative;top:5px" title="Mark photos first for deletion" onclick="document.getElementById('deletephotos').submit()">Delete photos</button>
+            <input type="hidden" id="photostodelete" name="photostodelete">
+
+        <div id="album" style="overflow-y:scroll;height:650px;width:850px;display: block">
 
             <?php for( $i = 0; $i < count( $pictures ); $i++ ): ?>
-                <div style="float: left;margin: -4px;width:285px;height: 330px">
+                <div class="photoFrame">
 
-                <img width="250px" id="<?php echo $pictures[$i] ?>"  src="<?php echo $this->baseUrl('/photos/gallery/thumb') . "/". $pictures[$i]?>" alt="<?php echo $photopath ."/". $pictures[$i]?>" onclick="mark(this,<?php echo $i ?>)" >
+                    <img id="<?php echo $pictures[$i] ?>"
+                         src="<?php echo $this->baseUrl('/photos/gallery/thumb') . "/". $pictures[$i]?>"
+                         alt="<?php echo $photopath ."/". $pictures[$i]?>" onclick="mark(this,<?php echo $i ?>)" >
+
                 </div>
             <?php endfor ?>
 
-
         </div>
        </form>
-    </div>
 
-    <div class="myDropzone" id="dropareaphoto"  title="Click or drag here to add picture" >
-    <div style="float: right;position: relative; top: -10px">
-        <button id="resetbutton" class="btn btn-danger" style="position:relative;mfloat: right">Reset</button>
-        <button id="uploadbutton" class="btn btn-primary" style="position:relative;float: right; margin-left: 10px" >Upload photos</button>
 
-    </div>
-    <div id="uploadarea" style="position:relative;margin-top: 40px;height: inherit" >
+        <div class="myDropzone" id="dropareaphoto"  title="Click or drag here to add picture" >
+            <div class="ta-right">
+                <button id="closeButton" class="btn btn-danger" >Close</button>
+                <button id="resetbutton" class="btn btn-danger" >Reset</button>
+                <button id="uploadbutton" class="btn btn-primary">Upload photos</button>
+            </div>
 
-    <form action="<?php echo $this->baseUrl('/upload/photo') ?>" class="dropzone" style="height: inherit" id="my-dropzone">
-        <input type="hidden" id="realfiles" name="realfiles">
-    </form>
-    </div>
-      <div id="uploaddone" style="display: none;background-color: greenyellow; text-align:center;border-radius: 40%;font-size: 10px;padding: 20px" >
-      </div>
+            <div id="uploadarea" >
+                <form action="<?php echo $this->baseUrl('/upload/photo') ?>" class="dropzone" id="my-dropzone">
+                    <input type="hidden" id="realfiles" name="realfiles">
+                </form>
+            </div>
+            <div id="uploaddone"
+                 style="display: none;background-color: greenyellow; text-align:center;border-radius: 40%;font-size: 10px;padding: 20px" >
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -78,10 +85,7 @@ require_once("sidebar.php");
 
 <script type="text/javascript">
 
-var position = $("#container").offset();
 var dropArea = $("#dropareaphoto");
-
-dropArea.css(position);  //setare pozitie droparea dupa pozitia elementului #album
 
 var photos=[];
 var photolist=[];

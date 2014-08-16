@@ -45,6 +45,39 @@ label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
     margin-left: 0px;
 }
 
-#dropareaphoto{display:none; overflow-y:scroll; width: 850px; height: 670px;position: absolute;margin-top:10px;margin-left: -130px;z-index: 3000;background-color: #ffffff; -webkit-box-shadow: -1px 5px 145px 157px #245AAB;
+#dropareaphoto{display:none;
+    overflow-y:scroll;
+    position: absolute;
+    left: 0;
+    top: 80px;
+    width: 875px;
+    height: 710px;
+    z-index: 3000;
+    background-color: #ffffff;
+    -webkit-box-shadow: -1px 5px 145px 157px #245AAB;
     -moz-box-shadow: -1px 5px 145px 157px #245AAB;
-    box-shadow: -1px 5px 145px 157px #245AAB;}
+    box-shadow: -1px 5px 145px 157px #245AAB;
+}
+
+.ta-right { text-align: right}
+
+#uploadarea {
+    width: 100%;
+    height: 600px;
+    margin-top: 20px;
+}
+
+.photoFrame {
+    float: left;
+    margin: -4px;
+    width: 285px;
+    height: 220px;
+    text-align: center;
+}
+
+.photoFrame img {
+    border: 8px solid #e7e7e7;
+    background: #f7f7f7;
+
+}
+

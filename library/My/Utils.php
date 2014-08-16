@@ -233,29 +233,38 @@ class My_Utils
 
             $photoObj->save();
 
-            $photoarray['name'] = $newFileName;
-            $photoarray['size'] = filesize($uploadFolder . "/gallery/original/" . $newFileName);
-            $photoarray["error"] = null;
+            $photoArray['name'] = $newFileName;
+            $photoArray['size'] = filesize($uploadFolder . "/gallery/original/" . $newFileName);
+            $photoArray["error"] = null;
 
             //set scale dimensions for thumbs
-            $scaleW=0;
-            $scaleH=260;
-            $scfile=array();
-            $scfile["name"]=pathinfo($uploadFolder . "/gallery/original/".$newFileName,PATHINFO_FILENAME);
-            $scfile["ext"]=pathinfo($uploadFolder . "/gallery/original/".$newFileName,PATHINFO_EXTENSION);
-            My_Utils::pictureScale($uploadFolder . "/gallery/original/".$newFileName,$uploadFolder ."/gallery/thumb/",$scfile["name"].$scaleW."x".$scaleH.".".$scfile["ext"],($scaleW==0)?"auto":$scaleW,($scaleH==0)?"auto":$scaleH);
+            $scaleW = 240;
+            $scaleH = 180;
+            $scFile = array();
+
+            $pathInfo = pathinfo($uploadFolder . "/gallery/original/".$newFileName);
+
+            $scFile["name"] = $pathInfo['filename'];
+            $scFile["ext"] = $pathInfo['extension'];
+
+            My_Utils::pictureScale(
+                $uploadFolder . "/gallery/original/".$newFileName,
+                $uploadFolder ."/gallery/thumb/",
+                sprintf("%s%dx%d.%s", $scFile["name"], $scaleW, $scaleH, $scFile["ext"]),
+                $scaleW,$scaleH
+            );
 
 
 
-            return $photoarray;
+            return $photoArray;
 
         } catch (RuntimeException $e) {
 
-            $photoarray['name'] = null;
-            $photoarray['size'] = null;
-            $photoarray["error"] = $e->getMessage();
+            $photoArray['name'] = null;
+            $photoArray['size'] = null;
+            $photoArray["error"] = $e->getMessage();
        //       My_Log_Me::Log($photoarray);
-            return $photoarray;
+            return $photoArray;
         }
     }
 
@@ -358,19 +367,34 @@ class My_Utils
 
     }
 
-    static public function pictureScale($file,$filescPath,$filename,$newW,$newH){
+    static public function pictureScale($file,$fileScPath,$filename,$newW,$newH){
 
 
-        if (! $fileDetails=My_Utils::getPictureDetails($file)){
+        $newDelta = $newW/$newH;
+
+        if (! $fileDetails = My_Utils::getPictureDetails($file)){
             return false;
-
         }
-        if ($newW=="auto"){
+
+        $oldW = $fileDetails['width'];
+        $oldH = $fileDetails['height'];
+        $oldDelta = $oldW / $oldH;
+
+        if( $oldDelta > $newDelta ){
+            $newH = $oldH * ( $newW / $oldW );
+        }
+        else{
+            $newW = $oldW* ( $newH / $oldH );
+        }
+
+/*        if ($newW=="auto"){
             $newW=$fileDetails["width"] * $newH/$fileDetails["height"];
         }
         if ($newH=="auto"){
             $newH=$fileDetails["height"] * $newW/$fileDetails["width"];
-        }
+        }*/
+
+
         switch ($fileDetails["type"]){
             case "image/jpeg":
                 $src=imagecreatefromjpeg($file);
@@ -378,24 +402,24 @@ class My_Utils
                 $dst = imagecreatetruecolor($newW, $newH);
                 imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $fileDetails["width"], $fileDetails["height"]);
 
-                imagejpeg($dst, $filescPath.$filename,100);
-                $scale_info = getimagesize($filescPath."newimage.jpg");
+                imagejpeg($dst, $fileScPath.$filename,100);
+                $scale_info = getimagesize($fileScPath . "newimage.jpg");
                 break;
 
             case "image/png":
                 $src=imagecreatefrompng($file);
                 $dst = imagecreatetruecolor($newW, $newH);
                 imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $fileDetails["width"], $fileDetails["height"]);
-                imagepng($dst, $filescPath.$filename,0);
-                $scale_info = getimagesize($filescPath."newimage.png");
+                imagepng($dst, $fileScPath.$filename,0);
+                $scale_info = getimagesize($fileScPath."newimage.png");
                 break;
 
             case "image/gif":
                 $src=imagecreatefromgif($file);
                 $dst = imagecreatetruecolor($newW, $newH);
                 imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $fileDetails["width"], $fileDetails["height"]);
-                imagegif($dst, $filescPath.$filename);
-                $scale_info = getimagesize($filescPath."newimage.gif");
+                imagegif($dst, $fileScPath.$filename);
+                $scale_info = getimagesize($fileScPath."newimage.gif");
                 break;
         }
         imagedestroy($dst);
