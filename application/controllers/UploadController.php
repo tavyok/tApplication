@@ -134,9 +134,14 @@ class UploadController extends My_Controller_Action
     function deleteFromAlbumAction(){
         $photostodelete=json_decode($this->getRequest()->getParam("photostodelete"));
         foreach ($photostodelete as $delphoto){
-            unlink(realpath($this->config['upload']['folder']) . "/gallery/original/" . $delphoto);
+            unlink(realpath($this->config['upload']['folder']) . "/gallery/thumb/" . $delphoto);
+
+            $otherphoto=glob(realpath($this->config['upload']['folder']) . "/gallery/original/" . substr($delphoto,0,15). "*.*");
+
+            unlink($otherphoto[0]);
 
         }
+
         $this->redirect("/upload/photos");
     }
     function photosAction(){

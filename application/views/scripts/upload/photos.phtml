@@ -25,7 +25,7 @@ for( $i = 0; $i < count($picturesFiles); $i++ ){
 
 </head>
 
-<body>
+<body style=" -webkit-transform: translate3d(0, 0, 0)">
 <div class="row user-page" style="background-color: #ffffff">
 <?php
 require_once("sidebar.php");
@@ -33,7 +33,7 @@ require_once("sidebar.php");
 
     <div id="container" class="col-md-9" style="position: relative; top:5px;">
         <div>
-            <img src="/images/upload-photos.jpg" style="top: 15px; float: right; height: 60px; cursor: pointer;" onclick="showDroparea()" title="click to extend/minimize upload area">
+            <img src="/images/upload-photos.jpg" style="top: 15px; float: right; height: 60px; cursor: pointer;" onclick="toggleDroparea()" title="click to extend/minimize upload area">
         </div>
 
         <h3 class="title">Gallery</h3>
@@ -60,7 +60,7 @@ require_once("sidebar.php");
 
         <div class="myDropzone" id="dropareaphoto"  title="Click or drag here to add picture" >
             <div class="ta-right">
-                <button id="closeButton" class="btn btn-danger" >Close</button>
+                <button id="closebutton" class="btn btn-danger" >Close</button>
                 <button id="resetbutton" class="btn btn-danger" >Reset</button>
                 <button id="uploadbutton" class="btn btn-primary">Upload photos</button>
             </div>
@@ -90,7 +90,7 @@ var dropArea = $("#dropareaphoto");
 var photos=[];
 var photolist=[];
 
-function showDroparea(){
+function toggleDroparea(){
 
     dropArea.slideToggle(function(){
         if( ! dropArea.is(':visible') ){
@@ -100,6 +100,21 @@ function showDroparea(){
     });
 
 }
+
+function hideDroparea(){
+
+    dropArea.slideUp(function(){
+        if( ! dropArea.is(':visible') ){
+            location.reload(true);
+        }
+
+    });
+
+}
+
+$("#closebutton").click(function(){
+    hideDroparea();
+});
 
 function mark(elem,i){
     if (photos[i]==null)
@@ -119,6 +134,7 @@ function mark(elem,i){
         photos[i]=0;
         photolist.splice(elem.id,1);
     }
+
     $("#photostodelete").val(JSON.stringify(photolist));
 
 }

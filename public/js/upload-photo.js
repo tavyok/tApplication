@@ -66,13 +66,13 @@ Dropzone.options.myDropzone = {
 
             newupload=false;
             //upload button click
-            $("#uploadbutton").show();
+        //    $("#uploadbutton").show();
             $("#uploadbutton").click(function(){
                _this.processFile(file);
             });
 
             //reset button click
-            $("#resetbutton").show();
+       //     $("#resetbutton").show();
             $("#resetbutton").click(function(){
                 while(myfiles.length > 0) {
                     myfiles.pop();
@@ -81,6 +81,8 @@ Dropzone.options.myDropzone = {
                 $("#realfiles").val(JSON.stringify(myfiles));
 
             });
+
+
 
             // Listen to the click event
             removeButton.addEventListener("click", function(e) {
