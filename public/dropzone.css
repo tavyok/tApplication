@@ -22,10 +22,11 @@
 .myDropzone.dz-clickable .dz-message,
 .myDropzone.dz-clickable .dz-message span {
     cursor: pointer;
+
 }
-/*.myDropzone.dz-clickable * {
+myDropzone.dz-clickable * {
     cursor: pointer;
-}*/
+}
 .myDropzone .dz-message {
     opacity: 1;
     -ms-filter: none;
@@ -175,6 +176,9 @@
     background: rgba(0,0,0,0.03);
     padding: 23px;
 }
+
+/*.myDropzone.setting clickable area */
+
 .myDropzone .dz-default.dz-message {
     opacity: 1;
     -ms-filter: none;
@@ -187,9 +191,12 @@
     background-image: url("../images/spritemap.png") ;
     background-repeat: no-repeat;
     background-position: 0 0px;
+
     position: absolute;
+
     width: 428px;
     height: 123px;
+
     margin-left: -214px;
     margin-top: -61.5px;
     top: 50%;
@@ -213,7 +220,7 @@
     background-position: 0 -123px;
     width: 268px;
     margin-left: -134px;
-    height: 174px;
+    reight: 174px;
     margin-top: -87px;
 }
 .myDropzone.dz-drag-hover .dz-message {

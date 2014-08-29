@@ -66,7 +66,7 @@ label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
     background: #f7f7f7;
 
 
-    -webkit-transform: scale(1, 1); // This is the scale for the normal size of the image.
+    -webkit-transform: scale(1, 1);
 -webkit-transition-duration: 500ms;
     -webkit-transition-timing-function: ease-out;
 

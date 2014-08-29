@@ -238,8 +238,14 @@ class My_Utils
             $photoArray["error"] = null;
 
             //set scale dimensions for thumbs
-            $scaleW = 240;
-            $scaleH = 180;
+
+
+            $scaleW = Zend_Registry::get('__CONFIG__')['thumb']['Width'];
+            $scaleH= Zend_Registry::get('__CONFIG__')['thumb']['Height'];
+
+
+           // $scaleW = 240;
+           // $scaleH = 180;
             $scFile = array();
 
             $pathInfo = pathinfo($uploadFolder . "/gallery/original/".$newFileName);
