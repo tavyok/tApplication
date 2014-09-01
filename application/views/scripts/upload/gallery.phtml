@@ -6,6 +6,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
      ->appendFile( $this->baseUrl('/js/Jssor.Slider/js/jssor.core.js'))
      ->appendFile( $this->baseUrl('/js/Jssor.Slider/js/jssor.slider.js'));
 
+
 $thumbspath = $_SERVER["DOCUMENT_ROOT"].('/photos/gallery/thumb/');
 $originalspath = $_SERVER["DOCUMENT_ROOT"].('/photos/gallery/original/');
 
@@ -14,11 +15,13 @@ $originalsFiles = glob ( $originalspath."/".sprintf("p%06d%s",$this->identity["i
 $thumbs = array();
 for( $i = 0; $i < count($thumbsFiles); $i++ ){
     $thumbs[] = pathinfo( $thumbsFiles[$i],PATHINFO_BASENAME );
+ //   My_Log_Me::Log($i."---".$thumbs[$i]);
 }
 
 $originals = array();
 for( $i = 0; $i < count($originalsFiles); $i++ ){
-    $thumbs[] = pathinfo( $originalsFiles[$i],PATHINFO_BASENAME );
+    $originals[] = pathinfo( $originalsFiles[$i],PATHINFO_BASENAME );
+  //  My_Log_Me::Log($i."---".$originals[$i]);
 }
 
 ?>
@@ -28,6 +31,8 @@ for( $i = 0; $i < count($originalsFiles); $i++ ){
 <head>
     <link rel="stylesheet" type="text/css" href="styles.css"/>
 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
 
 
 </head>
@@ -38,89 +43,39 @@ for( $i = 0; $i < count($originalsFiles); $i++ ){
 <?php
 require_once("sidebar.php");
 ?>
-    <div class="col-md-9" style="position: relative;top:15px;" id="container">
+    <div class="col-md-9" style="position: relative;top:6px;left: -18px" id="container">
 
 
         <div id="slider1_container" style="position: relative; margin: 0 auto;
-        top: 0px; left: 0px; width: 1300px; height: 500px; overflow: hidden;">
+        top: 0px; left: 0px; width: 1024px; height: 768px; overflow: hidden;">
             <!-- Loading Screen -->
-            <div id="slider1_container" style="position: relative; width: 720px;
-        height: 480px; overflow: hidden;">
+            <div id="slider1_container" style="position: relative; width: 1024px;
+        height: 768px; overflow: hidden;">
 
-                <!-- Loading Screen -->
+                <!-- Loading Screen-->
                 <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-                    <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-                background-color: #000; top: 0px; left: 0px;width: 100%;height:100%;">
+                    <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block; background-color: #000; top: 0px; left: 0px;width: 100%;height:100%;">
                     </div>
-                    <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;
-                top: 0px; left: 0px;width: 100%;height:100%;">
+                    <div style="position: absolute; display: block; background: url(/js/Jssor.Slider/img/loading.gif) no-repeat center center; top: 0px; left: 0px;width: 100%;height:100%;">
                     </div>
                 </div>
 
                 <!-- Slides Container -->
-                <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 720px; height: 480px;
+                <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1024px; height: 768px;
             overflow: hidden;">
-                    <div>
-                        <img u="image" src="../img/travel/01.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-01.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/02.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-02.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/03.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-03.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/04.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-04.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/05.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-05.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/06.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-06.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/07.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-07.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/08.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-08.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/09.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-09.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/10.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-10.jpg" />
-                    </div>
+                <?php for ($i=0;$i<count($thumbs);$i++): ?>
 
                     <div>
-                        <img u="image" src="../img/travel/11.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-11.jpg" />
+                        <img u="image" src="/photos/gallery/original/<?php echo $originals[$i] ?>" />
+                        <img u="thumb" src="/photos/gallery/thumb/<?php echo $thumbs[$i] ?>" />
                     </div>
-                    <div>
-                        <img u="image" src="../img/travel/12.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-12.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/13.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-13.jpg" />
-                    </div>
-                    <div>
-                        <img u="image" src="../img/travel/14.jpg" />
-                        <img u="thumb" src="../img/travel/thumb-14.jpg" />
-                    </div>
+
+                    <?php endfor ?>
+
                 </div>
 
                 <!-- Thumbnail Navigator Skin Begin -->
-                <div u="thumbnavigator" class="jssort07" style="position: absolute; width: 720px; height: 100px; left: 0px; bottom: 0px; overflow: hidden; ">
+                <div u="thumbnavigator" class="jssort07" style="position: absolute; width: 1024px; height: 100px; left: 0px; bottom: 0px; overflow: hidden; ">
                     <div style=" background-color: #000; filter:alpha(opacity=30); opacity:.3; width: 100%; height:100%;"></div>
                     <!-- Thumbnail Item Skin Begin -->
                     <style>
@@ -204,7 +159,7 @@ require_once("sidebar.php");
                             position: absolute;
                             cursor: pointer;
                             display: block;
-                            background: url(../img/a11.png) no-repeat;
+                            background: url(/js/Jssor.Slider/img/a11.png) no-repeat;
                             overflow: hidden;
                         }
 
@@ -245,22 +200,6 @@ require_once("sidebar.php");
                 <!-- Trigger -->
             </div>
 
-<!--        <div id="album" style="position:static;overflow-y:scroll;height:650px;width:850px;display: block">
-
-            <?php /*for( $i = 0; $i < count( $thumbs ); $i++ ): */?>
-                <div style="float: left;margin: -4px;width:285px;height: 330px">
-
-                    <img width="250px" id="<?php /*echo $thumbs[$i] */?>"  src="<?php /*echo $this->baseUrl('/photos/gallery/thumb') . "/". $thumbs[$i]*/?>" alt="<?php /*echo $thumbspath ."/". $thumbs[$i]*/?>"  >
-                </div>
-            <?php /*endfor */?>
-
-
-        </div>-->
-
-
-
-
-
     </div>
 </div>
 </body>
@@ -298,7 +237,7 @@ require_once("sidebar.php");
         function ScaleSlider() {
             var parentWidth = jssor_slider1.$Elmt.parentNode.clientWidth;
             if (parentWidth)
-                jssor_slider1.$SetScaleWidth(Math.min(parentWidth, 720));
+                jssor_slider1.$SetScaleWidth(Math.min(parentWidth, 1024));
             else
                 window.setTimeout(ScaleSlider, 30);
         }

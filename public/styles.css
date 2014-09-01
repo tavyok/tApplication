@@ -61,42 +61,63 @@ label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
     text-align: center;
 }
 
+
 .photoFrame img {
     border: 8px solid #e7e7e7;
     background: #f7f7f7;
 
 
-    -webkit-transform: scale(1, 1);
--webkit-transition-duration: 500ms;
-    -webkit-transition-timing-function: ease-out;
+    -webkit-transition: all 0.4s ;
+    -moz-transition: all 0.4s ;
+    -o-transition: all 0.4s ;
+    -ms-transition: all 0.4s ;
+    transition: all 0.4s ;
+    /*
+        -webkit-transform: scale(1, 1);
+        -webkit-transition-duration: 500ms;
+        -webkit-transition-timing-function: ease-out;
 
-    /* Webkit for Mozila <span class="drd2x0h" id="drd2x0h_2" style="font-weight: bold; height: 12px;">Firefox</span> */
-    -moz-transform: scale(1, 1);
-    -moz-transition-duration: 500ms;
-    -moz-transition-timing-function: ease-out;
+        *//* Webkit for Mozila <span class="drd2x0h" id="drd2x0h_2" style="font-weight: bold; height: 12px;">Firefox</span> *//*
+        -moz-transform: scale(1, 1);
+        -moz-transition-duration: 500ms;
+        -moz-transition-timing-function: ease-out;
 
-    /* Webkit for IE( Version: 11, 10 ) */
-    -ms-transform: scale(1, 1);
-    -ms-transition-duration: 500ms;
-    -ms-transition-timing-function: ease-out;
+        *//* Webkit for IE( Version: 11, 10 ) *//*
+        -ms-transform: scale(1, 1);
+        -ms-transition-duration: 500ms;
+        -ms-transition-timing-function: ease-out;*/
 }
 
 .photoFrame img:hover{
     position: relative;z-index: 500;
 
+
+
+    -webkit-transform: scale(1.2,1.2);
+    -moz-transform: scale(1.2,1.2);
+    -o-transform: scale(1.2,1.2);
+    -ms-transform: scale(1.2,1.2);
+    transform: scale(1.2,1.2);
+/*
+
     -webkit-transform: scale(1.2, 1.2);
--webkit-transition-duration: 500ms;
+    -webkit-transition-duration: 500ms;
     -webkit-transition-timing-function: ease-out;
 
-    /* Webkit for <span class="drd2x0h" id="drd2x0h_3" style="font-weight: bold; height: 12px;">Mozila Firefox</span> */
+    */
+/* Webkit for <span class="drd2x0h" id="drd2x0h_3" style="font-weight: bold; height: 12px;">Mozila Firefox</span> *//*
+
     -moz-transform: scale(1.2, 1.2);
     -moz-transition-duration: 500ms;
     -moz-transition-timing-function: ease-out;
 
-    /* Webkit for IE( Version: 11, 10 ) */
+    */
+/* Webkit for IE( Version: 11, 10 ) *//*
+
     -ms-transform: scale(1.20, 1.20);
     -ms-transition-duration: 500ms;
     -ms-transition-timing-function: ease-out;
+*/
 
 
     border: 5px solid blue;
