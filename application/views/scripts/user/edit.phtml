@@ -28,7 +28,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
         <form id="jsEditUser" class="form-horizontal" role="form" method="post" action="" autocomplete="off" >
             <input type="hidden" id="getRole" value="<?php echo $user->getRole() ?>">
             <input id="id" name="id" type="hidden" value="<?php echo $user->getId() ?>">
-
+            <input id="myid" type="hidden" value="<?php echo $this->identity["id"] ?>">
             <div class="form-group">
                 <label for="inputUsername" class="col-sm-3 control-label">UserName*</label>
                 <div class="col-sm-4">
@@ -119,6 +119,14 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
 
 
 <script type="text/javascript">
+
+
+    if (($("#getRole").val()=="admin") && ($("#myid").val()!=$("#id").val()))
+    {
+        $("input").prop('readonly', true);
+        $('input[type="submit"]').attr('disabled','disabled');
+    }
+
     $("input").change(function(){
         var test= $('#inputUsername').val();
         test = test.toLowerCase();

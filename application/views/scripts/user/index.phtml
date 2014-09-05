@@ -30,11 +30,11 @@
                     foreach( $this->users as $user) :
                         $i += 1;
                         $userId = $user->getId();
-
+                        $userRole=$user->getRole();
                 ?>
                 <!--se va trimite variabila $user la edit.phtml,pe rand fiecare inregistrare,se creaza linkuri cu transmiterea id-->
                 <tr class="jsEdit" data-user-id="<?php echo $userId ?>" title="Click to Edit">
-                    <td class="text-center"><input type="checkbox" name="cb[]" id="<?php echo 'crt'.$i ?>" value="<?php echo $userId?>" <?php echo ($curent_id==$userId)?"disabled":""  ?> ></td>
+                    <td class="text-center"><input type="checkbox" name="cb[]" id="<?php echo 'crt'.$i ?>" value="<?php echo $userId?>" <?php echo (($curent_id==$userId) or ($userRole==Table_User::ROLE_ADMIN))?"disabled":""  ?> ></td>
                     <td class="text-center"><?php echo $i ?></td>
                     <td><?php echo $user->getUsername()?></td>
                     <td><?php echo $user->getFullName()?></td>

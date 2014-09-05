@@ -2,6 +2,12 @@
 $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
     ->appendFile($this->baseUrl('/js/dropzone.js'))
     ->appendFile($this->baseUrl('/js/upload-avatar.js'));
+$tableUser = new Table_User();
+$select = $tableUser->select()
+    ->where("role = ?", Table_User::ROLE_ADMIN);
+
+$firstAdmin=$tableUser->fetchRow($select);
+
 ?>
 
 <head>
@@ -80,7 +86,20 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
                     <input type="text" class="form-control" id="inputPhone" placeholder="Phone" name="phone">
                 </div>
             </div>
+            <?php if ($firstAdmin==null) :?>
+                <div class="form-group">
+                    <label for="inputRole" class="col-sm-3 control-label">Role</label>
+                    <div class="col-sm-4">
+                        <select id="inputRole" name="role">
+                            <option value="<?php echo  Table_User::ROLE_ADMIN ?>"><?php echo  Table_User::ROLE_ADMIN ?></option>
+                            <option value="<?php echo  Table_User::ROLE_USER ?>"><?php echo  Table_User::ROLE_USER ?></option>
 
+                        </select>
+
+                    </div>
+
+                </div>
+            <?php endif ?>
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <button type="submit" name="adduser" class="btn btn-primary">Add user</button>

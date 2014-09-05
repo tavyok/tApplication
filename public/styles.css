@@ -54,6 +54,7 @@ label.error { color:#ac2925; font-size: 11px; margin-bottom: 0;}
 }
 
 .photoFrame {
+
     float: left;
     margin: -4px;
     width: 285px;
