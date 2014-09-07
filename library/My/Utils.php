@@ -317,35 +317,25 @@ class My_Utils
             $photosArray[$i]=$users[$i]["photo"];
         }
 
-        //My_Log_Me::Log($photosArray);
-        $filestodelete=array_diff($photosArray,$picturesOnServer);
 
-        foreach ($filestodelete as $filetodelete)
+        $filestodelete=array_diff($picturesOnServer,$photosArray);
+//        My_Log_Me::Log($filestodelete);
+        foreach ($filestodelete as $removefile)
         {
-            $userTable->getByPhoto($filetodelete)->delete();
-        }
-
-        for ($i = 0; $i < count($picturesFiles); $i++) {
             $countpic = 0;
-            $pictures[] = pathinfo($picturesFiles[$i], PATHINFO_BASENAME);
-            $filetime = date('H:i d-m-Y', filectime(realpath($photopath . "/" . $pictures[$i])));
+
+            $filetime = date('H:i d-m-Y', filectime(realpath($photopath . "/" . $removefile)));
 
             $datetime2->setTimestamp(strtotime($filetime));
-            //  $interval = $datetime2->diff($datetime);
-            //  echo " --- ".$datetime->format('H:i d-m-Y');
-            //  echo "&nbsp;&nbsp;&nbsp;".$interval->format('%R%d Days %h Hours %i Minute %s Seconds');
-            //  My_Log_Me::Log($picturesFiles);
-            if (substr($pictures[$i], 0, 6) != "avatar") {
-                if ($datetime2 < $datetime->modify("-$timetoclean hour")) {
 
-
-                    if (unlink(realpath($photopath . "/" . $pictures[$i]))) {
-                        $countpic++;
-                    }
-
-
+            if ($datetime2 < $datetime->modify("-$timetoclean hour")) {
+                if (unlink($photopath . "/" . $removefile)) {
+                    $countpic++;
                 }
-                $datetime->modify("+$timetoclean hour");
+                else
+
+
+                    $datetime->modify("+$timetoclean hour");
             }
 
         }
