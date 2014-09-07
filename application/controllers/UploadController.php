@@ -70,34 +70,56 @@ class UploadController extends My_Controller_Action
     {
 
         $timetoclean = Zend_Registry::get("__CONFIG__")['cleaning']['time']; //hours   for cleaning files created 1 hour ago
+
+
+        $photopath = $_SERVER["DOCUMENT_ROOT"].'/photos';
+
         $datetime = new DateTime();
         $datetime2 = new DateTime();
 
-        $picturesFiles = glob(realpath($this->config['upload']['folder']) . '/*.*');
-        $pictures = array();
-        for ($i = 0; $i < count($picturesFiles); $i++) {
-            $countpic = 0;
-            $pictures[] = pathinfo($picturesFiles[$i], PATHINFO_BASENAME);
-            $filetime = date('H:i d-m-Y', filectime(realpath($this->config['upload']['folder']) . "/" . $pictures[$i]));
-            // echo "<BR>". $pictures[$i]."   ".$filetime;
+        $picturesFiles = glob($photopath . '/*.*');
+
+        $picturesOnServer = array();
+        for( $i = 0; $i < count($picturesFiles); $i++) {
+            $picturesOnServer[] = basename( $picturesFiles[$i]);
+        }
+
+
+        $userTable=new Table_User();
+
+        $users=$userTable->getAll()->toArray();
+
+        $photosArray = array();
+
+
+        for ($i=0;$i<count($users);$i++)
+        {
+            $photosArray[$i]=$users[$i]["photo"];
+        }
+
+        $countpic = 0;
+        $filestodelete=array_diff($picturesOnServer,$photosArray);
+//        My_Log_Me::Log($filestodelete);
+        foreach ($filestodelete as $removefile)
+        {
+
+
+            $filetime = date('H:i d-m-Y', filectime(realpath($photopath . "/" . $removefile)));
+
             $datetime2->setTimestamp(strtotime($filetime));
-            //  $interval = $datetime2->diff($datetime);
-            //  echo " --- ".$datetime->format('H:i d-m-Y');
-            //  echo "&nbsp;&nbsp;&nbsp;".$interval->format('%R%d Days %h Hours %i Minute %s Seconds');
-            if (substr($pictures[$i], 0, 6) != "avatar") {
-                if ($datetime2 < $datetime->modify("-$timetoclean hour")) {
 
-
-                    if (unlink(realpath($this->config['upload']['folder'] . "/" . $pictures[$i]))) {
-                        $countpic++;
-                    }
-
-
+            if ($datetime2 < $datetime->modify("-$timetoclean hour")) {
+                if (unlink($photopath . "/" . $removefile)) {
+                    $countpic++;
                 }
-                $datetime->modify("+$timetoclean hour");
+                else
+
+
+                    $datetime->modify("+$timetoclean hour");
             }
 
         }
+
 
         $this->view->assign("countpic", $countpic);
         $this->view->assign("timetoclean", $timetoclean);
