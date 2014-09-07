@@ -286,9 +286,9 @@ class My_Utils
         }
         else
         {
-            $timetoclean = 2; //hours   - cleaning files created ($timetoclean) hours ago
+            $timetoclean = 1; //hours   - cleaning files created ($timetoclean) hours ago
         }
-    //    My_Log_Me::Log(self::$_config);
+
         echo $timetoclean;
         $photopath = $_SERVER["DOCUMENT_ROOT"].'/photos';
 
@@ -297,6 +297,34 @@ class My_Utils
 
         $picturesFiles = glob($photopath . '/*.*');
         $pictures = array();
+
+
+        $picturesOnServer = array();
+        for( $i = 0; $i < count($picturesFiles); $i++) {
+            $picturesOnServer[] = basename( $picturesFiles[$i]);
+        }
+
+
+        $userTable=new Table_User();
+
+        $users=$userTable->getAll()->toArray();
+
+        $photosArray = array();
+
+
+        for ($i=0;$i<count($users);$i++)
+        {
+            $photosArray[$i]=$users[$i]["photo"];
+        }
+
+        //My_Log_Me::Log($photosArray);
+        $filestodelete=array_diff($photosArray,$picturesOnServer);
+
+        foreach ($filestodelete as $filetodelete)
+        {
+            $userTable->getByPhoto($filetodelete)->delete();
+        }
+
         for ($i = 0; $i < count($picturesFiles); $i++) {
             $countpic = 0;
             $pictures[] = pathinfo($picturesFiles[$i], PATHINFO_BASENAME);
@@ -306,7 +334,7 @@ class My_Utils
             //  $interval = $datetime2->diff($datetime);
             //  echo " --- ".$datetime->format('H:i d-m-Y');
             //  echo "&nbsp;&nbsp;&nbsp;".$interval->format('%R%d Days %h Hours %i Minute %s Seconds');
-            My_Log_Me::Log($picturesFiles);
+            //  My_Log_Me::Log($picturesFiles);
             if (substr($pictures[$i], 0, 6) != "avatar") {
                 if ($datetime2 < $datetime->modify("-$timetoclean hour")) {
 
@@ -324,6 +352,7 @@ class My_Utils
 
 
     }
+
 
    static public function cleanPhotos(){
 

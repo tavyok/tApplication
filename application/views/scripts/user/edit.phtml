@@ -12,8 +12,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
 
     <style>
         .myDropzone .dz-default.dz-message {
-
-            background-image: none ;
+            background-image: none ;}
     </style>
 </head>
 <body onload="setRole()">
@@ -114,6 +113,10 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
             </form>
 
         </div>
+        <div id="onlyavatar" style="display: none">
+            <img src="/images/add-user.jpg" id="otherphoto"  class="col-sm-offset-3" width="100px">
+
+        </div>
     </div>
 </div>
 
@@ -122,10 +125,16 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
 
 
     if (($("#getRole").val()=="admin") && ($("#myid").val()!=$("#id").val()))
+
     {
         $("input").prop('readonly', true);
         $('input[type="submit"]').attr('disabled','disabled');
+        $('#inputRole').attr("disabled", true);
+
+        $("#droparea").hide();
+        $("#onlyavatar").show();
     }
+
 
     $("input").change(function(){
         var test= $('#inputUsername').val();
@@ -137,6 +146,18 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
         test = test.toLowerCase();
         $('#inputEmail').val(test);
 
+    });
+
+    $.get('/upload/get-photo?id='+$("#idphoto").val(), function(foto) {
+
+        if (foto.size>0){
+
+            var timeseed = new Date().getTime();  //forcing photo from cache to get refreshed from server
+            $("#otherphoto").attr("src","/photos/"+foto.name+"?"+timeseed);
+
+            $("#photoup").val(foto.name);
+
+        }
     });
 
     $(function(){

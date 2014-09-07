@@ -36,6 +36,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
         if (!empty($avatar))
         {
             $isfile=file_exists($avatar[0]);
+            $myavatar=basename($avatar[0],PATHINFO_BASENAME);
         }
         else
             $isfile=false;
@@ -44,8 +45,8 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
 
         <?php if( Zend_Auth::getInstance()->hasIdentity() ): ?>
             <form action="/auth/logout" method="post" class="navbar-form navbar-right"  role="form">
-                 <DIV style="float: left;" ><img id="topmenu_avatar" src="/photos/<?php echo $isfile?My_Utils::buildImageFile($identity["id"])."?".$timeseed->format("m:s"):"" ?>" style="border-radius: 15%;height: 55px;" ></DIV>
-                  <DIV style="float: left;margin-left:10px"> <H4 class="badge navbar-right" style="color: greenyellow;background-color: royalblue;font-size: 17px;margin-top:10%"><?php echo "Welcome ".$identity["full_name"] ?></H4></DIV>
+                <DIV style="float: left;" ><img id="topmenu_avatar" src="<?php echo $isfile?"/photos/".$myavatar."?".$timeseed->format("m:s"):"none" ?>" style="border-radius: 15%;height: 55px;" ></DIV>
+                <DIV style="float: left;margin-left:10px"> <H4 class="badge navbar-right" style="color: greenyellow;background-color: royalblue;font-size: 17px;margin-top:10%"><?php echo "Welcome ".$identity["full_name"] ?></H4></DIV>
 
                 <button type="submit" class="btn btn-success" style="position:relative;left:10px;margin-top:3%" >LogOut</button>
             </form>
@@ -107,7 +108,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
         });
     });
 
-    if($('#topmenu_avatar').attr('src')=="/photos/")
+    if($('#topmenu_avatar').attr('src')=="none")
     {
 
         $('#topmenu_avatar').attr('src','/images/add-user.jpg');

@@ -63,6 +63,13 @@ class Table_User extends Zend_Db_Table {
         return $this->fetchRow($select);
     }
 
+    public function getByPhoto($photo)
+    {
+        $select = $this->select()
+            ->where("photo = ?", $photo);
+
+        return $this->fetchRow($select);
+    }
 
     /**
      * Delete rows using list of ids

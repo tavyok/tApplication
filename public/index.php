@@ -1,4 +1,6 @@
 <?php
+// Get the public path as root
+define('PUBLIC_PATH', __DIR__ );
 
 // Define path to application directory
 defined('APPLICATION_PATH')

@@ -125,7 +125,7 @@ class AuthController extends My_Controller_Action
                         return;
                 }
 
-                require_once("/newphotosave.php");
+                require_once(PUBLIC_PATH."/newphotosave.php");
 
                 $this->view->assign("emailto",$user->getEmail());
 

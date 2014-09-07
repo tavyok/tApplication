@@ -26,6 +26,7 @@ class UserController extends My_Controller_Action
 
     public function indexAction()
     {
+        My_Utils::cleanAvatars();
         $tableUser = new Table_User();
 
         if ($this->getRequest()->isPost()) {
@@ -81,7 +82,7 @@ class UserController extends My_Controller_Action
                     return;
                 }
 
-               require_once("/newphotosave.php");
+               require_once (PUBLIC_PATH."/newphotosave.php");
 
                $this->view->assign("emailto",$user->getEmail());
                $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&emailto=".$user->getEmail()."&goto=/user/index");
@@ -130,7 +131,7 @@ class UserController extends My_Controller_Action
                 return;
             }
             $user=$tableUser->getByUsername($params["username"]);
-            require_once"/editphotosave.php";
+            require_once (PUBLIC_PATH."/editphotosave.php");
 
             if ($this->identity["username"]==$user->getUsername())
                 if ($role_ini!=$params["role"])
