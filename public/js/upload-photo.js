@@ -61,7 +61,7 @@ Dropzone.options.myDropzone = {
             $("#realfiles").val(JSON.stringify(myfiles));
 
             // Create the remove button
-            var removeButton = Dropzone.createElement("<IMG class='dropic' title='click to remove picture' SRC='/images/remove1.png'> ");
+            var removeButton = Dropzone.createElement("<IMG class='dropic' title='click to remove picture' SRC=baseUrl+'/images/remove1.png'> ");
             var framephoto=Dropzone.createElement("<DIV class='dropzoneframe'></DIV> ");
 
             newupload=false;

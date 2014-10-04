@@ -1,5 +1,7 @@
 var removebutton=$("#buttonremove");
 var myDropzone = $("#my-dropzone");
+var baseUrl = $("#baseUrl").val();
+
 
 Dropzone.options.myDropzone = {
     paramName: "photo", // The name that will be used to transfer the file
@@ -34,7 +36,7 @@ Dropzone.options.myDropzone = {
         this.on('removedfile', function(file,response){
   //         this.enable();
             $("#buttonremove").css("display", "none");
-            $("#imagebutton").attr("src","/images/add-user.jpg");
+            $("#imagebutton").attr("src",baseurl+"/images/add-user.jpg");
 //            $('#droparea').attr('title', 'Click or drag here to add picture');
 
 
@@ -51,56 +53,57 @@ Dropzone.options.myDropzone = {
         });
 
 
-        this.on("success", function(file,result) {
+        this.on("success", function(file,response) {
 
             newfile=file;
         //    this.disable();
 
             $("#buttonremove").css("display", "inline");
-            lastfile=$("#imagedbutton").attr("src");
+            lastfile=$("#imagebutton").attr("src");
 
-            $("#imagebutton").attr("src","/photos/"+newfile.name);
-            $.ajax({url:"/upload/deltempfile?file="+lastfile,success:function(result){
+            $("#imagebutton").attr("src",baseUrl+"/photos/"+newfile.name);
+            $.ajax({url:baseUrl+"/upload/deltempfile?file="+lastfile,success:function(response){
+
                 $("#photoup").val(null);
             }});
 
 
             var _this = this;
             $("#photoup").val(newfile.name);
+
             removebutton.click(function(){
 
-                _this.removeFile(newfile);
-                $("#buttonremove").css("display", "none");
-                $.ajax({url:"/upload/deltempfile?file="+newfile.name,success:function(result){
-                    $("#photoup").val("");
+            //     $("#buttonremove").css("display", "none");
+
+            $.ajax({url:baseUrl+"/upload/deltempfile?file="+newfile.name,success:function(response){
+
+                    $("#photoup").val(null);
                 }});
+                _this.removeFile(newfile);
             })
 
         });
 
         //load photo from database
         thisDropzone = this;
-        $.get('/upload/get-photo?id='+$("#idphoto").val(), function(foto) {
+        if ($("#idphoto").val() )
+        {
+        $.get(baseUrl+'/upload/get-photo?id='+$("#idphoto").val(), function(foto) {
 
               if (foto.size>0){
-/*
-               var mockFile = { name: foto.name, size: foto.size };
 
-
-               thisDropzone.options.addedfile.call(thisDropzone, mockFile);
-
-               thisDropzone.options.thumbnail.call(thisDropzone, mockFile, "/photos/"+foto.name);*/
                var timeseed = new Date().getTime();  //forcing photo from cache to get refreshed from server
-               $("#imagebutton").attr("src","/photos/"+foto.name+"?"+timeseed);
+               $("#imagebutton").attr("src",baseUrl+"/photos/"+foto.name+"?"+timeseed);
                $("#buttonremove").css("display", "inline");
                $("#photoup").val(foto.name);
 
               }
-        });
+        })
+        };
 
          removebutton.click(function(){
              photo=$("#imagebutton").attr("src");
-             $("#imagebutton").attr("src","/images/add-user.jpg");
+             $("#imagebutton").attr("src",baseUrl+"/images/add-user.jpg");
              $("#buttonremove").css("display", "none");
 
              $("#photoup").val("");

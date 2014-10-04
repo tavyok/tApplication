@@ -18,12 +18,24 @@ if( isset ($params["photoup"] ) ){
             $ext  = strtolower( pathinfo($photo,PATHINFO_EXTENSION) );
             $newFileName = My_Utils::buildImageFile( $user->getId() ) . "." . $ext;
 
+            $scaleW = Zend_Registry::get('__CONFIG__')['thumb']['Width'];
+            $scaleH= Zend_Registry::get('__CONFIG__')['thumb']['Height'];
 
-            if(  rename($uploadFolder. "/" .$photo, $uploadFolder  . '/' .  $newFileName )){
-                My_Log_Me::Log( "moved". $photo ."->".$newFileName);
+            // $scaleW = 240;
+            // $scaleH = 180;
 
-            }
+            My_Utils::pictureScale(
+                $uploadFolder . "/" . $photo,
+                $uploadFolder ."/",
+                $newFileName,
+                $scaleW,$scaleH
+            );
 
+/*           if(  rename($uploadFolder. "/" .$photo, $uploadFolder  . '/' .  $newFileName )){
+               My_Log_Me::Log( "moved". $photo ."->".$newFileName);
+
+           }
+*/
 
             $user->setPhoto($newFileName);
             try {

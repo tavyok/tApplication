@@ -23,7 +23,8 @@
                 </thead>
                 <tbody>
                 <?php
-                    $curent_id=Zend_Auth::getInstance()->getIdentity()["id"];
+                    $userauth = Zend_Auth::getInstance()->getIdentity();
+                    $curent_id = $userauth["id"];
                     $i = 0;
                     /**@var Model_User $user */
 
@@ -52,6 +53,7 @@
 
 </div>
 <script type="text/javascript">
+    var baseUrl = "<?php echo rtrim($this->baseUrl('/'),'/')?>";
     function check_ids()
     {
        i=1;
@@ -74,7 +76,7 @@
         var clicked = $(event.target).text();
         if (clicked!=Number(clicked))
         {
-            location.href = '/user/edit?id=' + $(this).data("userId");
+            location.href = baseUrl+'/user/edit?id=' + $(this).data("userId");
         }
     })
 

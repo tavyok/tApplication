@@ -33,7 +33,7 @@ require_once(PUBLIC_PATH."/sidebar.php");
 
     <div id="container" class="col-md-9" style="position: relative; top:5px;">
         <div>
-            <img src="/images/upload-photos.jpg" style="top: 15px; float: right; height: 60px; cursor: pointer;" onclick="toggleDroparea()" title="click to extend/minimize upload area">
+            <img src="<?php echo $this->baseUrl('/images/upload-photos.jpg')?>" style="top: 15px; float: right; height: 60px; cursor: pointer;" onclick="toggleDroparea()" title="click to extend/minimize upload area">
         </div>
 
         <h3 class="title">Gallery</h3>
@@ -42,7 +42,7 @@ require_once(PUBLIC_PATH."/sidebar.php");
             <button class="btn btn-danger" style="margin-bottom: 20px;position: relative;top:5px" title="Mark photos first for deletion" onclick="document.getElementById('deletephotos').submit()">Delete photos</button>
             <input type="hidden" id="photostodelete" name="photostodelete">
 
-        <div id="album" style="overflow-y:scroll;height:650px;width:850px;display: block">
+        <div id="album" class="album">
 
             <?php for( $i = 0; $i < count( $pictures ); $i++ ): ?>
                 <div class="photoFrame">

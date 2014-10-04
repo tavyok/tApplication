@@ -37,8 +37,8 @@ class UploadController extends My_Controller_Action
 
     public function photoAction()
     {
-        //   $this->disableLayout()->disableView();
-        //      My_Log_Me::Log($this->getRequest()->getParams());
+        $this->disableLayout()->disableView();
+
         if (array_key_exists('photo', $_FILES)) {
 
             $fileAccepted = $this->getRequest()->getParam("realfiles");
@@ -58,18 +58,22 @@ class UploadController extends My_Controller_Action
 
     function deltempfileAction() //apelata in aplicatie prin ajax
     {
-        $filetoremove = basename($this->getRequest()->getParams()["file"]);
+        $params=$this->getRequest()->getParams();
+        $filetoremove = basename($params["file"]);
 
         $filetoremove = realpath($this->config['upload']['folder']) . "/" . $filetoremove;
 
-        $result = unlink($filetoremove);
+        $response = unlink($filetoremove);
+
+        echo $response;
 
     }
 
     public function cleanAvatarsAction()
     {
 
-        $timetoclean = Zend_Registry::get("__CONFIG__")['cleaning']['time']; //hours   for cleaning files created 1 hour ago
+        $config = Zend_Registry::get("__CONFIG__");
+        $timetoclean =$config['cleaning']['time']; //hours   for cleaning files created 1 hour ago
 
 
         $photopath = $_SERVER["DOCUMENT_ROOT"].'/photos';
@@ -131,7 +135,9 @@ class UploadController extends My_Controller_Action
     {
 
 
-        $id = $this->getRequest()->getParams()["id"];
+        $params = $this->getRequest()->getParams();
+
+        $id = $params["id"];
         $userTable = new Table_User();
         $user = $userTable->getById($id);
         $photo = $user->getPhoto();
@@ -142,7 +148,7 @@ class UploadController extends My_Controller_Action
             "size" => filesize($uploadFolder . "/" . $photo));
 
         $newobj = My_Utils::uploadAvatar($obj);
-
+        My_Log_Me::Log($newobj);
         header('Content-type: text/json');
         header('Content-type: application/json');
 

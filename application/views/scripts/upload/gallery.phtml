@@ -66,8 +66,8 @@ require_once(PUBLIC_PATH."/sidebar.php");
                 <?php for ($i=0;$i<count($thumbs);$i++): ?>
 
                     <div>
-                        <img u="image" src="/photos/gallery/original/<?php echo $originals[$i] ?>" />
-                        <img u="thumb" src="/photos/gallery/thumb/<?php echo $thumbs[$i] ?>" />
+                        <img u="image" src="<?php echo $this->baseUrl('/photos/gallery/original/'). $originals[$i] ?>" />
+                        <img u="thumb" src="<?php echo $this->baseUrl('/photos/gallery/thumb/'). $thumbs[$i] ?>" />
                     </div>
 
                     <?php endfor ?>

@@ -18,15 +18,15 @@ class UserController extends My_Controller_Action
        //  $this->_helper->_layout->setLayout('layout-orig');
 
         $this->view->assign("action", $this->getRequest()->getActionName());
-        $this->view->render('user/_menu.phtml'); //include _menu.phtml in pagina
-        $this->view->render('user/_signin.phtml');
+        $this->view->render('/user/_menu.phtml'); //include _menu.phtml in pagina
+        $this->view->render('/user/_signin.phtml');
 
 
     }
 
     public function indexAction()
     {
-        My_Utils::cleanAvatars();
+
         $tableUser = new Table_User();
 
         if ($this->getRequest()->isPost()) {
@@ -49,6 +49,7 @@ class UserController extends My_Controller_Action
             */
             if (!empty($cb)) {
                 $tableUser->deleteByIds($cb);
+                My_Utils::cleanAvatars();
             }
 
         }
@@ -82,10 +83,14 @@ class UserController extends My_Controller_Action
                     return;
                 }
 
-               require_once (PUBLIC_PATH."/newphotosave.php");
 
-               $this->view->assign("emailto",$user->getEmail());
-               $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&emailto=".$user->getEmail()."&goto=/user/index");
+
+                if( ! empty( $params['photoup'] ) ){
+                    My_Utils::newPhotoSave( $user->getUsername(), $params['photoup'] );
+                }
+
+                $this->view->assign("emailto",$user->getEmail());
+                $this->redirect("/auth/signup-notify"."?username=".$user->getUsername()."&emailto=".$user->getEmail()."&goto="."/user/index");
 
 
             }
@@ -109,7 +114,7 @@ class UserController extends My_Controller_Action
         if ($this->getRequest()->isPost()) {
 
             $params = $this->getRequest()->getParams();
-
+            My_Log_Me::Log($params);
             if( trim( $params['password'] ) ){
                 $params['password'] =  md5(trim($params["password"]));
             }
@@ -131,14 +136,18 @@ class UserController extends My_Controller_Action
                 return;
             }
             $user=$tableUser->getByUsername($params["username"]);
-            require_once (PUBLIC_PATH."/editphotosave.php");
+        //    require_once (PUBLIC_PATH."/editphotosave.php");
+
+            if( ! empty( $params['photoup'] ) ){
+                My_Utils::editPhotoSave( $user->getUsername(), $params['photoup'] );
+            }
 
             if ($this->identity["username"]==$user->getUsername())
                 if ($role_ini!=$params["role"])
                 {
                     Zend_Auth::getInstance()->clearIdentity();
                      setcookie("_tAppCookie", '', time(), '/');
-                     $this->redirect("/auth/silent?username=".$user->getEmail()."&password=".$user->getPassword());
+                     $this->redirect("/auth/silent"."?username=".$user->getEmail()."&password=".$user->getPassword());
                 }
             My_Utils::cleanAvatars();
             $this->redirect("/user");

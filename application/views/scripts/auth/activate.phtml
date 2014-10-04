@@ -3,8 +3,8 @@
 
 <script type="text/javascript">
 
-
-    setTimeout(function(){ location.href ="/auth/silent?username=<?php echo $this->username?>&password=<?php echo $this->password ?>"},5000)
+    var baseUrl = "<?php echo rtrim($this->baseUrl('/'),'/')?>";
+    setTimeout(function(){ location.href =baseUrl+"/auth/silent?username=<?php echo $this->username?>&password=<?php echo $this->password ?>"},5000)
 
 
 </script>

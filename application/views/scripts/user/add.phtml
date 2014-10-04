@@ -99,12 +99,13 @@
                 </div>
             </div>
             <input type="hidden" id="photoup" name="photoup" >
+            <input type="hidden" id="baseUrl" name="baseUrl" value="<?php echo rtrim($this->baseUrl('/'),'/')?>" >
         </form>
         <div class="myDropzone" id="droparea" title="Click or drag here to add picture" >
         <form action="<?php echo $this->baseUrl('/upload') ?>" class="dropzone" id="my-dropzone">
 
-               <img src="/images/add-user.jpg" id="imagebutton" class="col-sm-offset-3" width="100px" onclick="$('#my-dropzone').submit()">
-                <img src="/images/remove1.png" title="click to remove picture" id="buttonremove" class="picremove">
+               <img src="<?php echo $this->baseUrl('/images/add-user.jpg')?>" id="imagebutton" class="col-sm-offset-3" width="100px" >
+                <img src="<?php echo $this->baseUrl('/images/remove1.png')?>" title="click to remove picture" id="buttonremove" class="picremove">
             </form>
 
         </div>
@@ -127,14 +128,15 @@ $("input").change(function(){
 });
 
     $(function(){
+    var baseUrl = "<?php echo rtrim($this->baseUrl('/'),'/')?>";
     $('#jsAddUser').validate({
         rules: {
             username: {
                 minlength: 4,
-                remote: "/auth/check-username"
+                remote: baseUrl+"/auth/check-username"
             },
             email: {
-                remote: "/auth/check-email"
+                remote: baseUrl+"/auth/check-email"
             },
             password: {
                 minlength: 4

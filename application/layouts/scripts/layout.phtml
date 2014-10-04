@@ -15,22 +15,28 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
     <title>TAplication</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="<?php echo $this->baseUrl('/css/bootstrap.css')?>" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/styles.css" rel="stylesheet">
-    <link href="/dropzone.css" rel="stylesheet">
-    <script src="/jquery-1.10.2.min.js"></script>
+    <link href="<?php echo $this->baseUrl('/styles.css')?>" rel="stylesheet">
+    <link href="<?php echo $this->baseUrl('/dropzone.css')?>" rel="stylesheet">
+    <script src="<?php echo $this->baseUrl('/jquery-1.10.2.min.js')?>"></script>
 
+    <script type="text/javascript">
+        var baseUrl = "<?php echo rtrim($this->baseUrl('/'),'/')?>";
+
+    </script>
 </head>
 <body>
-<img src="/images/tron.jpg" class="backImage" >
+<img src="<?php echo $this->baseUrl('/images/tron.jpg') ?>" class="backImage" >
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation"  style=" background-color: #2b669a;">
     <div class="container" style="width: 1000px;">
         <div class="navbar-header">
             <a class="navbar-brand" style="margin-top: 1%;color: lightskyblue" href="/">Project T-App</a>
         </div>
-        <?php  $identity = Zend_Auth::getInstance()->getIdentity();
+        <?php
+     //   echo  Zend_Controller_Front::getInstance()->getBaseUrl();
+        $identity = Zend_Auth::getInstance()->getIdentity();
         $timeseed=new DateTime();
         $avatar=glob ($_SERVER["DOCUMENT_ROOT"].'/photos/'. My_Utils::buildImageFile($identity["id"]).".*");
         if (!empty($avatar))
@@ -44,8 +50,8 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
         ?>
 
         <?php if( Zend_Auth::getInstance()->hasIdentity() ): ?>
-            <form action="/auth/logout" method="post" class="navbar-form navbar-right"  role="form">
-                <DIV style="float: left;" ><img id="topmenu_avatar" src="<?php echo $isfile?"/photos/".$myavatar."?".$timeseed->format("m:s"):"none" ?>" style="border-radius: 15%;height: 55px;" ></DIV>
+            <form action="<?php echo $this->baseUrl('/auth/logout') ?>" method="post" class="navbar-form navbar-right"  role="form">
+                <DIV style="float: left;" ><img id="topmenu_avatar" src="<?php echo $isfile?$this->baseUrl('/photos/').$myavatar."?".$timeseed->format("m:s"):"none" ?>" style="border-radius: 15%;height: 55px;" ></DIV>
                 <DIV style="float: left;margin-left:10px"> <H4 class="badge navbar-right" style="color: greenyellow;background-color: royalblue;font-size: 17px;margin-top:10%"><?php echo "Welcome ".$identity["full_name"] ?></H4></DIV>
 
                 <button type="submit" class="btn btn-success" style="position:relative;left:10px;margin-top:3%" >LogOut</button>
@@ -54,10 +60,10 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
             <div >
             <form class="navbar-form navbar-right" role="form">
               <span style="left: -12px; top: 4px; position: relative; color: #ffffff">OR</span>
-               <a href = "<?php echo $this->baseurl("/auth/signup") ?>"> <button type="button" class="btn btn-warning" style="padding: 6px">Sign up</button></a>
+               <a href = "<?php echo $this->baseUrl('/auth/signup') ?>"> <button type="button" class="btn btn-warning" style="padding: 6px">Sign up</button></a>
 
             </form>
-            <form action="/auth/silent" method="post" id="jsAuthUser" class="navbar-form navbar-right"   role="form">
+            <form action="<?php echo $this->baseUrl('/auth/silent') ?>" method="post" id="jsAuthUser" class="navbar-form navbar-right"   role="form">
                 <div class="form-group">
                     <input type="text" name="username" placeholder="Username/Email" class="form-control required">
                 </div>
@@ -90,9 +96,9 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 
-<script src="/js/jquery-1.11.0.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/jquery-cookie.js"></script>
+<script src="<?php echo $this->baseUrl('/js/jquery-1.11.0.min.js') ?>"></script>
+<script src="<?php echo $this->baseUrl('/js/bootstrap.min.js') ?>"></script>
+<script src="<?php echo $this->baseUrl('/js/jquery-cookie.js') ?>"></script>
 <?php echo $this->headScript() ?>
 <script type="text/javascript">
 
@@ -111,7 +117,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
     if($('#topmenu_avatar').attr('src')=="none")
     {
 
-        $('#topmenu_avatar').attr('src','/images/add-user.jpg');
+        $('#topmenu_avatar').attr('src',baseUrl+'/images/add-user.jpg');
 
     }
 

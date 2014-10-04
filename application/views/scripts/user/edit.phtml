@@ -16,7 +16,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
     </style>
 </head>
 <body onload="setRole()">
-<div class="row user-page" style="background-color: #ffffff">
+<div class="row user-page" style="background-color: #ffffff;">
 
     <!--Include Meniu -->
     <?php echo $this->placeholder('sidebar') ?>
@@ -103,18 +103,19 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
                 </div>
             </div>
             <input type="hidden" id="photoup" name="photoup" >
+            <input type="hidden" id="baseUrl" name="baseUrl" value="<?php echo rtrim($this->baseUrl('/'),'/')?>" >
 
         </form>
         <div class="myDropzone" id="droparea" title="Click or drag here to add picture" >
             <form action="<?php echo $this->baseUrl('/upload') ?>" class="dropzone" id="my-dropzone">
                 <input id="idphoto" name="idphoto" type="hidden" value="<?php echo $user->getId() ?>">
-                <img src="/images/add-user.jpg"  id="imagebutton" class="col-sm-offset-3" width="100px" onclick="$('#my-dropzone').submit()">
-                <img src="/images/remove1.png" data-dz-remove title="click to remove picture" id="buttonremove" class="picremove">
+                <img src="<?php echo $this->baseUrl('/images/add-user.jpg')?>"  id="imagebutton" class="col-sm-offset-3" width="100px" >
+                <img src="<?php echo $this->baseUrl('/images/remove1.png')?>" data-dz-remove title="click to remove picture" id="buttonremove" class="picremove">
             </form>
 
         </div>
         <div id="onlyavatar" style="display: none">
-            <img src="/images/add-user.jpg" id="otherphoto"  class="col-sm-offset-3" width="100px">
+            <img src="<?php echo $this->baseUrl('/images/add-user.jpg')?>" id="otherphoto"  class="col-sm-offset-3" width="100px">
 
         </div>
     </div>
@@ -147,13 +148,13 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
         $('#inputEmail').val(test);
 
     });
-
-    $.get('/upload/get-photo?id='+$("#idphoto").val(), function(foto) {
+    var baseUrl = "<?php echo rtrim($this->baseUrl('/'),'/')?>";
+    $.get(baseUrl+'/upload/get-photo?id='+$("#idphoto").val(), function(foto) {
 
         if (foto.size>0){
 
             var timeseed = new Date().getTime();  //forcing photo from cache to get refreshed from server
-            $("#otherphoto").attr("src","/photos/"+foto.name+"?"+timeseed);
+            $("#otherphoto").attr("src",baseUrl+"/photos/"+foto.name+"?"+timeseed);
 
             $("#photoup").val(foto.name);
 
@@ -166,7 +167,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
             rules: {
                 username: {
                     minlength: 4,
-                    remote: {url:"/auth/check-username",
+                    remote: {url:baseUrl+"/auth/check-username",
                              type:"post",
                              data: {
                                 id: function() {
@@ -176,7 +177,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
                          }
                 },
                 email: {
-                    remote: {url:"/auth/check-email",
+                    remote: {url:baseUrl+"/auth/check-email",
                              type:"post",
                         data: {
                             id: function() {

@@ -97,13 +97,14 @@ $user = $this->user;
                 </div>
             </div>
             <input type="hidden" id="photoup" name="photoup" >
+            <input type="hidden" id="baseUrl" name="baseUrl" value="<?php echo rtrim($this->baseUrl('/'),'/')?>" >
 
         </form>
         <div class="myDropzone" id="drop"  title="Click or drag here to add picture" >
             <form action="<?php echo $this->baseUrl('/upload') ?>" class="dropzone"  id="my-dropzone">
                 <input id="idphoto" name="idphoto" type="hidden" value="<?php echo $user->getId() ?>">
-                <img src="/images/add-user.jpg"  id="imagebutton" class="col-sm-offset-3" width="100px" style="margin-top: 20px" onclick="$('#my-dropzone').submit()">
-                <img src="/images/remove1.png" title="click to remove picture" id="buttonremove" class="picremove">
+                <img src="<?php echo $this->baseUrl('/images/add-user.jpg')?>"  id="imagebutton" class="col-sm-offset-3" width="100px" style="margin-top: 20px" onclick="$('#my-dropzone').submit()">
+                <img src="<?php echo $this->baseUrl('/images/remove1.png')?>" title="click to remove picture" id="buttonremove" class="picremove">
             </form>
 
         </div>
@@ -127,12 +128,12 @@ $user = $this->user;
     });
 
     $(function(){
-
+        var baseUrl = "<?php echo rtrim($this->baseUrl('/'),'/')?>";
         $('#jsEditUser').validate({
             rules: {
                 username: {
                     minlength: 4,
-                    remote: {url:"/auth/check-username",
+                    remote: {url:baseUrl+"/auth/check-username",
                         type:"post",
                         data: {
                             id: function() {
@@ -142,7 +143,7 @@ $user = $this->user;
                     }
                 },
                 email: {
-                    remote: {url:"/auth/check-email",
+                    remote: {url:baseUrl+"/auth/check-email",
                         type:"post",
                         data: {
                             id: function() {

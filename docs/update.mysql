@@ -5,26 +5,19 @@ CREATE TABLE user (
   id int(11) NOT NULL AUTO_INCREMENT,
   username varchar(24) NOT NULL,
   email varchar(60) NOT NULL,
-  pass char(32) NOT NULL,
+  password char(32) NOT NULL,
   first_name varchar(40) NOT NULL,
   last_name varchar(40) NOT NULL,
+  full_name varchar(64),
   phone varchar(20) DEFAULT NULL,
+  role enum('user','admin') not null default 'user',
+  activation_code varchar(10);
+  photo varchar(30),
   PRIMARY KEY (id),
   UNIQUE KEY ukEmail (email)
 ) ENGINE=InnoDB;
 
 insert into user values( null, 'sese','nnsese@gmail.com',md5('1234'), 'Sergiu','Neamt','0774873103');
-
--- 01.02.2014
-alter table user change pass password char(32) NOT NULL;
-
--- 22.02.2014
-alter table user add role  enum('user','admin') not null default 'user';
--- 26.03.2014
-alter table user add activation_code varchar(10);
-alter table user add photo varchar(256);
-
-alter table user add full_name varchar(64) after last_name;
 
 CREATE TRIGGER user_update BEFORE UPDATE ON user
   FOR EACH ROW SET NEW.full_name = CONCAT_WS(' ',NEW.first_name, NEW.last_name);

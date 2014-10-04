@@ -15,7 +15,8 @@ class IndexController extends My_Controller_Action
         if( $auth->hasIdentity() ){
 
             $usertable=new Table_User();
-            $username=$auth->getIdentity()["username"];
+            $userauth=$auth->getIdentity();
+            $username=$userauth["username"];
 
             $user=$usertable->getByUsername($username);
 
@@ -28,9 +29,9 @@ class IndexController extends My_Controller_Action
             }
             else
             {
-            if ($auth->getIdentity()["role"]==Table_User::ROLE_USER)
+            if ($userauth["role"]==Table_User::ROLE_USER)
                 $this->redirect("/any-user");
-            if ($auth->getIdentity()["role"]==Table_User::ROLE_ADMIN)
+            if ($userauth["role"]==Table_User::ROLE_ADMIN)
                 $this->redirect("/user");
             }
 

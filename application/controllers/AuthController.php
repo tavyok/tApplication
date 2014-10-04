@@ -89,7 +89,7 @@ class AuthController extends My_Controller_Action
     {
         Zend_Auth::getInstance()->clearIdentity();
         setcookie("_tAppCookie", '', time(), '/');
-        $this->redirect("/");
+        $this->redirect( "/");
     }
 
 
@@ -125,12 +125,16 @@ class AuthController extends My_Controller_Action
                         return;
                 }
 
-                require_once(PUBLIC_PATH."/newphotosave.php");
+                if( ! empty( $params['photoup'] ) ){
+                    My_Utils::newPhotoSave( $user->getUsername(), $params['photoup'] );
+                }
+
+                //require_once(PUBLIC_PATH."/newphotosave.php");
 
                 $this->view->assign("emailto",$user->getEmail());
 
 
-                $this->redirect("/auth/signup-notify?username=".$user->getUsername()."&goto=/auth/logout");
+                $this->redirect( "/auth/signup-notify?username=".$user->getUsername()."&goto=". "/auth/logout");
             }
 
         }

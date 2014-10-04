@@ -1,8 +1,8 @@
 
 <div>
-    <img src="/images/tron.jpg" class="backImage" >
+    <img src="<?php echo $this->baseUrl('/images/tron.jpg')?>" class="backImage" >
 <div id="idLogin" style="width: 350px; position: static; margin: 200px 400px; border: 2px solid; padding: 10px; border-radius: 5px; border-color: cyan ">
-    <form action="/auth/silent" id="jsAuth" method="post" role="form" style="color:#2aabd2">
+    <form action="<?php echo $this->baseUrl('/auth/silent')?>" id="jsAuth" method="post" role="form" style="color:#2aabd2">
         <div class="form-group">
             <label for="InputEmail">Username or Email address</label>
             <input type="text" class="form-control required" id="InputEmail" name="username" placeholder="Username/Email">

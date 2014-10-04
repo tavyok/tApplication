@@ -7,7 +7,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     protected function _initConfig(){
         Zend_Registry::set("__CONFIG__",$this->getOptions());
+
     }
+
+
 
     /*
     * Initializing Model path

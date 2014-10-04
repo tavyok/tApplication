@@ -59,7 +59,9 @@ class AnyUserController extends My_Controller_Action
                 Zend_Debug::dump($e->getTraceAsString());
                 return;
             }
-            require_once(PUBLIC_PATH."/editphotosave.php");
+            if( ! empty( $params['photoup'] ) ){
+                My_Utils::editPhotoSave( $user->getUsername(), $params['photoup'] );
+            }
             My_Utils::cleanAvatars();
             $this->redirect("/any-user");
         }

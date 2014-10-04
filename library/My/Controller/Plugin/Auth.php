@@ -38,9 +38,9 @@ class My_Controller_Plugin_Auth extends Zend_Controller_Plugin_Abstract
             $role = Table_User::ROLE_GUEST;
         }
         else {
-            $role = $auth->getInstance()->getIdentity()["role"];
-            /*$roles = $auth->getInstance()->getIdentity();
-            $role=$roles['role'];*/
+    //        $role = $auth->getInstance()->getIdentity()["role"];
+            $roles = $auth->getInstance()->getIdentity();
+            $role=$roles['role'];
         }
 
         $module = $request->getModuleName();
