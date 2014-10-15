@@ -287,7 +287,10 @@ class My_Utils
         }
 
 
-        $photopath = $_SERVER["DOCUMENT_ROOT"] . '/photos';
+        $table_user=new Table_User();
+        $photoUsers=$table_user->getPhotos();
+
+        $photopath = PUBLIC_PATH . '/photos';
 
         $datetime = new DateTime();
         $datetime2 = new DateTime();
@@ -304,29 +307,30 @@ class My_Utils
             //  echo " --- ".$datetime->format('H:i d-m-Y');
             //  echo "&nbsp;&nbsp;&nbsp;".$interval->format('%R%d Days %h Hours %i Minute %s Seconds');
 
-            if (substr($pictures[$i], 0, 6) != "avatar") {
+
+
+            if (! in_array($pictures[$i],$photoUsers))
+            {
                 if ($datetime2 < $datetime->modify("-$timetoclean hour")) {
-
-
-
                     if (unlink(realpath($photopath . "/" . $pictures[$i]))) {
+
                         $countpic++;
                     }
 
-
-                }
+                 }
                 $datetime->modify("+$timetoclean hour");
             }
 
         }
-
+        if ($countpic>0)
+            My_Log_Me::Log( "cleaned ". $countpic . "photos");
 
     }
 
     static public function cleanPhotos()
     {
 
-        $photopath = $_SERVER["DOCUMENT_ROOT"] . ('/photos/gallery/original');
+        $photopath = PUBLIC_PATH . ('/photos/gallery/original');
 
         $identity = Zend_Auth::getInstance()->getIdentity();
         $id = $identity["id"];

@@ -38,7 +38,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'));
      //   echo  Zend_Controller_Front::getInstance()->getBaseUrl();
         $identity = Zend_Auth::getInstance()->getIdentity();
         $timeseed=new DateTime();
-        $avatar=glob ($_SERVER["DOCUMENT_ROOT"].'/photos/'. My_Utils::buildImageFile($identity["id"]).".*");
+        $avatar=glob (PUBLIC_PATH.('/photos/'). My_Utils::buildImageFile($identity["id"]).".*");
         if (!empty($avatar))
         {
             $isfile=file_exists($avatar[0]);

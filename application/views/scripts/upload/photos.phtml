@@ -5,7 +5,7 @@ $this->headScript()->appendFile($this->baseUrl('/js/jquery.validate.min.js'))
     ->appendFile($this->baseUrl('/js/dropzone.js'))
     ->appendFile($this->baseUrl('/js/upload-photo.js'));
 
-$photopath = $_SERVER["DOCUMENT_ROOT"].('/photos/gallery/thumb');
+$photopath = PUBLIC_PATH.('/photos/gallery/thumb');
 
 
 $picturesFiles = glob ( $photopath."/".sprintf("p%06d%s",$this->identity["id"],"*.*"));
@@ -68,6 +68,9 @@ require_once(PUBLIC_PATH."/sidebar.php");
             <div id="uploadarea" >
                 <form action="<?php echo $this->baseUrl('/upload/photo') ?>" class="dropzone" id="my-dropzone" style="width: 800px; height: 750px">
                     <input type="hidden" id="realfiles" name="realfiles">
+                    <input type="hidden" id="baseUrl" name="baseUrl" value="<?php echo $this->baseUrl('/images/remove1.png') ?>" >
+
+<!--                    <input type="hidden" id="baseUrl" name="baseUrl" value="<?php /*echo rtrim($this->baseUrl('/'),'/')*/?>" >-->
                 </form>
             </div>
             <div id="uploaddone"
@@ -89,6 +92,17 @@ var dropArea = $("#dropareaphoto");
 
 var photos=[];
 var photolist=[];
+
+
+if ($(window).width() <= 1200) {
+    $("#album").width(700);
+
+}
+else
+{
+    $("#album").width(850);
+
+}
 
 function toggleDroparea(){
 
@@ -115,6 +129,21 @@ function hideDroparea(){
 $("#closebutton").click(function(){
     hideDroparea();
 });
+
+$(window).on('resize', function(){
+    var win = $(this); //this = window
+    if (win.height() >= 820) { /* ... */ }
+    if (win.width() <= 1200) {
+        $("#album").width(700);
+    }
+    else
+    {
+        $("#album").width(850);
+
+    }
+
+});
+
 
 function mark(elem,i){
     if (photos[i]==null)

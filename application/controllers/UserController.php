@@ -114,7 +114,7 @@ class UserController extends My_Controller_Action
         if ($this->getRequest()->isPost()) {
 
             $params = $this->getRequest()->getParams();
-            My_Log_Me::Log($params);
+
             if( trim( $params['password'] ) ){
                 $params['password'] =  md5(trim($params["password"]));
             }

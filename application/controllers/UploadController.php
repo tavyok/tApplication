@@ -76,7 +76,7 @@ class UploadController extends My_Controller_Action
         $timetoclean =$config['cleaning']['time']; //hours   for cleaning files created 1 hour ago
 
 
-        $photopath = $_SERVER["DOCUMENT_ROOT"].'/photos';
+        $photopath = PUBLIC_PATH . '/photos';
 
         $datetime = new DateTime();
         $datetime2 = new DateTime();
@@ -103,7 +103,7 @@ class UploadController extends My_Controller_Action
 
         $countpic = 0;
         $filestodelete=array_diff($picturesOnServer,$photosArray);
-//        My_Log_Me::Log($filestodelete);
+
         foreach ($filestodelete as $removefile)
         {
 
@@ -116,12 +116,12 @@ class UploadController extends My_Controller_Action
                 if (unlink($photopath . "/" . $removefile)) {
                     $countpic++;
                 }
-                else
 
 
-                    $datetime->modify("+$timetoclean hour");
+
+
             }
-
+            $datetime->modify("+$timetoclean hour");
         }
 
 

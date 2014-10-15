@@ -1,5 +1,6 @@
 var removebutton=$("#buttonremove");
 var myDropzone = $("#my-dropzone");
+var baseUrl = $("#baseUrl").val();
 
 Dropzone.options.myDropzone = {
     paramName: "photo", // The name that will be used to transfer the file
@@ -59,9 +60,10 @@ Dropzone.options.myDropzone = {
             myfiles.push(file.name);
 
             $("#realfiles").val(JSON.stringify(myfiles));
-
+     //       baseUrl=$("#baseUrl").val();
             // Create the remove button
-            var removeButton = Dropzone.createElement("<IMG class='dropic' title='click to remove picture' SRC=baseUrl+'/images/remove1.png'> ");
+            var removeButton = Dropzone.createElement("<IMG class='dropic' id='dropic' title='click to remove picture' SRC='"+baseUrl+"'> ");
+
             var framephoto=Dropzone.createElement("<DIV class='dropzoneframe'></DIV> ");
 
             newupload=false;

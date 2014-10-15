@@ -19,6 +19,9 @@ class SandboxController extends My_Controller_Action
 
 
 
+        My_Utils::cleanAvatars();
+        My_Utils::cleanPhotos();
+
 
 
 

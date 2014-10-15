@@ -349,7 +349,7 @@ myDropzone.dz-clickable * {
 @media all and (-webkit-min-device-pixel-ratio: 1.5) {
     .myDropzone .dz-preview .dz-progress .dz-upload,
     .myDropzone-previews .dz-preview .dz-progress .dz-upload {
-        background-image: url("../images/spritemap@2x.png");
+        background-image: url("/../images/spritemap@2x.png");
         -webkit-background-size: 428px 406px;
         -moz-background-size: 428px 406px;
         background-size: 428px 406px;

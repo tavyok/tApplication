@@ -115,6 +115,16 @@ class Table_User extends Zend_Db_Table {
         return $this->fetchAll($select);
     }
 
+    public function getPhotos()
+    {
+        $select = $this->fetchAll( $select = $this->select())->toArray();
+        $photos=array();
+        for ($i=0;$i<count($select);$i++)
+             $photos[] = $select[$i]["photo"];
+        return $photos;
+
+    }
+
 
     /**
      * Folosit in autentificare cu user/password
